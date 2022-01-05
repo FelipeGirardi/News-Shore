@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
+import '/widgets/news_cell_widget_small.dart';
 
 class MainFeedScreen extends StatefulWidget {
   const MainFeedScreen({Key? key}) : super(key: key);
@@ -56,21 +57,19 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
               child: FutureBuilder(
             future: _newsProvider,
             builder: (ctx, snapshot) => Consumer<NewsProvider>(
-                builder: (ctx, newsProv, _) => snapshot.connectionState ==
-                        ConnectionState.waiting
-                    ? const Center(child: CircularProgressIndicator())
-                    : ListView.builder(
-                        controller: scrollController,
-                        physics: _willFetchNewsPage
-                            ? const NeverScrollableScrollPhysics()
-                            : const AlwaysScrollableScrollPhysics(),
-                        itemCount: newsProv.newsList.length,
-                        itemBuilder: (ctx, i) => ListTile(
-                              title: Text(newsProv.newsList[i].title ?? ''),
-                              subtitle:
-                                  Text(newsProv.newsList[i].description ?? ''),
-                              onTap: () {},
-                            ))),
+                builder: (ctx, newsProv, _) =>
+                    snapshot.connectionState == ConnectionState.waiting
+                        ? const Center(child: CircularProgressIndicator())
+                        : ListView.builder(
+                            controller: scrollController,
+                            physics: _willFetchNewsPage
+                                ? const NeverScrollableScrollPhysics()
+                                : const AlwaysScrollableScrollPhysics(),
+                            itemCount: newsProv.newsList.length,
+                            itemBuilder: (ctx, i) => NewsCellWidgetSmall(
+                                key: UniqueKey(),
+                                ctx: ctx,
+                                newsData: newsProv.newsList[i]))),
           )),
         ),
         const SizedBox(),

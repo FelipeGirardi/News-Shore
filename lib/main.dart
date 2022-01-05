@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
 import '/screens/main_feed_screen.dart';
+import '/screens/mock_main_feed_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,9 +19,9 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primarySwatch: Colors.red,
           ),
-          home: MainFeedScreen(),
+          home: MockMainFeedScreen(),
         ));
   }
 }
