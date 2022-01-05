@@ -7,6 +7,7 @@ class NewsData {
   final String? description;
   final String? content;
   final String? pubDate;
+  final String? fullDescription;
   final String? imageUrl;
   final String? sourceId;
 
@@ -19,6 +20,7 @@ class NewsData {
     this.description,
     this.content,
     this.pubDate,
+    this.fullDescription,
     this.imageUrl,
     this.sourceId,
   });
@@ -33,6 +35,7 @@ class NewsData {
       description: json['description'],
       content: json['content'],
       pubDate: json['pubDate'],
+      fullDescription: json['full_description'],
       imageUrl: json['image_url'],
       sourceId: json['source_id'],
     );

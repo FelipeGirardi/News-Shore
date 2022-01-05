@@ -31,8 +31,8 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   }
 
   void pagination() async {
-    if (scrollController.position.pixels >
-            0.9 * scrollController.position.maxScrollExtent &&
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
         !_willFetchNewsPage) {
       _willFetchNewsPage = true;
       setState(() {
@@ -61,6 +61,9 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                     ? const Center(child: CircularProgressIndicator())
                     : ListView.builder(
                         controller: scrollController,
+                        physics: _willFetchNewsPage
+                            ? const NeverScrollableScrollPhysics()
+                            : const AlwaysScrollableScrollPhysics(),
                         itemCount: newsProv.newsList.length,
                         itemBuilder: (ctx, i) => ListTile(
                               title: Text(newsProv.newsList[i].title ?? ''),
