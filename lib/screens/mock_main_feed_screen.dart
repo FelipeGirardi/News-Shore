@@ -17,14 +17,15 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('NewsShell')),
-        body: Column(children: [
+        body: Column(mainAxisSize: MainAxisSize.min, children: [
           Expanded(
-              child: Scrollbar(
-                  child: ListView.builder(
-                      controller: scrollController,
-                      itemCount: MOCK_NEWS.length,
-                      itemBuilder: (ctx, i) => NewsCellWidgetSmall(
-                          key: UniqueKey(), ctx: ctx, newsData: MOCK_NEWS[i]))))
+            child: ListView.builder(
+                controller: scrollController,
+                padding: const EdgeInsets.all(8),
+                itemCount: MOCK_NEWS.length,
+                itemBuilder: (ctx, i) => NewsCellWidgetSmall(
+                    key: UniqueKey(), ctx: ctx, newsData: MOCK_NEWS[i])),
+          )
         ]));
   }
 }
