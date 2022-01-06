@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '/providers/mock_news.dart';
-import 'package:newsshell/widgets/news_cell_widget_small.dart';
+import '/widgets/news_cell_widget_small.dart';
+import '/widgets/news_cell_widget_medium.dart';
 
 class MockMainFeedScreen extends StatefulWidget {
   const MockMainFeedScreen({Key? key}) : super(key: key);
@@ -19,7 +20,9 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
         appBar: AppBar(title: const Text('NewsShell')),
         body: Column(mainAxisSize: MainAxisSize.min, children: [
           Expanded(
-            child: ListView.builder(
+            child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
                 controller: scrollController,
                 padding: const EdgeInsets.all(8),
                 itemCount: MOCK_NEWS.length,

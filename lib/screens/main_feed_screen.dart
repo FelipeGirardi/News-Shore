@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
-import '/widgets/news_cell_widget_small.dart';
+import '/widgets/news_cell_widget_medium.dart';
 
 class MainFeedScreen extends StatefulWidget {
   const MainFeedScreen({Key? key}) : super(key: key);
@@ -66,7 +66,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                                 ? const NeverScrollableScrollPhysics()
                                 : const AlwaysScrollableScrollPhysics(),
                             itemCount: newsProv.newsList.length,
-                            itemBuilder: (ctx, i) => NewsCellWidgetSmall(
+                            itemBuilder: (ctx, i) => NewsCellWidgetMedium(
                                 key: UniqueKey(),
                                 ctx: ctx,
                                 newsData: newsProv.newsList[i]))),

@@ -1,58 +1,82 @@
 import 'package:flutter/material.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 import '/models/news_data.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class NewsCellWidgetSmall extends StatelessWidget {
+  const NewsCellWidgetSmall({Key? key, this.ctx, this.newsData})
+      : super(key: key);
   final BuildContext? ctx;
   final NewsData? newsData;
 
-  const NewsCellWidgetSmall({Key? key, this.ctx, this.newsData})
-      : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.center,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-          side: const BorderSide(
-            color: Color.fromARGB(255, 248, 12, 95),
-            width: 1,
-          ),
-        ),
-        elevation: 3,
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: newsData?.imageUrl != null
-              ? [
-                  TitleAndSourceWidgetSmall(newsData: newsData),
-                  const SizedBox(width: 5),
-                  Expanded(
-                    flex: 3,
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(5),
-                          bottomRight: Radius.circular(5)),
-                      child: Image.network(newsData!.imageUrl!,
-                          fit: BoxFit.cover, height: 100),
-                    ),
-                  )
-                ]
-              : [
-                  TitleAndSourceWidgetSmall(newsData: newsData),
-                ],
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5),
+        side: const BorderSide(
+          color: Color.fromARGB(255, 248, 12, 95),
+          width: 1,
         ),
       ),
+      elevation: 3,
+      margin: const EdgeInsets.all(10),
+      child: newsData?.imageUrl != null
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                  Expanded(
+                      flex: 4, child: ImageWidgetSmall(newsData: newsData)),
+                  Expanded(
+                      flex: 6,
+                      child: TitleAndSourceWidgetSmall(
+                          newsData: newsData, maxLinesTitle: 4))
+                ])
+          : TitleAndSourceWidgetSmall(newsData: newsData, maxLinesTitle: 6),
     );
   }
 }
 
 class TitleAndSourceWidgetSmall extends StatelessWidget {
-  const TitleAndSourceWidgetSmall({
+  const TitleAndSourceWidgetSmall(
+      {Key? key, required this.newsData, required this.maxLinesTitle})
+      : super(key: key);
+
+  final NewsData? newsData;
+  final int? maxLinesTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 7),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          const Spacer(),
+          AutoSizeText(newsData?.title ?? '',
+              minFontSize: 14,
+              maxLines: maxLinesTitle,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              )),
+          const Spacer(),
+          Text(newsData?.sourceId ?? '',
+              style: const TextStyle(
+                color: Colors.grey,
+                fontSize: 10,
+              )),
+          const Spacer(),
+        ],
+      ),
+    );
+  }
+}
+
+class ImageWidgetSmall extends StatelessWidget {
+  const ImageWidgetSmall({
     Key? key,
     required this.newsData,
   }) : super(key: key);
@@ -61,37 +85,25 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 7,
-      child: SizedBox(
-        height: 100,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
-              child: Expanded(
-                child: AutoSizeText(newsData?.title ?? '',
-                    minFontSize: 15,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+      child: Image.network(
+        newsData!.imageUrl!,
+        fit: BoxFit.cover,
+        width: 200,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
             ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
-              child: Text(newsData?.sourceId ?? '',
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
-                  )),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
