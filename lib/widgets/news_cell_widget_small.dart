@@ -28,6 +28,11 @@ class NewsCellWidgetSmall extends StatelessWidget {
               children: [
                   Expanded(
                       flex: 4, child: ImageWidgetSmall(newsData: newsData)),
+                  const Divider(
+                    height: 1,
+                    thickness: 1,
+                    color: Color.fromARGB(255, 248, 12, 95),
+                  ),
                   Expanded(
                       flex: 6,
                       child: TitleAndSourceWidgetSmall(
@@ -49,7 +54,7 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 7),
+      padding: const EdgeInsets.all(7),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -63,12 +68,12 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               )),
           const Spacer(),
+          const Spacer(),
           Text(newsData?.sourceId ?? '',
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 10,
               )),
-          const Spacer(),
         ],
       ),
     );

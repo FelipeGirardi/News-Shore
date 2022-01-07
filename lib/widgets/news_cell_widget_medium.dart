@@ -23,21 +23,27 @@ class NewsCellWidgetMedium extends StatelessWidget {
           ),
         ),
         elevation: 3,
-        margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 7),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: newsData?.imageUrl != null
-              ? [
-                  TitleAndSourceWidgetMedium(
-                      newsData: newsData, cellHeight: 100, maxLinesTitle: 3),
-                  const SizedBox(width: 5),
-                  ImageWidgetMedium(newsData: newsData)
-                ]
-              : [
-                  TitleAndSourceWidgetMedium(
-                      newsData: newsData, cellHeight: 80, maxLinesTitle: 2),
-                ],
+        margin: const EdgeInsets.all(10),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: newsData?.imageUrl != null
+                ? [
+                    TitleAndSourceWidgetMedium(
+                        newsData: newsData, cellHeight: 120, maxLinesTitle: 2),
+                    const VerticalDivider(
+                      width: 1,
+                      thickness: 1,
+                      color: Color.fromARGB(255, 248, 12, 95),
+                    ),
+                    ImageWidgetMedium(newsData: newsData)
+                  ]
+                : [
+                    TitleAndSourceWidgetMedium(
+                        newsData: newsData, cellHeight: 120, maxLinesTitle: 2),
+                  ],
+          ),
         ),
       ),
     );
@@ -62,30 +68,34 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
       flex: 7,
       child: SizedBox(
         height: cellHeight,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(7, 7, 0, 0),
-              child: AutoSizeText(newsData?.title ?? '',
+        child: Padding(
+          padding: const EdgeInsets.all(7),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Spacer(),
+              AutoSizeText(newsData?.title ?? '',
                   minFontSize: 16,
-                  maxLines: maxLinesTitle,
+                  maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   )),
-            ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(7, 0, 0, 7),
-              child: Text(newsData?.sourceId ?? '',
+              const Spacer(),
+              AutoSizeText(newsData?.description ?? '',
+                  minFontSize: 12,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis),
+              const Spacer(),
+              const Spacer(),
+              Text(newsData?.sourceId ?? '',
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 12,
                   )),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -110,7 +120,7 @@ class ImageWidgetMedium extends StatelessWidget {
         child: Image.network(
           newsData!.imageUrl!,
           fit: BoxFit.cover,
-          height: 100,
+          height: 120,
           loadingBuilder: (BuildContext context, Widget child,
               ImageChunkEvent? loadingProgress) {
             if (loadingProgress == null) return child;

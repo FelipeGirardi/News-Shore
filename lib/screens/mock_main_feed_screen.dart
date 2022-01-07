@@ -20,13 +20,11 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
         appBar: AppBar(title: const Text('NewsShell')),
         body: Column(mainAxisSize: MainAxisSize.min, children: [
           Expanded(
-            child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
+            child: ListView.builder(
                 controller: scrollController,
                 padding: const EdgeInsets.all(8),
                 itemCount: MOCK_NEWS.length,
-                itemBuilder: (ctx, i) => NewsCellWidgetSmall(
+                itemBuilder: (ctx, i) => NewsCellWidgetMedium(
                     key: UniqueKey(), ctx: ctx, newsData: MOCK_NEWS[i])),
           )
         ]));
