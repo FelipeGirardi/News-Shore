@@ -12,44 +12,41 @@ class NewsCellWidgetSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-        side: const BorderSide(
-          color: Color.fromARGB(255, 248, 12, 95),
-          width: 1,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+          side: const BorderSide(
+            color: Color.fromARGB(255, 248, 12, 95),
+            width: 1,
+          ),
         ),
-      ),
-      elevation: 3,
-      margin: const EdgeInsets.all(10),
-      child: newsData?.imageUrl != null
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                  Expanded(
-                      flex: 4, child: ImageWidgetSmall(newsData: newsData)),
-                  const Divider(
-                    height: 1,
-                    thickness: 1,
-                    color: Color.fromARGB(255, 248, 12, 95),
-                  ),
-                  Expanded(
-                      flex: 6,
-                      child: TitleAndSourceWidgetSmall(
-                          newsData: newsData, maxLinesTitle: 4))
-                ])
-          : TitleAndSourceWidgetSmall(newsData: newsData, maxLinesTitle: 6),
-    );
+        elevation: 3,
+        margin: const EdgeInsets.all(10),
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                  flex: 4,
+                  child: ImageWidgetSmall(
+                      imageUrl: newsData?.imageUrl != null
+                          ? newsData!.imageUrl!
+                          : 'https://leads-international.com/assets/front/img/placeholder-news.jpg')),
+              const Divider(
+                height: 1,
+                thickness: 1,
+                color: Color.fromARGB(255, 248, 12, 95),
+              ),
+              Expanded(
+                  flex: 6, child: TitleAndSourceWidgetSmall(newsData: newsData))
+            ]));
   }
 }
 
 class TitleAndSourceWidgetSmall extends StatelessWidget {
-  const TitleAndSourceWidgetSmall(
-      {Key? key, required this.newsData, required this.maxLinesTitle})
+  const TitleAndSourceWidgetSmall({Key? key, required this.newsData})
       : super(key: key);
 
   final NewsData? newsData;
-  final int? maxLinesTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +59,7 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
           const Spacer(),
           AutoSizeText(newsData?.title ?? '',
               minFontSize: 14,
-              maxLines: maxLinesTitle,
+              maxLines: 4,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -83,10 +80,10 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
 class ImageWidgetSmall extends StatelessWidget {
   const ImageWidgetSmall({
     Key? key,
-    required this.newsData,
+    required this.imageUrl,
   }) : super(key: key);
 
-  final NewsData? newsData;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +91,7 @@ class ImageWidgetSmall extends StatelessWidget {
       borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(5), topRight: Radius.circular(5)),
       child: Image.network(
-        newsData!.imageUrl!,
+        imageUrl!,
         fit: BoxFit.cover,
         width: 200,
         loadingBuilder: (BuildContext context, Widget child,
