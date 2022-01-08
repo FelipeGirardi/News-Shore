@@ -15,12 +15,12 @@ class NewsCellWidgetSmall extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
           side: const BorderSide(
-            color: Color.fromARGB(255, 248, 12, 95),
+            color: Color.fromARGB(255, 143, 226, 222),
             width: 1,
           ),
         ),
         elevation: 3,
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(8),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -31,11 +31,6 @@ class NewsCellWidgetSmall extends StatelessWidget {
                       imageUrl: newsData?.imageUrl != null
                           ? newsData!.imageUrl!
                           : 'https://leads-international.com/assets/front/img/placeholder-news.jpg')),
-              const Divider(
-                height: 1,
-                thickness: 1,
-                color: Color.fromARGB(255, 248, 12, 95),
-              ),
               Expanded(
                   flex: 6, child: TitleAndSourceWidgetSmall(newsData: newsData))
             ]));
@@ -66,11 +61,22 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
               )),
           const Spacer(),
           const Spacer(),
-          Text(newsData?.sourceId ?? '',
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 10,
-              )),
+          Row(
+            children: [
+              const Icon(
+                Icons.library_books,
+                size: 10,
+                color: Colors.black45,
+              ),
+              const SizedBox(width: 10),
+              AutoSizeText(newsData?.sourceId ?? '',
+                  //textAlign: TextAlign.justify,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: Colors.black45,
+                  )),
+            ],
+          ),
         ],
       ),
     );

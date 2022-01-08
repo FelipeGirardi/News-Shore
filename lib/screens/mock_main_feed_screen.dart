@@ -23,7 +23,7 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
           Expanded(
             child: ListView.builder(
                 controller: scrollController,
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(12),
                 itemCount: MOCK_NEWS.length,
                 itemBuilder: (ctx, i) => NewsCellWidgetLarge(
                     key: UniqueKey(), ctx: ctx, newsData: MOCK_NEWS[i])),

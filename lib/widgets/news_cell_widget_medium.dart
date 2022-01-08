@@ -18,8 +18,8 @@ class NewsCellWidgetMedium extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
           side: const BorderSide(
-            color: Color.fromARGB(255, 248, 12, 95),
-            width: 1,
+            color: Color.fromARGB(255, 143, 226, 222),
+            width: 2,
           ),
         ),
         elevation: 3,
@@ -32,11 +32,6 @@ class NewsCellWidgetMedium extends StatelessWidget {
                 ? [
                     TitleAndSourceWidgetMedium(
                         newsData: newsData, cellHeight: 120, maxLinesTitle: 2),
-                    const VerticalDivider(
-                      width: 1,
-                      thickness: 1,
-                      color: Color.fromARGB(255, 248, 12, 95),
-                    ),
                     ImageWidgetMedium(newsData: newsData)
                   ]
                 : [
@@ -89,11 +84,22 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
                   overflow: TextOverflow.ellipsis),
               const Spacer(),
               const Spacer(),
-              Text(newsData?.sourceId ?? '',
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
-                  )),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.library_books,
+                    size: 12,
+                    color: Colors.black45,
+                  ),
+                  const SizedBox(width: 10),
+                  AutoSizeText(newsData?.sourceId ?? '',
+                      //textAlign: TextAlign.justify,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.black45,
+                      )),
+                ],
+              ),
             ],
           ),
         ),

@@ -11,21 +11,23 @@ class NewsCellWidgetLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(
-              flex: 1,
-              child: ImageWidgetLarge(
-                  imageUrl: newsData?.imageUrl != null
-                      ? newsData!.imageUrl!
-                      : 'https://leads-international.com/assets/front/img/placeholder-news.jpg')),
-          Flexible(
-              flex: 3, child: TitleAndSourceWidgetLarge(newsData: newsData)),
-          const SizedBox(height: 10)
-        ]);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height / 2.2,
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Expanded(
+                  child: ImageWidgetLarge(
+                      imageUrl: newsData?.imageUrl != null
+                          ? newsData!.imageUrl!
+                          : 'https://leads-international.com/assets/front/img/placeholder-news.jpg')),
+              Expanded(child: TitleAndSourceWidgetLarge(newsData: newsData)),
+            ]),
+      ),
+    );
   }
 }
 
@@ -37,43 +39,58 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-          shape: BoxShape.rectangle,
-          border: Border.all(
-            width: 1,
-            color: const Color.fromARGB(255, 248, 12, 95),
-          )),
+    return Card(
+      color: const Color.fromARGB(255, 143, 226, 222),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
+        side: BorderSide(
+          color: Color.fromARGB(255, 143, 226, 222),
+          width: 1,
+        ),
+      ),
+      elevation: 0,
+      margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.all(7),
-        child: SizedBox(
-          height: 150,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Spacer(),
-              AutoSizeText(newsData?.title ?? '',
-                  minFontSize: 18,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )),
-              const Spacer(),
-              AutoSizeText(newsData?.description ?? '',
-                  minFontSize: 14,
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis),
-              const Spacer(),
-              const Spacer(),
-              Text(newsData?.sourceId ?? '',
-                  style: const TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
-                  )),
-            ],
-          ),
+        padding: const EdgeInsets.fromLTRB(7, 0, 7, 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Spacer(),
+            AutoSizeText(newsData?.title ?? '',
+                minFontSize: 18,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                )),
+            const Spacer(),
+            AutoSizeText(
+              newsData?.description ?? '',
+              minFontSize: 14,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+            ),
+            const Spacer(),
+            const Spacer(),
+            Row(
+              children: [
+                const Icon(
+                  Icons.library_books,
+                  size: 14,
+                  color: Colors.black45,
+                ),
+                const SizedBox(width: 10),
+                AutoSizeText(newsData?.sourceId ?? '',
+                    //textAlign: TextAlign.justify,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.black45,
+                    )),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -90,22 +107,26 @@ class ImageWidgetLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      imageUrl!,
-      fit: BoxFit.cover,
-      width: MediaQuery.of(context).size.width,
-      loadingBuilder: (BuildContext context, Widget child,
-          ImageChunkEvent? loadingProgress) {
-        if (loadingProgress == null) return child;
-        return Center(
-          child: CircularProgressIndicator(
-            value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!
-                : null,
-          ),
-        );
-      },
+    return ClipRRect(
+      borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+      child: Image.network(
+        imageUrl!,
+        fit: BoxFit.cover,
+        width: MediaQuery.of(context).size.width,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        },
+      ),
     );
   }
 }
