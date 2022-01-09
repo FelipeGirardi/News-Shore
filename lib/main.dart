@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsshore/screens/screen_navigator.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
@@ -17,11 +18,11 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<NewsProvider>(
         create: (ctx) => NewsProvider(),
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'News Shore',
           theme: ThemeData(
             primarySwatch: Colors.cyan,
           ),
-          home: MockMainFeedScreen(),
+          home: ScreenNavigator(),
         ));
   }
 }

@@ -1,4 +1,4 @@
-import 'package:newsshell/models/news_data.dart';
+import 'package:newsshore/models/news_data.dart';
 
 // ignore: non_constant_identifier_names
 List<NewsData> MOCK_NEWS = [

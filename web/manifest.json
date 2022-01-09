@@ -1,6 +1,6 @@
 {
-    "name": "newsshell",
-    "short_name": "newsshell",
+    "name": "newsshore",
+    "short_name": "newsshore",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

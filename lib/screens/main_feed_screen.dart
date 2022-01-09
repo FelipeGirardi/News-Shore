@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:newsshore/widgets/custom_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
 import '/widgets/news_cell_widget_medium.dart';
+import '/widgets/custom_app_bar.dart';
+import '/widgets/app_drawer.dart';
 
 class MainFeedScreen extends StatefulWidget {
   const MainFeedScreen({Key? key}) : super(key: key);
@@ -49,37 +52,34 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('NewsShell')),
-      body: Column(children: [
-        Expanded(
-          child: Scrollbar(
-              child: FutureBuilder(
-            future: _newsProvider,
-            builder: (ctx, snapshot) => Consumer<NewsProvider>(
-                builder: (ctx, newsProv, _) =>
-                    snapshot.connectionState == ConnectionState.waiting
-                        ? const Center(child: CircularProgressIndicator())
-                        : ListView.builder(
-                            controller: scrollController,
-                            physics: _willFetchNewsPage
-                                ? const NeverScrollableScrollPhysics()
-                                : const AlwaysScrollableScrollPhysics(),
-                            itemCount: newsProv.newsList.length,
-                            itemBuilder: (ctx, i) => NewsCellWidgetMedium(
-                                key: UniqueKey(),
-                                ctx: ctx,
-                                newsData: newsProv.newsList[i]))),
-          )),
-        ),
-        const SizedBox(),
-        Center(
-            child: _isLoadingPage
-                ? const CircularProgressIndicator()
-                : const SizedBox(
-                    height: 0,
-                  )),
-      ]),
-    );
+    return Column(children: [
+      Expanded(
+        child: Scrollbar(
+            child: FutureBuilder(
+          future: _newsProvider,
+          builder: (ctx, snapshot) => Consumer<NewsProvider>(
+              builder: (ctx, newsProv, _) =>
+                  snapshot.connectionState == ConnectionState.waiting
+                      ? const Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                          controller: scrollController,
+                          physics: _willFetchNewsPage
+                              ? const NeverScrollableScrollPhysics()
+                              : const AlwaysScrollableScrollPhysics(),
+                          itemCount: newsProv.newsList.length,
+                          itemBuilder: (ctx, i) => NewsCellWidgetMedium(
+                              key: UniqueKey(),
+                              ctx: ctx,
+                              newsData: newsProv.newsList[i]))),
+        )),
+      ),
+      const SizedBox(),
+      Center(
+          child: _isLoadingPage
+              ? const CircularProgressIndicator()
+              : const SizedBox(
+                  height: 0,
+                )),
+    ]);
   }
 }

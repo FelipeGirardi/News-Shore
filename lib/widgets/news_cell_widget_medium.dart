@@ -89,14 +89,14 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
                   const Icon(
                     Icons.library_books,
                     size: 12,
-                    color: Colors.black45,
+                    color: Colors.black54,
                   ),
                   const SizedBox(width: 10),
                   AutoSizeText(newsData?.sourceId ?? '',
                       //textAlign: TextAlign.justify,
                       style: const TextStyle(
                         fontSize: 12,
-                        color: Colors.black45,
+                        color: Colors.black54,
                       )),
                 ],
               ),
