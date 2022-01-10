@@ -40,12 +40,12 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: const Color.fromARGB(255, 143, 226, 222),
+      color: const Color.fromARGB(255, 21, 45, 121),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
         side: BorderSide(
-          color: Color.fromARGB(255, 143, 226, 222),
+          color: Color.fromARGB(255, 21, 45, 121),
           width: 1,
         ),
       ),
@@ -63,14 +63,14 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                )),
+                    fontWeight: FontWeight.bold, color: Colors.white)),
             const Spacer(),
             AutoSizeText(
               newsData?.description ?? '',
               minFontSize: 14,
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
+              style: const TextStyle(color: Colors.white),
             ),
             const Spacer(),
             const Spacer(),
@@ -79,14 +79,14 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
                 const Icon(
                   Icons.library_books,
                   size: 14,
-                  color: Colors.black54,
+                  color: Colors.white54,
                 ),
                 const SizedBox(width: 10),
                 AutoSizeText(newsData?.sourceId ?? '',
                     //textAlign: TextAlign.justify,
                     style: const TextStyle(
                       fontSize: 14,
-                      color: Colors.black54,
+                      color: Colors.white54,
                     )),
               ],
             ),

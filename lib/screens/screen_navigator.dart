@@ -62,7 +62,7 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
             ),
           ],
           currentIndex: _selectedOption,
-          selectedItemColor: const Color.fromARGB(255, 6, 73, 138),
+          selectedItemColor: const Color.fromARGB(255, 21, 45, 121),
           onTap: _onOptionTapped,
         ),
       ),

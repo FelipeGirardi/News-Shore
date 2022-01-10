@@ -18,12 +18,12 @@ class NewsCellWidgetMedium extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
           side: const BorderSide(
-            color: Color.fromARGB(255, 143, 226, 222),
-            width: 2,
+            color: Color.fromARGB(255, 21, 45, 121),
+            width: 3,
           ),
         ),
         elevation: 3,
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.all(8),
         child: IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -15,8 +15,8 @@ class NewsCellWidgetSmall extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5),
           side: const BorderSide(
-            color: Color.fromARGB(255, 143, 226, 222),
-            width: 1,
+            color: Color.fromARGB(255, 21, 45, 121),
+            width: 2,
           ),
         ),
         elevation: 3,
