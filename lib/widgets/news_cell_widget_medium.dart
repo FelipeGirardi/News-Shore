@@ -123,24 +123,17 @@ class ImageWidgetMedium extends StatelessWidget {
       child: ClipRRect(
         borderRadius: const BorderRadius.only(
             topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
-        child: Image.network(
-          newsData!.imageUrl!,
-          fit: BoxFit.cover,
-          height: 120,
-          loadingBuilder: (BuildContext context, Widget child,
-              ImageChunkEvent? loadingProgress) {
-            if (loadingProgress == null) return child;
-            return Center(
-              child: CircularProgressIndicator(
-                value: loadingProgress.expectedTotalBytes != null
-                    ? loadingProgress.cumulativeBytesLoaded /
-                        loadingProgress.expectedTotalBytes!
-                    : null,
-              ),
-            );
-          },
+        child: Hero(
+          tag: UniqueKey(),
+          child: FadeInImage(
+            placeholder: const AssetImage('assets/images/placeholder_news.jpg'),
+            image: NetworkImage(newsData!.imageUrl!),
+            height: 120,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
   }
 }
+//

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:newsshore/screens/screen_navigator.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
-import '/screens/main_feed_screen.dart';
-import '/screens/mock_main_feed_screen.dart';
+import '/screens/screen_navigator.dart';
+import '/screens/news_detail_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,6 +22,9 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.cyan,
           ),
           home: ScreenNavigator(),
+          routes: {
+            NewsDetailScreen.routeName: (ctx) => const NewsDetailScreen(),
+          },
         ));
   }
 }

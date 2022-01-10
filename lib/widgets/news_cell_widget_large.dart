@@ -83,7 +83,6 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 AutoSizeText(newsData?.sourceId ?? '',
-                    //textAlign: TextAlign.justify,
                     style: const TextStyle(
                       fontSize: 14,
                       color: Colors.white54,
@@ -103,29 +102,21 @@ class ImageWidgetLarge extends StatelessWidget {
     required this.imageUrl,
   }) : super(key: key);
 
-  final String? imageUrl;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(5), topRight: Radius.circular(5)),
-      child: Image.network(
-        imageUrl!,
-        fit: BoxFit.cover,
-        width: MediaQuery.of(context).size.width,
-        loadingBuilder: (BuildContext context, Widget child,
-            ImageChunkEvent? loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Center(
-            child: CircularProgressIndicator(
-              value: loadingProgress.expectedTotalBytes != null
-                  ? loadingProgress.cumulativeBytesLoaded /
-                      loadingProgress.expectedTotalBytes!
-                  : null,
-            ),
-          );
-        },
+      child: Hero(
+        tag: UniqueKey(),
+        child: FadeInImage(
+          placeholder: const AssetImage('assets/images/placeholder_news.jpg'),
+          image: NetworkImage(imageUrl),
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

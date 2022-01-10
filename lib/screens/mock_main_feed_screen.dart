@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '/providers/mock_news.dart';
-import '/widgets/news_cell_widget_small.dart';
-import '/widgets/news_cell_widget_medium.dart';
-import '/widgets/news_cell_widget_large.dart';
+import '/widgets/news_cell_widget.dart';
 
 class MockMainFeedScreen extends StatefulWidget {
   const MockMainFeedScreen({Key? key}) : super(key: key);
@@ -23,7 +21,7 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
             controller: scrollController,
             padding: const EdgeInsets.all(12),
             itemCount: MOCK_NEWS.length,
-            itemBuilder: (ctx, i) => NewsCellWidgetLarge(
+            itemBuilder: (ctx, i) => NewsCellWidget(
                 key: UniqueKey(), ctx: ctx, newsData: MOCK_NEWS[i])),
       )
     ]);
