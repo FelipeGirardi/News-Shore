@@ -22,68 +22,82 @@ class NewsDetailScreen extends StatelessWidget {
     final newsData = ModalRoute.of(context)!.settings.arguments as NewsData;
     return Scaffold(
       appBar: CustomAppBar('News Shore'),
-      body: Column(children: [
-        Hero(
-          tag: UniqueKey(),
-          child: Image.network(
-            newsData.imageUrl != null
-                ? newsData.imageUrl!
-                : 'https://leads-international.com/assets/front/img/placeholder-news.jpg',
-            width: MediaQuery.of(context).size.width,
-            height: 200,
-            fit: BoxFit.cover,
+      body: SingleChildScrollView(
+        child: Column(children: [
+          Hero(
+            tag: UniqueKey(),
+            child: Image.network(
+              newsData.imageUrl != null
+                  ? newsData.imageUrl!
+                  : 'https://leads-international.com/assets/front/img/placeholder-news.jpg',
+              width: MediaQuery.of(context).size.width,
+              height: 200,
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-        Padding(
-            padding: const EdgeInsets.all(10),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Text(
-                newsData.title ?? '',
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                newsData.description ?? '',
-                style: const TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                newsData.content ?? '',
-                style: const TextStyle(fontSize: 14),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.library_books,
-                    size: 14,
-                  ),
-                  const SizedBox(width: 10),
-                  Text(newsData.sourceId ?? '',
-                      style: const TextStyle(
-                        fontSize: 14,
-                      )),
-                ],
-              ),
-              Row(
-                children: [
-                  const Spacer(),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: const Color.fromARGB(255, 21, 45, 121)),
-                      onPressed: () => _launchNewsUrl(newsData.link ?? ''),
-                      child: const Text(
-                        'See full news',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
-                      )),
-                  const Spacer()
-                ],
-              )
-            ])),
-      ]),
+          Padding(
+              padding: const EdgeInsets.all(10),
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+                if (newsData.keywords != null)
+                  Column(children: [
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          newsData.keywords!.join(', '),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 14),
+                        )),
+                    const SizedBox(height: 10),
+                  ]),
+                Text(
+                  newsData.title ?? '',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 22),
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.library_books,
+                      size: 14,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(newsData.sourceId ?? '',
+                        style: const TextStyle(
+                          fontSize: 14,
+                        )),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                // Text(
+                //   newsData.description ?? '',
+                //   style: const TextStyle(fontSize: 16),
+                // ),
+                // const SizedBox(height: 10),
+                Text(
+                  newsData.fullDescription ?? newsData.content ?? '',
+                  style: const TextStyle(fontSize: 14, height: 1.5),
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const Spacer(),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: const Color.fromARGB(255, 21, 45, 121)),
+                        onPressed: () => _launchNewsUrl(newsData.link ?? ''),
+                        child: const Text(
+                          'See full news',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        )),
+                    const Spacer()
+                  ],
+                )
+              ])),
+        ]),
+      ),
     );
   }
 }
