@@ -1,27 +1,39 @@
 import 'package:flutter/material.dart';
 
 import '/models/news_data.dart';
-import '/widgets/news_cell_widget_large.dart';
 import '/screens/news_detail_screen.dart';
+import '/widgets/news_cell_widget_large.dart';
+import '/widgets/news_cell_widget_medium.dart';
+import '/widgets/news_cell_widget_small.dart';
 
 class NewsCellWidget extends StatelessWidget {
-  const NewsCellWidget({Key? key, this.ctx, this.newsData}) : super(key: key);
+  const NewsCellWidget(
+      {Key? key, this.ctx, this.cellType, this.index, this.newsData})
+      : super(key: key);
   final BuildContext? ctx;
+  final int? cellType;
+  final int? index;
   final NewsData? newsData;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
         onTap: () {
           Navigator.of(context).pushNamed(
             NewsDetailScreen.routeName,
             arguments: newsData,
           );
         },
-        child: NewsCellWidgetLarge(
-          key: key,
-          ctx: ctx,
-          newsData: newsData,
-        ));
+        child: cellType! % 3 == 0
+            ? NewsCellWidgetLarge(
+                key: key,
+                ctx: ctx,
+                newsData: newsData,
+              )
+            : (cellType! - 1) % 3 == 0
+                ? NewsCellWidgetMedium(
+                    key: key, ctx: ctx, newsData: newsData, index: index)
+                : NewsCellWidgetSmall(
+                    key: key, ctx: ctx, newsData: newsData, index: index));
   }
 }

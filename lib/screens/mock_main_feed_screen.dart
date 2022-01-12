@@ -18,11 +18,43 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
     return Column(mainAxisSize: MainAxisSize.min, children: [
       Expanded(
         child: ListView.builder(
-            controller: scrollController,
-            padding: const EdgeInsets.all(12),
-            itemCount: MOCK_NEWS.length,
-            itemBuilder: (ctx, i) => NewsCellWidget(
-                key: UniqueKey(), ctx: ctx, newsData: MOCK_NEWS[i])),
+          controller: scrollController,
+          padding: const EdgeInsets.only(bottom: 12),
+          itemCount: 3, // NO FEED REAL: 3 * (newsProv.nextPage - 1)
+          itemBuilder: (ctx, cellType) => cellType % 3 == 0
+              ? NewsCellWidget(
+                  key: UniqueKey(),
+                  ctx: ctx,
+                  cellType: cellType,
+                  index: 0,
+                  newsData: MOCK_NEWS[0]) // NO FEED REAL: newsProv.nextPage - 2
+              : (cellType - 1) % 3 == 0
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 3,
+                      itemBuilder: (ctx, i) => NewsCellWidget(
+                          key: UniqueKey(),
+                          ctx: ctx,
+                          cellType: cellType,
+                          index: i,
+                          newsData: MOCK_NEWS[i +
+                              1])) // NO FEED REAL: (newsProv.nextPage - 2) * 10 + i + 1
+                  : GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: 6,
+                      itemBuilder: (ctx, i) => NewsCellWidget(
+                          key: UniqueKey(),
+                          ctx: ctx,
+                          cellType: cellType,
+                          index: i,
+                          newsData: MOCK_NEWS[i +
+                              4])), // NO FEED REAL: (newsProv.nextPage - 2) * 10 + i + 4
+        ),
       )
     ]);
   }

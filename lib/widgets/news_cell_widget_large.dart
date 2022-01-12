@@ -12,7 +12,7 @@ class NewsCellWidgetLarge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.only(bottom: 8),
       child: SizedBox(
         height: MediaQuery.of(context).size.height / 2.2,
         child: Column(
@@ -41,14 +41,7 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: const Color.fromARGB(255, 21, 45, 121),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(5), bottomRight: Radius.circular(5)),
-        side: BorderSide(
-          color: Color.fromARGB(255, 21, 45, 121),
-          width: 1,
-        ),
-      ),
+      shape: const RoundedRectangleBorder(),
       elevation: 0,
       margin: EdgeInsets.zero,
       child: Padding(
@@ -107,8 +100,6 @@ class ImageWidgetLarge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(5), topRight: Radius.circular(5)),
       child: Hero(
         tag: UniqueKey(),
         child: FadeInImage(

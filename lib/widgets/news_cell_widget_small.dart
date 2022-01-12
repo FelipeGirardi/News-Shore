@@ -4,10 +4,11 @@ import '/models/news_data.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class NewsCellWidgetSmall extends StatelessWidget {
-  const NewsCellWidgetSmall({Key? key, this.ctx, this.newsData})
+  const NewsCellWidgetSmall({Key? key, this.ctx, this.newsData, this.index})
       : super(key: key);
   final BuildContext? ctx;
   final NewsData? newsData;
+  final int? index;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,9 @@ class NewsCellWidgetSmall extends StatelessWidget {
           ),
         ),
         elevation: 3,
-        margin: const EdgeInsets.all(8),
+        margin: index! % 2 == 0
+            ? const EdgeInsets.fromLTRB(12, 8, 8, 8)
+            : const EdgeInsets.fromLTRB(8, 8, 12, 8),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,

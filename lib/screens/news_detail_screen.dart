@@ -76,7 +76,10 @@ class NewsDetailScreen extends StatelessWidget {
                 // ),
                 // const SizedBox(height: 10),
                 Text(
-                  newsData.fullDescription ?? newsData.content ?? '',
+                  newsData.fullDescription ??
+                      newsData.content ??
+                      newsData.description ??
+                      '',
                   style: const TextStyle(fontSize: 14, height: 1.5),
                 ),
                 const SizedBox(height: 20),
