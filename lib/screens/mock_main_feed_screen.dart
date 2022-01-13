@@ -27,7 +27,7 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
                   ctx: ctx,
                   cellType: cellType,
                   index: 0,
-                  newsData: MOCK_NEWS[0]) // NO FEED REAL: newsProv.nextPage - 2
+                  newsData: MOCK_NEWS[0]) // NO FEED REAL: 10*cellType~/3
               : (cellType - 1) % 3 == 0
                   ? ListView.builder(
                       shrinkWrap: true,
@@ -39,7 +39,7 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
                           cellType: cellType,
                           index: i,
                           newsData: MOCK_NEWS[i +
-                              1])) // NO FEED REAL: (newsProv.nextPage - 2) * 10 + i + 1
+                              1])) // NO FEED REAL: (cellType~/3) * 10 + i + 1
                   : GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
@@ -53,7 +53,7 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
                           cellType: cellType,
                           index: i,
                           newsData: MOCK_NEWS[i +
-                              4])), // NO FEED REAL: (newsProv.nextPage - 2) * 10 + i + 4
+                              4])), // NO FEED REAL: (cellType~/3) * 10 + i + 4
         ),
       )
     ]);

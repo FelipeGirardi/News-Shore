@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:developer';
 
 import '/models/news_response.dart';
 import '/models/news_data.dart';
@@ -37,6 +38,10 @@ class NewsProvider with ChangeNotifier {
         _newsList.addAll(initialNewsResponse.results!
             .map((i) => NewsData.fromJson(i))
             .toList());
+        notifyListeners();
+        print(totalNews);
+        print(nextPage);
+        inspect(newsList);
       } else {
         throw Exception('Failed to load news');
       }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:developer';
 
 import '/models/news_data.dart';
 import '/screens/news_detail_screen.dart';
@@ -8,17 +9,27 @@ import '/widgets/news_cell_widget_small.dart';
 
 class NewsCellWidget extends StatelessWidget {
   const NewsCellWidget(
-      {Key? key, this.ctx, this.cellType, this.index, this.newsData})
+      {Key? key,
+      this.ctx,
+      this.cellType,
+      this.index,
+      this.newsList,
+      this.newsData})
       : super(key: key);
   final BuildContext? ctx;
   final int? cellType;
   final int? index;
+  final List<NewsData>? newsList;
   final NewsData? newsData;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
+          print(newsData!.title);
+          print(cellType);
+          print(index);
+          inspect(newsList);
           Navigator.of(context).pushNamed(
             NewsDetailScreen.routeName,
             arguments: newsData,
