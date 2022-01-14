@@ -39,9 +39,6 @@ class NewsProvider with ChangeNotifier {
             .map((i) => NewsData.fromJson(i))
             .toList());
         notifyListeners();
-        print(totalNews);
-        print(nextPage);
-        inspect(newsList);
       } else {
         throw Exception('Failed to load news');
       }

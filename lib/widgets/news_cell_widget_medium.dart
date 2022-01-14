@@ -41,12 +41,12 @@ class NewsCellWidgetMedium extends StatelessWidget {
               const SizedBox(height: 10),
               if (index != 2)
                 Column(
-                  children: const [
+                  children: [
                     Divider(
                         height: 3,
                         thickness: 2,
-                        color: Color.fromARGB(255, 21, 45, 121)),
-                    SizedBox(height: 10),
+                        color: Theme.of(context).colorScheme.primary),
+                    const SizedBox(height: 10),
                   ],
                 ),
             ],

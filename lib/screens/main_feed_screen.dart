@@ -76,8 +76,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                               cellType: cellType,
                               index: 0,
                               newsList: newsProv.newsList,
-                              newsData: newsProv
-                                  .newsList[10 * cellType ~/ 3])
+                              newsData: newsProv.newsList[10 * cellType ~/ 3])
                           : (cellType - 1) % 3 == 0
                               ? ListView.builder(
                                   shrinkWrap: true,
@@ -91,25 +90,30 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                                       newsList: newsProv.newsList,
                                       newsData: newsProv.newsList[
                                           (cellType ~/ 3) * 10 + i + 1]))
-                              : GridView.builder(
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2),
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: 6,
-                                  itemBuilder: (ctx, i) => NewsCellWidget(
-                                      key: UniqueKey(),
-                                      ctx: ctx,
-                                      cellType: cellType,
-                                      index: i,
-                                      newsList: newsProv.newsList,
-                                      newsData: newsProv.newsList[
-                                          (cellType ~/ 3) * 10 + i + 4])),
+                              : Column(
+                                  children: [
+                                    GridView.builder(
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 2),
+                                        shrinkWrap: true,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        itemCount: 6,
+                                        itemBuilder: (ctx, i) => NewsCellWidget(
+                                            key: UniqueKey(),
+                                            ctx: ctx,
+                                            cellType: cellType,
+                                            index: i,
+                                            newsList: newsProv.newsList,
+                                            newsData: newsProv.newsList[
+                                                (cellType ~/ 3) * 10 + i + 4])),
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
                     )),
         )),
       ),
-      const SizedBox(),
       Center(
           child: _isLoadingPage
               ? const CircularProgressIndicator()

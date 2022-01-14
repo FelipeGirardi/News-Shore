@@ -26,10 +26,6 @@ class NewsCellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () {
-          print(newsData!.title);
-          print(cellType);
-          print(index);
-          inspect(newsList);
           Navigator.of(context).pushNamed(
             NewsDetailScreen.routeName,
             arguments: newsData,

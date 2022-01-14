@@ -19,9 +19,13 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'News Shore',
           theme: ThemeData(
-            primarySwatch: Colors.cyan,
+            colorScheme:
+                ColorScheme.fromSwatch(primarySwatch: Colors.cyan).copyWith(
+              primary: const Color.fromARGB(255, 21, 45, 121),
+              secondary: const Color.fromARGB(255, 255, 245, 238),
+            ),
           ),
-          home: ScreenNavigator(),
+          home: const ScreenNavigator(),
           routes: {
             NewsDetailScreen.routeName: (ctx) => const NewsDetailScreen(),
           },

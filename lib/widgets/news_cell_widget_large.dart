@@ -40,7 +40,7 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: const Color.fromARGB(255, 21, 45, 121),
+      color: Theme.of(context).colorScheme.primary,
       shape: const RoundedRectangleBorder(),
       elevation: 0,
       margin: EdgeInsets.zero,

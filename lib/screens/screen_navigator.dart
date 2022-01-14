@@ -45,7 +45,7 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
           ],
         ),
         child: BottomNavigationBar(
-          backgroundColor: const Color.fromARGB(255, 255, 245, 238),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           unselectedItemColor: Colors.black45,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
