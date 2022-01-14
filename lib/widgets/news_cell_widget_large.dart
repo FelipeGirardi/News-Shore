@@ -45,25 +45,27 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
       elevation: 0,
       margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(7, 0, 7, 10),
+        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const Spacer(),
             AutoSizeText(newsData?.title ?? '',
-                minFontSize: 18,
+                minFontSize: 17,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.white)),
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    height: 1.3)),
             const Spacer(),
             AutoSizeText(
               newsData?.description ?? '',
               minFontSize: 14,
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white, height: 1.3),
             ),
             const Spacer(),
             const Spacer(),

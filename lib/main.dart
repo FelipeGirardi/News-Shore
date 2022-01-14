@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'News Shore',
           theme: ThemeData(
+            fontFamily: 'Objectivity',
             colorScheme:
                 ColorScheme.fromSwatch(primarySwatch: Colors.cyan).copyWith(
               primary: const Color.fromARGB(255, 21, 45, 121),

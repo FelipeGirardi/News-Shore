@@ -46,14 +46,16 @@ class NewsDetailScreen extends StatelessWidget {
                         child: Text(
                           newsData.keywords!.join(', '),
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 14),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              height: 1.5),
                         )),
                     const SizedBox(height: 10),
                   ]),
                 Text(
                   newsData.title ?? '',
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 22),
+                      fontWeight: FontWeight.bold, fontSize: 24, height: 1.3),
                 ),
                 const SizedBox(height: 15),
                 Row(
@@ -64,9 +66,7 @@ class NewsDetailScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(newsData.sourceId ?? '',
-                        style: const TextStyle(
-                          fontSize: 14,
-                        )),
+                        style: const TextStyle(fontSize: 14)),
                   ],
                 ),
                 const SizedBox(height: 15),

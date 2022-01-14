@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/screens/main_feed_screen.dart';
+import '/screens/mock_main_feed_screen.dart';
 
 import '/widgets/custom_app_bar.dart';
 import '/widgets/app_drawer.dart';
@@ -14,7 +14,7 @@ class ScreenNavigator extends StatefulWidget {
 class _ScreenNavigatorState extends State<ScreenNavigator> {
   int _selectedOption = 0;
   static const List<Widget> _bottomNavBarOptions = <Widget>[
-    MainFeedScreen(),
+    MockMainFeedScreen(),
     Text(
       'Index 1: Settings',
     ),

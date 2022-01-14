@@ -54,14 +54,11 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const Spacer(),
           AutoSizeText(newsData?.title ?? '',
-              minFontSize: 14,
+              minFontSize: 13,
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              )),
+              style: const TextStyle(fontWeight: FontWeight.bold, height: 1.3)),
           const Spacer(),
           const Spacer(),
           Row(

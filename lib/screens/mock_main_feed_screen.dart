@@ -40,20 +40,24 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
                           index: i,
                           newsData: MOCK_NEWS[i +
                               1])) // NO FEED REAL: (cellType~/3) * 10 + i + 1
-                  : GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 6,
-                      itemBuilder: (ctx, i) => NewsCellWidget(
-                          key: UniqueKey(),
-                          ctx: ctx,
-                          cellType: cellType,
-                          index: i,
-                          newsData: MOCK_NEWS[i +
-                              4])), // NO FEED REAL: (cellType~/3) * 10 + i + 4
+                  : Column(
+                      children: [
+                        GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: 6,
+                            itemBuilder: (ctx, i) => NewsCellWidget(
+                                key: UniqueKey(),
+                                ctx: ctx,
+                                cellType: cellType,
+                                index: i,
+                                newsData: MOCK_NEWS[i + 4])),
+                        const SizedBox(height: 10),
+                      ],
+                    ), // NO FEED REAL: (cellType~/3) * 10 + i + 4
         ),
       )
     ]);
