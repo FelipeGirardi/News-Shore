@@ -24,6 +24,7 @@ class NewsCellWidgetSmall extends StatelessWidget {
         margin: index! % 2 == 0
             ? const EdgeInsets.fromLTRB(12, 8, 8, 8)
             : const EdgeInsets.fromLTRB(8, 8, 12, 8),
+        color: Theme.of(context).colorScheme.background,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -55,7 +56,7 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           AutoSizeText(newsData?.title ?? '',
-              minFontSize: 13,
+              presetFontSizes: const [13],
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontWeight: FontWeight.bold, height: 1.3)),
@@ -66,15 +67,12 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
               const Icon(
                 Icons.library_books,
                 size: 10,
-                color: Colors.black54,
               ),
               const SizedBox(width: 10),
-              AutoSizeText(newsData?.sourceId ?? '',
-                  //textAlign: TextAlign.justify,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    color: Colors.black54,
-                  )),
+              AutoSizeText(
+                newsData?.sourceId ?? '',
+                presetFontSizes: const [10],
+              ),
             ],
           ),
         ],

@@ -34,19 +34,20 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
     return Scaffold(
       appBar: CustomAppBar('News Shore'),
       drawer: const AppDrawer(),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(child: _bottomNavBarOptions.elementAt(_selectedOption)),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              blurRadius: 2,
-              color: Colors.black45,
+              blurRadius: 0.5,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ],
         ),
         child: BottomNavigationBar(
           backgroundColor: Theme.of(context).colorScheme.secondary,
-          unselectedItemColor: Colors.black45,
+          //unselectedItemColor: Theme.of(context).colorScheme.background,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -62,7 +63,7 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
             ),
           ],
           currentIndex: _selectedOption,
-          selectedItemColor: const Color.fromARGB(255, 21, 45, 121),
+          selectedItemColor: Theme.of(context).colorScheme.primary,
           onTap: _onOptionTapped,
         ),
       ),

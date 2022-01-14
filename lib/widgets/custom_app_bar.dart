@@ -14,11 +14,13 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      titleTextStyle:
-          const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+      titleTextStyle: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          color: Theme.of(context).colorScheme.onSurface),
+      iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
       title: Text(
         title,
-        style: const TextStyle(color: Colors.black),
       ),
       backgroundColor: Theme.of(context).colorScheme.secondary,
       automaticallyImplyLeading: true,

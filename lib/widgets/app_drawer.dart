@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '/widgets/custom_app_bar.dart';
-
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-        backgroundColor: const Color.fromARGB(255, 255, 245, 238),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         child: Column(
           children: [
             SizedBox(height: MediaQuery.of(context).size.height / 12),

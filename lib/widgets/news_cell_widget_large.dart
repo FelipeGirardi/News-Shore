@@ -52,36 +52,36 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
           children: [
             const Spacer(),
             AutoSizeText(newsData?.title ?? '',
-                minFontSize: 17,
+                presetFontSizes: const [17],
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    height: 1.3)),
+                    height: 1.3,
+                    color: Theme.of(context).colorScheme.background)),
             const Spacer(),
             AutoSizeText(
               newsData?.description ?? '',
-              minFontSize: 14,
+              presetFontSizes: const [14],
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(color: Colors.white, height: 1.3),
+              style: TextStyle(
+                  height: 1.3, color: Theme.of(context).colorScheme.background),
             ),
             const Spacer(),
             const Spacer(),
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.library_books,
                   size: 14,
-                  color: Colors.white54,
+                  color: Theme.of(context).colorScheme.background,
                 ),
                 const SizedBox(width: 10),
                 AutoSizeText(newsData?.sourceId ?? '',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.white54,
-                    )),
+                    presetFontSizes: const [14],
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.background)),
               ],
             ),
           ],

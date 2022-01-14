@@ -22,6 +22,7 @@ class NewsDetailScreen extends StatelessWidget {
     final newsData = ModalRoute.of(context)!.settings.arguments as NewsData;
     return Scaffold(
       appBar: CustomAppBar('News Shore'),
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         child: Column(children: [
           Hero(
@@ -88,16 +89,16 @@ class NewsDetailScreen extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: const Color.fromARGB(255, 21, 45, 121)),
+                            primary: Theme.of(context).colorScheme.primary),
                         onPressed: () => _launchNewsUrl(newsData.link ?? ''),
                         child: const Text(
                           'See full news',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         )),
                     const Spacer()
                   ],
-                )
+                ),
+                const SizedBox(height: 20),
               ])),
         ]),
       ),

@@ -29,6 +29,9 @@ class NewsCellWidgetMedium extends StatelessWidget {
                             newsData: newsData,
                             cellHeight: 120,
                             maxLinesTitle: 2),
+                        const SizedBox(
+                          width: 5,
+                        ),
                         ImageWidgetMedium(newsData: newsData)
                       ]
                     : [
@@ -80,7 +83,7 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             AutoSizeText(newsData?.title ?? '',
-                minFontSize: 15,
+                presetFontSizes: const [15],
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
@@ -90,7 +93,7 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
             const Spacer(),
             AutoSizeText(
               newsData?.description ?? '',
-              minFontSize: 12,
+              presetFontSizes: const [12],
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(height: 1.3),
@@ -102,15 +105,12 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
                 const Icon(
                   Icons.library_books,
                   size: 12,
-                  color: Colors.black54,
                 ),
                 const SizedBox(width: 10),
-                AutoSizeText(newsData?.sourceId ?? '',
-                    //textAlign: TextAlign.justify,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54,
-                    )),
+                AutoSizeText(
+                  newsData?.sourceId ?? '',
+                  presetFontSizes: const [12],
+                ),
               ],
             ),
           ],
