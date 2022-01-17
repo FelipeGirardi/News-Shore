@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:developer';
 
 import '/models/news_response.dart';
 import '/models/news_data.dart';
@@ -13,6 +12,8 @@ class NewsProvider with ChangeNotifier {
   List<NewsData> _newsList = [];
   int _totalNews = 0;
   int _nextPage = 1;
+  List<String> filtersSelected = [];
+  bool _isFilterSelected = false;
 
   List<NewsData> get newsList {
     return [..._newsList];
@@ -26,10 +27,26 @@ class NewsProvider with ChangeNotifier {
     return _nextPage;
   }
 
+  Future<void> didCloseFiltersDrawer() async {
+    if (filtersSelected.isNotEmpty ||
+        (filtersSelected.isEmpty && _isFilterSelected)) {
+      _newsList.clear();
+      _totalNews = 0;
+      _nextPage = 1;
+      filtersSelected.isEmpty
+          ? _isFilterSelected = false
+          : _isFilterSelected = true;
+      await fetchNewsPage();
+    }
+  }
+
   Future<void> fetchNewsPage() async {
     if (newsList.length <= totalNews) {
-      final response = await http.get(Uri.parse(
-          'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$nextPage'));
+      final String urlString = _isFilterSelected
+          ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$nextPage&category=' +
+              filtersSelected.join(',')
+          : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$nextPage';
+      final response = await http.get(Uri.parse(urlString));
       if (response.statusCode == 200) {
         final decoded = jsonDecode(utf8.decode(response.bodyBytes));
         final initialNewsResponse = NewsResponse.fromJson(decoded);

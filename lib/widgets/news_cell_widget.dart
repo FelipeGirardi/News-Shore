@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:developer';
 
 import '/models/news_data.dart';
 import '/screens/news_detail_screen.dart';

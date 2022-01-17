@@ -55,64 +55,70 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
       Expanded(
-        child: Scrollbar(
-            child: FutureBuilder(
+        child: FutureBuilder(
           future: _newsProvider,
           builder: (ctx, snapshot) => Consumer<NewsProvider>(
               builder: (ctx, newsProv, _) => snapshot.connectionState ==
                       ConnectionState.waiting
                   ? const Center(child: CircularProgressIndicator())
-                  : ListView.builder(
-                      controller: scrollController,
-                      physics: _willFetchNewsPage
-                          ? const NeverScrollableScrollPhysics()
-                          : const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.only(bottom: 12),
-                      itemCount: 3 * (newsProv.nextPage - 1),
-                      itemBuilder: (ctx, cellType) => cellType % 3 == 0
-                          ? NewsCellWidget(
-                              key: UniqueKey(),
-                              ctx: ctx,
-                              cellType: cellType,
-                              index: 0,
-                              newsList: newsProv.newsList,
-                              newsData: newsProv.newsList[10 * cellType ~/ 3])
-                          : (cellType - 1) % 3 == 0
-                              ? ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: 3,
-                                  itemBuilder: (ctx, i) => NewsCellWidget(
-                                      key: UniqueKey(),
-                                      ctx: ctx,
-                                      cellType: cellType,
-                                      index: i,
-                                      newsList: newsProv.newsList,
-                                      newsData: newsProv.newsList[
-                                          (cellType ~/ 3) * 10 + i + 1]))
-                              : Column(
-                                  children: [
-                                    GridView.builder(
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 2),
-                                        shrinkWrap: true,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        itemCount: 6,
-                                        itemBuilder: (ctx, i) => NewsCellWidget(
-                                            key: UniqueKey(),
-                                            ctx: ctx,
-                                            cellType: cellType,
-                                            index: i,
-                                            newsList: newsProv.newsList,
-                                            newsData: newsProv.newsList[
-                                                (cellType ~/ 3) * 10 + i + 4])),
-                                    const SizedBox(height: 10),
-                                  ],
-                                ),
-                    )),
-        )),
+                  : newsProv.newsList.isEmpty
+                      ? const Center(child: Text('No news available.'))
+                      : ListView.builder(
+                          controller: scrollController,
+                          physics: _willFetchNewsPage
+                              ? const NeverScrollableScrollPhysics()
+                              : const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(bottom: 12),
+                          itemCount: 3 * (newsProv.nextPage - 1),
+                          itemBuilder: (ctx, cellType) => cellType % 3 == 0
+                              ? NewsCellWidget(
+                                  key: UniqueKey(),
+                                  ctx: ctx,
+                                  cellType: cellType,
+                                  index: 0,
+                                  newsList: newsProv.newsList,
+                                  newsData:
+                                      newsProv.newsList[10 * cellType ~/ 3])
+                              : (cellType - 1) % 3 == 0
+                                  ? ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: 3,
+                                      itemBuilder: (ctx, i) => NewsCellWidget(
+                                          key: UniqueKey(),
+                                          ctx: ctx,
+                                          cellType: cellType,
+                                          index: i,
+                                          newsList: newsProv.newsList,
+                                          newsData: newsProv.newsList[
+                                              (cellType ~/ 3) * 10 + i + 1]))
+                                  : Column(
+                                      children: [
+                                        GridView.builder(
+                                            gridDelegate:
+                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisCount: 2),
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount: 6,
+                                            itemBuilder: (ctx, i) =>
+                                                NewsCellWidget(
+                                                    key: UniqueKey(),
+                                                    ctx: ctx,
+                                                    cellType: cellType,
+                                                    index: i,
+                                                    newsList: newsProv.newsList,
+                                                    newsData: newsProv.newsList[
+                                                        (cellType ~/ 3) * 10 +
+                                                            i +
+                                                            4])),
+                                        const SizedBox(height: 10),
+                                      ],
+                                    ),
+                        )),
+        ),
       ),
       Center(
           child: _isLoadingPage
