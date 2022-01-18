@@ -17,14 +17,14 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   bool _isLoadingPage = false;
   bool _willFetchNewsPage = false;
 
-  void _setNewsProvider() async {
-    _newsProvider =
-        Provider.of<NewsProvider>(context, listen: false).fetchNewsPage();
+  Future<void> _setNewsProvider() async {
+    return await Provider.of<NewsProvider>(context, listen: false)
+        .fetchNewsPage();
   }
 
   @override
   void initState() {
-    _setNewsProvider();
+    _newsProvider = _setNewsProvider();
     scrollController.addListener(pagination);
     super.initState();
   }
@@ -51,6 +51,10 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     }
   }
 
+  Widget progressIndicator() {
+    return const Center(child: CircularProgressIndicator());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
@@ -60,9 +64,9 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
           builder: (ctx, snapshot) => Consumer<NewsProvider>(
               builder: (ctx, newsProv, _) => snapshot.connectionState ==
                       ConnectionState.waiting
-                  ? const Center(child: CircularProgressIndicator())
-                  : newsProv.newsList.isEmpty
-                      ? const Center(child: Text('No news available.'))
+                  ? progressIndicator()
+                  : newsProv.newsList.isEmpty || newsProv.isLoadingNews
+                      ? progressIndicator()
                       : ListView.builder(
                           controller: scrollController,
                           physics: _willFetchNewsPage

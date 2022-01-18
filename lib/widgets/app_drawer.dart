@@ -58,7 +58,7 @@ class _AppDrawerState extends State<AppDrawer> {
           const SizedBox(height: 50),
           const Center(
             child: Text(
-              'Maximum 5 filters',
+              'Maximum: 5 filters',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),

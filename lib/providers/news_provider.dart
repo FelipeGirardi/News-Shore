@@ -14,6 +14,7 @@ class NewsProvider with ChangeNotifier {
   int _nextPage = 1;
   List<String> filtersSelected = [];
   bool _isFilterSelected = false;
+  bool isLoadingNews = false;
 
   List<NewsData> get newsList {
     return [..._newsList];
@@ -36,6 +37,8 @@ class NewsProvider with ChangeNotifier {
       filtersSelected.isEmpty
           ? _isFilterSelected = false
           : _isFilterSelected = true;
+      isLoadingNews = true;
+      notifyListeners();
       await fetchNewsPage();
     }
   }
@@ -55,6 +58,7 @@ class NewsProvider with ChangeNotifier {
         _newsList.addAll(initialNewsResponse.results!
             .map((i) => NewsData.fromJson(i))
             .toList());
+        isLoadingNews = false;
         notifyListeners();
       } else {
         throw Exception('Failed to load news');
