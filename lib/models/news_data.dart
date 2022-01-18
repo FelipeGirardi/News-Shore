@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class NewsData {
   final String? title;
   final String? link;
@@ -34,7 +36,8 @@ class NewsData {
       videoUrl: json['video_url'],
       description: json['description'],
       content: json['content'],
-      pubDate: json['pubDate'],
+      pubDate: DateFormat("dd-MM-yyyy")
+          .format(DateTime.parse(json['pubDate'].split(' ')[0])),
       fullDescription: json['full_description'],
       imageUrl: json['image_url'],
       sourceId: json['source_id'],

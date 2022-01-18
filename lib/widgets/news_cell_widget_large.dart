@@ -19,11 +19,7 @@ class NewsCellWidgetLarge extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Expanded(
-                  child: ImageWidgetLarge(
-                      imageUrl: newsData?.imageUrl != null
-                          ? newsData!.imageUrl!
-                          : 'https://leads-international.com/assets/front/img/placeholder-news.jpg')),
+              Expanded(child: ImageWidgetLarge(imageUrl: newsData?.imageUrl)),
               Expanded(child: TitleAndSourceWidgetLarge(newsData: newsData)),
             ]),
       ),
@@ -61,7 +57,10 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
                     color: Theme.of(context).colorScheme.background)),
             const Spacer(),
             AutoSizeText(
-              newsData?.description ?? '',
+              newsData?.description ??
+                  newsData?.content ??
+                  newsData?.fullDescription ??
+                  '',
               presetFontSizes: const [14],
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
@@ -97,7 +96,7 @@ class ImageWidgetLarge extends StatelessWidget {
     required this.imageUrl,
   }) : super(key: key);
 
-  final String imageUrl;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +104,11 @@ class ImageWidgetLarge extends StatelessWidget {
       child: Hero(
         tag: UniqueKey(),
         child: FadeInImage(
-          placeholder: const AssetImage('assets/images/placeholder_news.jpg'),
-          image: NetworkImage(imageUrl),
+          placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
+          image: imageUrl != null
+              ? NetworkImage(imageUrl!)
+              : const AssetImage('assets/images/newsshore_logo.jpg')
+                  as ImageProvider,
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
         ),

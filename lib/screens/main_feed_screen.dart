@@ -36,8 +36,8 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   }
 
   void pagination() async {
-    if (scrollController.position.pixels ==
-            scrollController.position.maxScrollExtent &&
+    if (scrollController.position.pixels >=
+            scrollController.position.maxScrollExtent * 0.98 &&
         !_willFetchNewsPage) {
       _willFetchNewsPage = true;
       setState(() {
@@ -51,10 +51,6 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     }
   }
 
-  Widget progressIndicator() {
-    return const Center(child: CircularProgressIndicator());
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(mainAxisSize: MainAxisSize.min, children: [
@@ -63,10 +59,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
           future: _newsProvider,
           builder: (ctx, snapshot) => Consumer<NewsProvider>(
               builder: (ctx, newsProv, _) => snapshot.connectionState ==
-                      ConnectionState.waiting
-                  ? progressIndicator()
-                  : newsProv.newsList.isEmpty || newsProv.isLoadingNews
-                      ? progressIndicator()
+                          ConnectionState.waiting ||
+                      newsProv.isLoadingNews
+                  ? const Center(child: CircularProgressIndicator())
+                  : newsProv.newsList.isEmpty
+                      ? const Center(
+                          child: Text('No news currently available.'))
                       : ListView.builder(
                           controller: scrollController,
                           physics: _willFetchNewsPage
@@ -102,7 +100,8 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                                         GridView.builder(
                                             gridDelegate:
                                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 2),
+                                              crossAxisCount: 2,
+                                            ),
                                             shrinkWrap: true,
                                             physics:
                                                 const NeverScrollableScrollPhysics(),

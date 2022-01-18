@@ -18,7 +18,7 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
   static const List<Widget> _bottomNavBarOptions = <Widget>[
     MainFeedScreen(),
     Text(
-      'Index 1: Bookmarks',
+      'Sign up or login to bookmark your favorite news!',
     ),
     Text(
       'Index 2: Settings',

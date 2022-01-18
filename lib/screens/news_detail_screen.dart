@@ -27,12 +27,14 @@ class NewsDetailScreen extends StatelessWidget {
         child: Column(children: [
           Hero(
             tag: UniqueKey(),
-            child: Image.network(
-              newsData.imageUrl != null
-                  ? newsData.imageUrl!
-                  : 'https://leads-international.com/assets/front/img/placeholder-news.jpg',
-              width: MediaQuery.of(context).size.width,
+            child: FadeInImage(
+              placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
+              image: newsData.imageUrl != null
+                  ? NetworkImage(newsData.imageUrl!)
+                  : const AssetImage('assets/images/newsshore_logo.jpg')
+                      as ImageProvider,
               height: 200,
+              width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
             ),
           ),
@@ -68,14 +70,12 @@ class NewsDetailScreen extends StatelessWidget {
                     const SizedBox(width: 10),
                     Text(newsData.sourceId ?? '',
                         style: const TextStyle(fontSize: 14)),
+                    const Spacer(),
+                    Text(newsData.pubDate ?? '',
+                        style: const TextStyle(fontSize: 14)),
                   ],
                 ),
                 const SizedBox(height: 15),
-                // Text(
-                //   newsData.description ?? '',
-                //   style: const TextStyle(fontSize: 16),
-                // ),
-                // const SizedBox(height: 10),
                 Text(
                   newsData.fullDescription ??
                       newsData.content ??

@@ -23,23 +23,13 @@ class NewsCellWidgetMedium extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: newsData?.imageUrl != null
-                    ? [
-                        TitleAndSourceWidgetMedium(
-                            newsData: newsData,
-                            cellHeight: 120,
-                            maxLinesTitle: 2),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        ImageWidgetMedium(newsData: newsData)
-                      ]
-                    : [
-                        TitleAndSourceWidgetMedium(
-                            newsData: newsData,
-                            cellHeight: 120,
-                            maxLinesTitle: 2),
-                      ],
+                children: [
+                  TitleAndSourceWidgetMedium(newsData: newsData),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  ImageWidgetMedium(newsData: newsData)
+                ],
               ),
               const SizedBox(height: 10),
               if (index != 2)
@@ -61,23 +51,17 @@ class NewsCellWidgetMedium extends StatelessWidget {
 }
 
 class TitleAndSourceWidgetMedium extends StatelessWidget {
-  const TitleAndSourceWidgetMedium(
-      {Key? key,
-      required this.newsData,
-      required this.cellHeight,
-      required this.maxLinesTitle})
+  const TitleAndSourceWidgetMedium({Key? key, required this.newsData})
       : super(key: key);
 
   final NewsData? newsData;
-  final double? cellHeight;
-  final int? maxLinesTitle;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 7,
       child: SizedBox(
-        height: cellHeight,
+        height: 120,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -92,7 +76,10 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
                 )),
             const Spacer(),
             AutoSizeText(
-              newsData?.description ?? '',
+              newsData?.description ??
+                  newsData?.content ??
+                  newsData?.fullDescription ??
+                  '',
               presetFontSizes: const [12],
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
@@ -135,8 +122,11 @@ class ImageWidgetMedium extends StatelessWidget {
       child: Hero(
         tag: UniqueKey(),
         child: FadeInImage(
-          placeholder: const AssetImage('assets/images/placeholder_news.jpg'),
-          image: NetworkImage(newsData!.imageUrl!),
+          placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
+          image: newsData?.imageUrl != null
+              ? NetworkImage(newsData!.imageUrl!)
+              : const AssetImage('assets/images/newsshore_logo.jpg')
+                  as ImageProvider,
           height: 120,
           fit: BoxFit.cover,
         ),

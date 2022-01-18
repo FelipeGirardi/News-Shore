@@ -31,10 +31,7 @@ class NewsCellWidgetSmall extends StatelessWidget {
             children: [
               Expanded(
                   flex: 4,
-                  child: ImageWidgetSmall(
-                      imageUrl: newsData?.imageUrl != null
-                          ? newsData!.imageUrl!
-                          : 'https://leads-international.com/assets/front/img/placeholder-news.jpg')),
+                  child: ImageWidgetSmall(imageUrl: newsData?.imageUrl)),
               Expanded(
                   flex: 6, child: TitleAndSourceWidgetSmall(newsData: newsData))
             ]));
@@ -87,7 +84,7 @@ class ImageWidgetSmall extends StatelessWidget {
     required this.imageUrl,
   }) : super(key: key);
 
-  final String imageUrl;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +94,11 @@ class ImageWidgetSmall extends StatelessWidget {
       child: Hero(
         tag: UniqueKey(),
         child: FadeInImage(
-          placeholder: const AssetImage('assets/images/placeholder_news.jpg'),
-          image: NetworkImage(imageUrl),
+          placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
+          image: imageUrl != null
+              ? NetworkImage(imageUrl!)
+              : const AssetImage('assets/images/newsshore_logo.jpg')
+                  as ImageProvider,
           width: 200,
           fit: BoxFit.cover,
         ),
