@@ -48,7 +48,7 @@ class NewsProvider with ChangeNotifier {
       final String urlString = _isFilterSelected
           ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$nextPage&category=' +
               filtersSelected.join(',')
-          : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$nextPage';
+          : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$nextPage&category=top';
       final response = await http.get(Uri.parse(urlString));
       if (response.statusCode == 200) {
         final decoded = jsonDecode(utf8.decode(response.bodyBytes));

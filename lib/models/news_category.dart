@@ -6,7 +6,6 @@ enum NewsCategory {
   science,
   sports,
   technology,
-  top,
   world,
 }
 
