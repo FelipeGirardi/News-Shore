@@ -21,7 +21,10 @@ class NewsDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final newsData = ModalRoute.of(context)!.settings.arguments as NewsData;
     return Scaffold(
-      appBar: CustomAppBar('News Shore'),
+      appBar: CustomAppBar(
+        title: 'News Shore',
+        showSearchIcon: false,
+      ),
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SingleChildScrollView(
         child: Column(children: [

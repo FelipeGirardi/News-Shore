@@ -62,7 +62,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                           ConnectionState.waiting ||
                       newsProv.isLoadingNews
                   ? const Center(child: CircularProgressIndicator())
-                  : newsProv.newsList.isEmpty
+                  : newsProv.newsList.isEmpty || snapshot.hasError
                       ? const Center(
                           child: Text('No news currently available.'))
                       : ListView.builder(
@@ -78,7 +78,6 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                                   ctx: ctx,
                                   cellType: cellType,
                                   index: 0,
-                                  newsList: newsProv.newsList,
                                   newsData:
                                       newsProv.newsList[10 * cellType ~/ 3])
                               : (cellType - 1) % 3 == 0
@@ -92,7 +91,6 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                                           ctx: ctx,
                                           cellType: cellType,
                                           index: i,
-                                          newsList: newsProv.newsList,
                                           newsData: newsProv.newsList[
                                               (cellType ~/ 3) * 10 + i + 1]))
                                   : Column(
@@ -112,7 +110,6 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                                                     ctx: ctx,
                                                     cellType: cellType,
                                                     index: i,
-                                                    newsList: newsProv.newsList,
                                                     newsData: newsProv.newsList[
                                                         (cellType ~/ 3) * 10 +
                                                             i +

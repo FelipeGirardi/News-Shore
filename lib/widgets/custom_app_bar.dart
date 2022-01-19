@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '/helpers/news_search.dart';
+
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   final Size preferredSize;
   final String title;
+  final bool showSearchIcon;
 
-  CustomAppBar(
-    this.title, {
-    Key? key,
-  })  : preferredSize = const Size.fromHeight(50.0),
+  CustomAppBar({Key? key, required this.title, required this.showSearchIcon})
+      : preferredSize = const Size.fromHeight(50.0),
         super(key: key);
 
   @override
@@ -24,12 +25,16 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
       backgroundColor: Theme.of(context).colorScheme.secondary,
       automaticallyImplyLeading: true,
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {},
-        ),
-      ],
+      actions: showSearchIcon
+          ? [
+              IconButton(
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  showSearch(context: context, delegate: NewsSearch());
+                },
+              ),
+            ]
+          : [],
     );
   }
 }

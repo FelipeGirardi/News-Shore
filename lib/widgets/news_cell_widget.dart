@@ -8,17 +8,11 @@ import '/widgets/news_cell_widget_small.dart';
 
 class NewsCellWidget extends StatelessWidget {
   const NewsCellWidget(
-      {Key? key,
-      this.ctx,
-      this.cellType,
-      this.index,
-      this.newsList,
-      this.newsData})
+      {Key? key, this.ctx, this.cellType, this.index, this.newsData})
       : super(key: key);
   final BuildContext? ctx;
   final int? cellType;
   final int? index;
-  final List<NewsData>? newsList;
   final NewsData? newsData;
 
   @override

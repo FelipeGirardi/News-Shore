@@ -16,6 +16,11 @@ class NewsProvider with ChangeNotifier {
   bool _isFilterSelected = false;
   bool isLoadingNews = false;
 
+  // ignore: prefer_final_fields
+  List<NewsData> _searchNewsList = [];
+  int _searchTotalNews = 0;
+  int _searchNextPage = 1;
+
   List<NewsData> get newsList {
     return [..._newsList];
   }
@@ -44,7 +49,7 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<void> fetchNewsPage() async {
-    if (newsList.length <= totalNews) {
+    if (_newsList.length <= _totalNews) {
       final String urlString = _isFilterSelected
           ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$nextPage&category=' +
               filtersSelected.join(',')
@@ -64,5 +69,27 @@ class NewsProvider with ChangeNotifier {
         throw Exception('Failed to load news');
       }
     }
+  }
+
+  Future<NewsResponse?> fetchSearchNewsPage(String query) async {
+    if (_searchNewsList.length <= _searchTotalNews) {
+      final String urlString =
+          'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$_searchNextPage&qInTitle=$query';
+      final response = await http.get(Uri.parse(urlString));
+      if (response.statusCode == 200) {
+        final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+        final initialNewsResponse = NewsResponse.fromJson(decoded);
+        _searchTotalNews = initialNewsResponse.totalResults ?? 0;
+        _searchNextPage = initialNewsResponse.nextPage ?? 0;
+        _searchNewsList.addAll(initialNewsResponse.results!
+            .map((i) => NewsData.fromJson(i))
+            .toList());
+        notifyListeners();
+        return initialNewsResponse;
+      } else {
+        throw Exception('Failed to load news');
+      }
+    }
+    return null;
   }
 }

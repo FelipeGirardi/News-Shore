@@ -76,7 +76,10 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar('News Shore'),
+      appBar: CustomAppBar(
+        title: 'News Shore',
+        showSearchIcon: true,
+      ),
       drawer: const AppDrawer(),
       onDrawerChanged: (isOpen) {
         if (!isOpen) {
