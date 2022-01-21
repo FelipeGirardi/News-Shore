@@ -38,7 +38,9 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   void pagination() async {
     if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent &&
-        !_willFetchNewsPage) {
+        !_willFetchNewsPage &&
+        Provider.of<NewsProvider>(context, listen: false).newsList.length <
+            100) {
       _willFetchNewsPage = true;
       setState(() {
         _isLoadingPage = true;

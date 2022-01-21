@@ -40,7 +40,11 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   void pagination() async {
     if (scrollController.position.pixels >=
             scrollController.position.maxScrollExtent * 0.98 &&
-        !_willFetchNewsPage) {
+        !_willFetchNewsPage &&
+        Provider.of<NewsProvider>(context, listen: false)
+                .searchNewsList
+                .length <
+            100) {
       _willFetchNewsPage = true;
       setState(() {
         _isLoadingPage = true;
