@@ -124,9 +124,13 @@ class ImageWidgetMedium extends StatelessWidget {
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData?.imageUrl != null
-              ? NetworkImage(newsData!.imageUrl!)
-              : const AssetImage('assets/images/newsshore_logo.jpg')
-                  as ImageProvider,
+              ? (newsData!.imageUrl!
+                          .substring(newsData!.imageUrl!.length - 3) !=
+                      'mp4'
+                  ? NetworkImage(newsData!.imageUrl!)
+                  : const AssetImage('assets/images/newsshore_logo.jpg')
+                      as ImageProvider)
+              : const AssetImage('assets/images/newsshore_logo.jpg'),
           height: 120,
           fit: BoxFit.cover,
         ),

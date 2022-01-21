@@ -36,8 +36,8 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   }
 
   void pagination() async {
-    if (scrollController.position.pixels >=
-            scrollController.position.maxScrollExtent * 0.98 &&
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
         !_willFetchNewsPage) {
       _willFetchNewsPage = true;
       setState(() {

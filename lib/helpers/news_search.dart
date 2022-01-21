@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/models/news_data.dart';
-import '/models/news_response.dart';
 import '/providers/news_provider.dart';
-import '/widgets/news_cell_widget.dart';
+import '/screens/search_results_screen.dart';
 
 class NewsSearch extends SearchDelegate<String> {
   final news = ['Covid', 'Vaccine', 'Europe', 'USA', 'Asia'];
@@ -15,6 +13,8 @@ class NewsSearch extends SearchDelegate<String> {
     return [
       IconButton(
           onPressed: () {
+            Provider.of<NewsProvider>(context, listen: false)
+                .clearSearchNewsList();
             if (query.isEmpty) {
               close(context, '');
             }
@@ -29,6 +29,8 @@ class NewsSearch extends SearchDelegate<String> {
   Widget? buildLeading(BuildContext context) {
     return IconButton(
         onPressed: () {
+          Provider.of<NewsProvider>(context, listen: false)
+              .clearSearchNewsList();
           close(context, '');
         },
         icon: const Icon(Icons.arrow_back));
@@ -36,28 +38,7 @@ class NewsSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return FutureBuilder(
-        future: Provider.of<NewsProvider>(context, listen: false)
-            .fetchSearchNewsPage(query),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              snapshot.data == null) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Container(
-              alignment: Alignment.center,
-              child: const Text(
-                'News could not be loaded.',
-                style: TextStyle(fontSize: 28),
-              ),
-            );
-          } else {
-            final NewsResponse response = snapshot.data as NewsResponse;
-            final List<NewsData> newsData =
-                response.results!.map((res) => NewsData.fromJson(res)).toList();
-            return buildNewsResult(newsData);
-          }
-        });
+    return SearchResultsScreen(query: query);
   }
 
   @override
@@ -103,21 +84,5 @@ class NewsSearch extends SearchDelegate<String> {
             },
           );
         });
-  }
-
-  Widget buildNewsResult(List<NewsData> newsData) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: ListView.builder(
-          shrinkWrap: true,
-          physics: const ScrollPhysics(),
-          itemCount: newsData.length,
-          itemBuilder: (ctx, i) => NewsCellWidget(
-              key: UniqueKey(),
-              ctx: ctx,
-              cellType: 1,
-              index: 0,
-              newsData: newsData[i])),
-    );
   }
 }

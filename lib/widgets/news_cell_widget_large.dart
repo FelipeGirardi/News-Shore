@@ -106,9 +106,11 @@ class ImageWidgetLarge extends StatelessWidget {
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: imageUrl != null
-              ? NetworkImage(imageUrl!)
-              : const AssetImage('assets/images/newsshore_logo.jpg')
-                  as ImageProvider,
+              ? (imageUrl!.substring(imageUrl!.length - 3) != 'mp4'
+                  ? NetworkImage(imageUrl!)
+                  : const AssetImage('assets/images/newsshore_logo.jpg')
+                      as ImageProvider)
+              : const AssetImage('assets/images/newsshore_logo.jpg'),
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
         ),

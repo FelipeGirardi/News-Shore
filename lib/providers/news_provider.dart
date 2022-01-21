@@ -33,6 +33,10 @@ class NewsProvider with ChangeNotifier {
     return _nextPage;
   }
 
+  List<NewsData> get searchNewsList {
+    return [..._searchNewsList];
+  }
+
   Future<void> didCloseFiltersDrawer() async {
     if (filtersSelected.isNotEmpty ||
         (filtersSelected.isEmpty && _isFilterSelected)) {
@@ -71,7 +75,7 @@ class NewsProvider with ChangeNotifier {
     }
   }
 
-  Future<NewsResponse?> fetchSearchNewsPage(String query) async {
+  Future<List<NewsData?>?> fetchSearchNewsPage(String query) async {
     if (_searchNewsList.length <= _searchTotalNews) {
       final String urlString =
           'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$_searchNextPage&qInTitle=$query';
@@ -85,11 +89,17 @@ class NewsProvider with ChangeNotifier {
             .map((i) => NewsData.fromJson(i))
             .toList());
         notifyListeners();
-        return initialNewsResponse;
+        return _searchNewsList;
       } else {
         throw Exception('Failed to load news');
       }
     }
     return null;
+  }
+
+  void clearSearchNewsList() {
+    _searchNewsList.clear();
+    _searchTotalNews = 0;
+    _searchNextPage = 1;
   }
 }
