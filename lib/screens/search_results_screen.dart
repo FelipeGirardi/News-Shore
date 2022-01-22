@@ -38,13 +38,12 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   }
 
   void pagination() async {
-    if (scrollController.position.pixels >=
-            scrollController.position.maxScrollExtent * 0.98 &&
+    final provider = Provider.of<NewsProvider>(context, listen: false);
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
         !_willFetchNewsPage &&
-        Provider.of<NewsProvider>(context, listen: false)
-                .searchNewsList
-                .length <
-            100) {
+        provider.searchNewsList.length < 100 &&
+        !provider.isLastSearchPage) {
       _willFetchNewsPage = true;
       setState(() {
         _isLoadingPage = true;
@@ -99,7 +98,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       child: ListView.builder(
           controller: scrollController,
           shrinkWrap: true,
-          physics: const ScrollPhysics(),
+          physics: _willFetchNewsPage
+              ? const NeverScrollableScrollPhysics()
+              : const AlwaysScrollableScrollPhysics(),
           itemCount: newsData.length,
           itemBuilder: (ctx, i) => NewsCellWidget(
               key: UniqueKey(),

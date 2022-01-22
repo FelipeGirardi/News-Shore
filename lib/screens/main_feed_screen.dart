@@ -36,11 +36,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   }
 
   void pagination() async {
+    final provider = Provider.of<NewsProvider>(context, listen: false);
     if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent &&
         !_willFetchNewsPage &&
-        Provider.of<NewsProvider>(context, listen: false).newsList.length <
-            100) {
+        provider.newsList.length < 100 &&
+        !provider.isLastPage) {
       _willFetchNewsPage = true;
       setState(() {
         _isLoadingPage = true;
@@ -73,7 +74,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                               ? const NeverScrollableScrollPhysics()
                               : const AlwaysScrollableScrollPhysics(),
                           padding: const EdgeInsets.only(bottom: 12),
-                          itemCount: 3 * (newsProv.nextPage - 1),
+                          itemCount: 3 * newsProv.nextPage,
                           itemBuilder: (ctx, cellType) => cellType % 3 == 0
                               ? NewsCellWidget(
                                   key: UniqueKey(),
