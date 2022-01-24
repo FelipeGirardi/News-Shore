@@ -64,7 +64,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
               builder: (ctx, newsProv, _) => snapshot.connectionState ==
                           ConnectionState.waiting ||
                       newsProv.isLoadingNews
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const Center(child: CircularProgressIndicator.adaptive())
                   : newsProv.newsList.isEmpty || snapshot.hasError
                       ? const Center(
                           child: Text('No news currently available.'))
@@ -125,7 +125,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       ),
       Center(
           child: _isLoadingPage
-              ? const CircularProgressIndicator()
+              ? const CircularProgressIndicator.adaptive()
               : const SizedBox(
                   height: 0,
                 )),

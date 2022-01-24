@@ -29,7 +29,10 @@ class NewsDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(children: [
           Hero(
-            tag: UniqueKey(),
+            tag: (newsData.imageUrl ??
+                newsData.title! +
+                    newsData.sourceId! +
+                    'assets/images/newsshore_logo.jpg'),
             child: FadeInImage(
               placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
               image: newsData.imageUrl != null

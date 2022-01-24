@@ -120,7 +120,8 @@ class ImageWidgetMedium extends StatelessWidget {
     return Expanded(
       flex: 3,
       child: Hero(
-        tag: UniqueKey(),
+        tag: (newsData?.imageUrl ??
+            '$newsData.title$newsData.sourceIdassets/images/newsshore_logo.jpg'),
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData?.imageUrl != null

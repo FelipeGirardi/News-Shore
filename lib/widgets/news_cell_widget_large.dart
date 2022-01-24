@@ -19,7 +19,7 @@ class NewsCellWidgetLarge extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Expanded(child: ImageWidgetLarge(imageUrl: newsData?.imageUrl)),
+              Expanded(child: ImageWidgetLarge(newsData: newsData)),
               Expanded(child: TitleAndSourceWidgetLarge(newsData: newsData)),
             ]),
       ),
@@ -93,21 +93,26 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
 class ImageWidgetLarge extends StatelessWidget {
   const ImageWidgetLarge({
     Key? key,
-    required this.imageUrl,
+    required this.newsData,
   }) : super(key: key);
 
-  final String? imageUrl;
+  final NewsData? newsData;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       child: Hero(
-        tag: UniqueKey(),
+        tag: (newsData?.imageUrl ??
+            newsData!.title! +
+                newsData!.sourceId! +
+                'assets/images/newsshore_logo.jpg'),
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
-          image: imageUrl != null
-              ? (imageUrl!.substring(imageUrl!.length - 3) != 'mp4'
-                  ? NetworkImage(imageUrl!)
+          image: newsData?.imageUrl != null
+              ? (newsData!.imageUrl!
+                          .substring(newsData!.imageUrl!.length - 3) !=
+                      'mp4'
+                  ? NetworkImage(newsData!.imageUrl!)
                   : const AssetImage('assets/images/newsshore_logo.jpg')
                       as ImageProvider)
               : const AssetImage('assets/images/newsshore_logo.jpg'),

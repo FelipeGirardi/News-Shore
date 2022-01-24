@@ -17,14 +17,14 @@ class _AppDrawerState extends State<AppDrawer> {
     NewsProvider newsProvider =
         Provider.of<NewsProvider>(context, listen: false);
 
-    void _setCategoryState(NewsCategory category) {
-      newsProvider.filtersSelected.contains(category.name)
+    void _setCategoryState(String categoryName, bool newValue) {
+      !newValue
           ? setState(() {
-              newsProvider.filtersSelected.remove(category.name);
+              newsProvider.filtersSelected.remove(categoryName);
             })
           : newsProvider.filtersSelected.length < 5
               ? setState(() {
-                  newsProvider.filtersSelected.add(category.name);
+                  newsProvider.filtersSelected.add(categoryName);
                 })
               : null;
     }
@@ -44,16 +44,15 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           const Divider(),
           ...NewsCategory.values.map((NewsCategory category) {
-            return ListTile(
-                title: Text(category.name.capitalize()),
-                trailing: Icon(
-                    newsProvider.filtersSelected.contains(category.name)
-                        ? Icons.check_box_rounded
-                        : Icons.check_box_outline_blank,
-                    color: newsProvider.filtersSelected.contains(category.name)
-                        ? Colors.green
-                        : Colors.grey),
-                onTap: () => _setCategoryState(category));
+            return CheckboxListTile(
+              title: Text(category.name.capitalize()),
+              value: newsProvider.filtersSelected.contains(category.name),
+              onChanged: (bool? newValue) {
+                _setCategoryState(category.name, newValue!);
+              },
+              activeColor: Colors.green,
+              checkColor: Colors.white,
+            );
           }).toList(),
           const SizedBox(height: 50),
           const Center(

@@ -68,7 +68,8 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting ||
                     snapshot.data == null) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                      child: CircularProgressIndicator.adaptive());
                 } else if (snapshot.hasError) {
                   return Container(
                     alignment: Alignment.center,
@@ -84,7 +85,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         ),
         Center(
             child: _isLoadingPage
-                ? const CircularProgressIndicator()
+                ? const CircularProgressIndicator.adaptive()
                 : const SizedBox(
                     height: 0,
                   )),

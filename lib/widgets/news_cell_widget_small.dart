@@ -29,9 +29,7 @@ class NewsCellWidgetSmall extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Expanded(
-                  flex: 4,
-                  child: ImageWidgetSmall(imageUrl: newsData?.imageUrl)),
+              Expanded(flex: 4, child: ImageWidgetSmall(newsData: newsData)),
               Expanded(
                   flex: 6, child: TitleAndSourceWidgetSmall(newsData: newsData))
             ]));
@@ -81,10 +79,10 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
 class ImageWidgetSmall extends StatelessWidget {
   const ImageWidgetSmall({
     Key? key,
-    required this.imageUrl,
+    required this.newsData,
   }) : super(key: key);
 
-  final String? imageUrl;
+  final NewsData? newsData;
 
   @override
   Widget build(BuildContext context) {
@@ -92,12 +90,17 @@ class ImageWidgetSmall extends StatelessWidget {
       borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(5), topRight: Radius.circular(5)),
       child: Hero(
-        tag: UniqueKey(),
+        tag: (newsData!.imageUrl ??
+            newsData!.title! +
+                newsData!.sourceId! +
+                'assets/images/newsshore_logo.jpg'),
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
-          image: imageUrl != null
-              ? (imageUrl!.substring(imageUrl!.length - 3) != 'mp4'
-                  ? NetworkImage(imageUrl!)
+          image: newsData!.imageUrl != null
+              ? (newsData!.imageUrl!
+                          .substring(newsData!.imageUrl!.length - 3) !=
+                      'mp4'
+                  ? NetworkImage(newsData!.imageUrl!)
                   : const AssetImage('assets/images/newsshore_logo.jpg')
                       as ImageProvider)
               : const AssetImage('assets/images/newsshore_logo.jpg'),
