@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>135967851949-18jhvbjojav9pqta9u7bcppska4kd4s3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.135967851949-18jhvbjojav9pqta9u7bcppska4kd4s3</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDsjXH_MqQNtB3GF6hnpnzT63iMpmGq_KQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>135967851949</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.newsshore.newsshore</string>
+	<key>PROJECT_ID</key>
+	<string>news-shore-eb605</string>
+	<key>STORAGE_BUCKET</key>
+	<string>news-shore-eb605.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:135967851949:ios:9e9cc5dc6e5d50c3480d24</string>
+</dict>
+</plist>

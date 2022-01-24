@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "135967851949",
+    "project_id": "news-shore-eb605",
+    "storage_bucket": "news-shore-eb605.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:135967851949:android:1a9e29cc5c246e20480d24",
+        "android_client_info": {
+          "package_name": "com.newsshore.newsshore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "135967851949-jf646o1ql2p3mh85i8qggt1jsr4nmihk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnIrH-yreDsJvb5Lxs-Ran7kYQVSZZCzM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "135967851949-jf646o1ql2p3mh85i8qggt1jsr4nmihk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

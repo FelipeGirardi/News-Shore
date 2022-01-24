@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/screens/main_feed_screen.dart';
+import '/screens/mock_main_feed_screen.dart';
 import 'package:provider/provider.dart';
 
 import '/widgets/custom_app_bar.dart';
@@ -17,9 +17,9 @@ class ScreenNavigator extends StatefulWidget {
 class _ScreenNavigatorState extends State<ScreenNavigator> {
   int _selectedOption = 0;
   static const List<Widget> _bottomNavBarOptions = <Widget>[
-    MainFeedScreen(),
+    MockMainFeedScreen(),
     Text(
-      'Sign up or login to bookmark your favorite news!',
+      'Sign up or login to bookmark your favorite news and to customize your news feed!',
     ),
     AuthScreen()
   ];
@@ -48,10 +48,6 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'News',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'Bookmarks',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
