@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '/widgets/custom_app_bar.dart';
 import '/widgets/app_drawer.dart';
 import '/providers/news_provider.dart';
+import 'package:newsshore/screens/auth_screen.dart';
 
 class ScreenNavigator extends StatefulWidget {
   const ScreenNavigator({Key? key}) : super(key: key);
@@ -20,12 +21,7 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
     Text(
       'Sign up or login to bookmark your favorite news!',
     ),
-    Text(
-      'Index 2: Settings',
-    ),
-    Text(
-      'Index 3: Account',
-    ),
+    AuthScreen()
   ];
 
   void _onOptionTapped(int index) {
