@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import '/widgets/custom_app_bar.dart';
 import '/widgets/app_drawer.dart';
 import '/providers/news_provider.dart';
-import 'package:newsshore/screens/auth_screen.dart';
+import '/screens/settings_screen.dart';
+import '/screens/auth_screen.dart';
 
 class ScreenNavigator extends StatefulWidget {
   const ScreenNavigator({Key? key}) : super(key: key);
@@ -18,9 +19,7 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
   int _selectedOption = 0;
   static const List<Widget> _bottomNavBarOptions = <Widget>[
     MockMainFeedScreen(),
-    Text(
-      'Sign up or login to bookmark your favorite news and to customize your news feed!',
-    ),
+    SettingsScreen(),
     AuthScreen()
   ];
 
@@ -70,9 +69,9 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'News Shore',
-        showSearchIcon: true,
+        showSearchIcon: _selectedOption == 0 ? true : false,
       ),
-      drawer: const AppDrawer(),
+      drawer: _selectedOption == 0 ? const AppDrawer() : null,
       onDrawerChanged: (isOpen) {
         if (!isOpen) {
           Provider.of<NewsProvider>(context, listen: false)

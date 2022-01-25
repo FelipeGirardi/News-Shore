@@ -7,38 +7,39 @@ class AuthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          const Image(
-            image: AssetImage('assets/images/newsshore_title.jpg'),
-            fit: BoxFit.cover,
-          ),
-          Expanded(
-            child: Stack(children: [
-              Container(
-                  decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromARGB(255, 182, 237, 232),
-                    Color.fromARGB(255, 21, 45, 121),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0, 1],
-                ),
-              )),
-              Column(
-                children: [
-                  Center(child: AuthForm()),
-                  const Spacer(),
-                ],
-              ),
-            ]),
-          )
-        ]);
+    return Scaffold(
+      body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            const Image(
+              image: AssetImage('assets/images/newsshore_title.jpg'),
+              fit: BoxFit.cover,
+            ),
+            Expanded(
+              child: Stack(children: [
+                Container(
+                    decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(255, 182, 237, 232),
+                      Color.fromARGB(255, 21, 45, 121),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0, 1],
+                  ),
+                )),
+                // Column(
+                //   children: [
+                //     Center(child: AuthForm()),
+                //     const Spacer(),
+                //   ],
+                // ),
+              ]),
+            )
+          ]),
+    );
   }
 }
 
