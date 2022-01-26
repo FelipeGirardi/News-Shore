@@ -68,7 +68,6 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
                   height: 1.3, color: Theme.of(context).colorScheme.background),
             ),
             const Spacer(),
-            const Spacer(),
             Row(
               children: [
                 Icon(
@@ -81,6 +80,15 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
                     presetFontSizes: const [14],
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.background)),
+                const Spacer(),
+                InkWell(
+                  child: Icon(
+                    Icons.bookmark_border,
+                    size: 24,
+                    color: Theme.of(context).colorScheme.background,
+                  ),
+                  onTap: () {},
+                ),
               ],
             ),
           ],
@@ -102,10 +110,7 @@ class ImageWidgetLarge extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       child: Hero(
-        tag: (newsData?.imageUrl ??
-            newsData!.title! +
-                newsData!.sourceId! +
-                'assets/images/newsshore_logo.jpg'),
+        tag: newsData!.id!,
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData?.imageUrl != null

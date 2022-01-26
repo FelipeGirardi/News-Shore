@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 class NewsData {
+  final String? id;
   final String? title;
   final String? link;
   final List<dynamic>? keywords;
@@ -14,6 +17,7 @@ class NewsData {
   final String? sourceId;
 
   const NewsData({
+    this.id,
     this.title,
     this.link,
     this.keywords,
@@ -29,6 +33,7 @@ class NewsData {
 
   factory NewsData.fromJson(Map<String, dynamic> json) {
     return NewsData(
+      id: const Uuid().v4(),
       title: json['title'],
       link: json['link'],
       keywords: json['keywords'],

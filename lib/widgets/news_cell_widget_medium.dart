@@ -61,46 +61,57 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
     return Expanded(
       flex: 7,
       child: SizedBox(
-        height: 120,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            AutoSizeText(newsData?.title ?? '',
-                presetFontSizes: const [15],
-                maxLines: 2,
+        height: 125,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              AutoSizeText(newsData?.title ?? '',
+                  presetFontSizes: const [15],
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    height: 1.3,
+                  )),
+              const Spacer(),
+              AutoSizeText(
+                newsData?.description ??
+                    newsData?.content ??
+                    newsData?.fullDescription ??
+                    '',
+                presetFontSizes: const [12],
+                maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  height: 1.3,
-                )),
-            const Spacer(),
-            AutoSizeText(
-              newsData?.description ??
-                  newsData?.content ??
-                  newsData?.fullDescription ??
-                  '',
-              presetFontSizes: const [12],
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(height: 1.3),
-            ),
-            const Spacer(),
-            const Spacer(),
-            Row(
-              children: [
-                const Icon(
-                  Icons.library_books,
-                  size: 12,
-                ),
-                const SizedBox(width: 10),
-                AutoSizeText(
-                  newsData?.sourceId ?? '',
-                  presetFontSizes: const [12],
-                ),
-              ],
-            ),
-          ],
+                style: const TextStyle(height: 1.3),
+              ),
+              const Spacer(),
+              const Spacer(),
+              Row(
+                children: [
+                  const Icon(
+                    Icons.library_books,
+                    size: 12,
+                  ),
+                  const SizedBox(width: 10),
+                  AutoSizeText(
+                    newsData?.sourceId ?? '',
+                    presetFontSizes: const [12],
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    child: const Icon(
+                      Icons.bookmark_border,
+                      size: 24,
+                    ),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -120,10 +131,7 @@ class ImageWidgetMedium extends StatelessWidget {
     return Expanded(
       flex: 3,
       child: Hero(
-        tag: (newsData?.imageUrl ??
-            newsData!.title! +
-                newsData!.sourceId! +
-                'assets/images/newsshore_logo.jpg'),
+        tag: newsData!.id!,
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData?.imageUrl != null

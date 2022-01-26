@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '/screens/bookmarks_screen.dart';
+
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
@@ -26,22 +28,28 @@ class SettingsScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: ListView(
             shrinkWrap: true,
-            children: const [
+            children: [
               ListTile(
-                  leading: Icon(
-                    Icons.bookmark,
-                    size: 18,
-                  ),
-                  title: Text('Bookmarked news')),
-              Divider(
+                leading: const Icon(
+                  Icons.bookmark,
+                  size: 18,
+                ),
+                title: const Text('Bookmarked news'),
+                onTap: () {
+                  Navigator.of(context).pushNamed(BookmarksScreen.routeName);
+                },
+              ),
+              const Divider(
                 thickness: 2,
               ),
               ListTile(
-                  leading: Icon(
-                    Icons.language,
-                    size: 18,
-                  ),
-                  title: Text('Languages')),
+                leading: const Icon(
+                  Icons.language,
+                  size: 18,
+                ),
+                title: const Text('Languages'),
+                onTap: () {},
+              ),
             ],
           ),
         )

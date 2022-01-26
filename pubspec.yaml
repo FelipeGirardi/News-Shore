@@ -41,6 +41,9 @@ dependencies:
   auto_size_text: ^3.0.0
   intl: ^0.17.0
   firebase_auth: ^3.3.5
+  sqflite: ^2.0.2
+  path: ^1.8.0
+  uuid: ^3.0.5
 
 dev_dependencies:
   flutter_test:

@@ -45,7 +45,7 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(7),
+      padding: const EdgeInsets.fromLTRB(7, 5, 7, 7),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -61,12 +61,17 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
             children: [
               const Icon(
                 Icons.library_books,
-                size: 10,
+                size: 11,
               ),
               const SizedBox(width: 10),
               AutoSizeText(
                 newsData?.sourceId ?? '',
-                presetFontSizes: const [10],
+                presetFontSizes: const [11],
+              ),
+              const Spacer(),
+              InkWell(
+                child: const Icon(Icons.bookmark_border, size: 24),
+                onTap: () {},
               ),
             ],
           ),
@@ -90,10 +95,7 @@ class ImageWidgetSmall extends StatelessWidget {
       borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(5), topRight: Radius.circular(5)),
       child: Hero(
-        tag: (newsData!.imageUrl ??
-            newsData!.title! +
-                newsData!.sourceId! +
-                'assets/images/newsshore_logo.jpg'),
+        tag: newsData!.id!,
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData!.imageUrl != null

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '/providers/news_provider.dart';
 import '/screens/screen_navigator.dart';
 import '/screens/news_detail_screen.dart';
+import '/screens/bookmarks_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,7 +43,6 @@ class MyApp extends StatelessWidget {
           const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
       primaryIconTheme: const IconThemeData(color: Colors.white),
     );
-    // final Future<FirebaseApp> _initialization = Firebase.initializeApp();
     return ChangeNotifierProvider<NewsProvider>(
         create: (ctx) => NewsProvider(),
         child: MaterialApp(
@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
           home: const ScreenNavigator(),
           routes: {
             NewsDetailScreen.routeName: (ctx) => const NewsDetailScreen(),
+            BookmarksScreen.routeName: (ctx) => const BookmarksScreen(),
           },
         ));
   }

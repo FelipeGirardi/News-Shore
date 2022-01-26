@@ -29,10 +29,7 @@ class NewsDetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(children: [
           Hero(
-            tag: (newsData.imageUrl ??
-                newsData.title! +
-                    newsData.sourceId! +
-                    'assets/images/newsshore_logo.jpg'),
+            tag: newsData.id!,
             child: FadeInImage(
               placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
               image: newsData.imageUrl != null
@@ -73,19 +70,41 @@ class NewsDetailScreen extends StatelessWidget {
                 const SizedBox(height: 15),
                 Row(
                   children: [
-                    const Icon(
-                      Icons.library_books,
-                      size: 14,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.library_books,
+                              size: 14,
+                            ),
+                            const SizedBox(width: 10),
+                            Text(newsData.sourceId ?? '',
+                                style: const TextStyle(fontSize: 14)),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(children: [
+                          const Icon(
+                            Icons.access_time,
+                            size: 14,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(newsData.pubDate ?? '',
+                              textAlign: TextAlign.left,
+                              style: const TextStyle(fontSize: 14))
+                        ]),
+                      ],
                     ),
-                    const SizedBox(width: 10),
-                    Text(newsData.sourceId ?? '',
-                        style: const TextStyle(fontSize: 14)),
                     const Spacer(),
-                    Text(newsData.pubDate ?? '',
-                        style: const TextStyle(fontSize: 14)),
+                    InkWell(
+                      child: const Icon(Icons.bookmark_border, size: 24),
+                      onTap: () {},
+                    ),
                   ],
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 20),
                 Text(
                   newsData.fullDescription ??
                       newsData.content ??
