@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import '/models/news_response.dart';
 import '/models/news_data.dart';
+import '/helpers/sql_helper.dart';
 
 String apiKey = "pub_3162ee115d2cfdf10b4bb42c76aca12b66fd";
 
@@ -21,6 +22,8 @@ class NewsProvider with ChangeNotifier {
   int _searchTotalNews = 0;
   int _searchNextPage = 0;
   bool _isLastSearchPage = false;
+  // ignore: prefer_final_fields
+  List<NewsData> _bookmarkedNewsList = [];
 
   List<NewsData> get newsList {
     return [..._newsList];
@@ -48,6 +51,10 @@ class NewsProvider with ChangeNotifier {
 
   bool get isLastSearchPage {
     return _isLastSearchPage;
+  }
+
+  List<NewsData> get bookmarkedNewsList {
+    return [..._bookmarkedNewsList];
   }
 
   Future<void> didCloseFiltersDrawer() async {
@@ -120,5 +127,25 @@ class NewsProvider with ChangeNotifier {
     _searchNewsList.clear();
     _searchTotalNews = 0;
     _searchNextPage = 0;
+  }
+
+  Future<void> addBookmark(NewsData newsData) async {
+    _bookmarkedNewsList.add(newsData);
+    notifyListeners();
+    Map<String, Object> newsDataMap = newsData.toMap();
+    await SQLHelper.insertBookmark('bookmarked_news', newsDataMap);
+  }
+
+  Future<void> removeBookmark(NewsData newsData) async {
+    _bookmarkedNewsList.removeWhere((item) => item.id == newsData.id);
+    notifyListeners();
+    await SQLHelper.removeBookmark('bookmarked_news', newsData.id!);
+  }
+
+  Future<void> fetchBookmarks() async {
+    final bookmarks = await SQLHelper.getBookmarks('bookmarked_news');
+    _bookmarkedNewsList =
+        bookmarks.map((newsData) => NewsData.fromMap(newsData)).toList();
+    notifyListeners();
   }
 }

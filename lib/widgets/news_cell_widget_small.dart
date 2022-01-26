@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '/providers/news_provider.dart';
 import '/models/news_data.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class NewsCellWidgetSmall extends StatelessWidget {
-  const NewsCellWidgetSmall({Key? key, this.ctx, this.newsData, this.index})
-      : super(key: key);
   final BuildContext? ctx;
   final NewsData? newsData;
   final int? index;
+  final Function checkBookmarkFunc;
+  final Function addBookmarkFunc;
+  final Function removeBookmarkFunc;
+
+  const NewsCellWidgetSmall(
+      {Key? key,
+      this.ctx,
+      this.newsData,
+      this.index,
+      required this.checkBookmarkFunc,
+      required this.addBookmarkFunc,
+      required this.removeBookmarkFunc})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,26 +44,48 @@ class NewsCellWidgetSmall extends StatelessWidget {
             children: [
               Expanded(flex: 4, child: ImageWidgetSmall(newsData: newsData)),
               Expanded(
-                  flex: 6, child: TitleAndSourceWidgetSmall(newsData: newsData))
+                  flex: 6,
+                  child: TitleAndSourceWidgetSmall(
+                      newsData: newsData,
+                      checkBookmarkFunc: checkBookmarkFunc,
+                      addBookmarkFunc: addBookmarkFunc,
+                      removeBookmarkFunc: removeBookmarkFunc))
             ]));
   }
 }
 
-class TitleAndSourceWidgetSmall extends StatelessWidget {
-  const TitleAndSourceWidgetSmall({Key? key, required this.newsData})
+class TitleAndSourceWidgetSmall extends StatefulWidget {
+  const TitleAndSourceWidgetSmall(
+      {Key? key,
+      this.newsData,
+      required this.checkBookmarkFunc,
+      required this.addBookmarkFunc,
+      required this.removeBookmarkFunc})
       : super(key: key);
 
   final NewsData? newsData;
+  final Function checkBookmarkFunc;
+  final Function addBookmarkFunc;
+  final Function removeBookmarkFunc;
 
   @override
+  State<TitleAndSourceWidgetSmall> createState() =>
+      _TitleAndSourceWidgetSmallState();
+}
+
+class _TitleAndSourceWidgetSmallState extends State<TitleAndSourceWidgetSmall> {
+  @override
   Widget build(BuildContext context) {
+    bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
+        .bookmarkedNewsList
+        .any((item) => item.id == widget.newsData!.id);
     return Padding(
       padding: const EdgeInsets.fromLTRB(7, 5, 7, 7),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          AutoSizeText(newsData?.title ?? '',
+          AutoSizeText(widget.newsData?.title ?? '',
               presetFontSizes: const [13],
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
@@ -65,13 +100,25 @@ class TitleAndSourceWidgetSmall extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               AutoSizeText(
-                newsData?.sourceId ?? '',
+                widget.newsData?.sourceId ?? '',
                 presetFontSizes: const [11],
               ),
               const Spacer(),
               InkWell(
-                child: const Icon(Icons.bookmark_border, size: 24),
-                onTap: () {},
+                child: Icon(
+                  isFavorite ? Icons.bookmark : Icons.bookmark_border,
+                  size: 24,
+                  color: isFavorite ? Colors.yellow : null,
+                ),
+                onTap: () {
+                  setState(() {
+                    isFavorite
+                        ? Provider.of<NewsProvider>(context, listen: false)
+                            .removeBookmark(widget.newsData!)
+                        : Provider.of<NewsProvider>(context, listen: false)
+                            .addBookmark(widget.newsData!);
+                  });
+                },
               ),
             ],
           ),
@@ -99,12 +146,14 @@ class ImageWidgetSmall extends StatelessWidget {
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData!.imageUrl != null
-              ? (newsData!.imageUrl!
-                          .substring(newsData!.imageUrl!.length - 3) !=
-                      'mp4'
-                  ? NetworkImage(newsData!.imageUrl!)
+              ? newsData!.imageUrl!.isNotEmpty
+                  ? (newsData!.imageUrl!
+                              .substring(newsData!.imageUrl!.length - 3) !=
+                          'mp4'
+                      ? NetworkImage(newsData!.imageUrl!)
+                      : const AssetImage('assets/images/newsshore_logo.jpg')
+                          as ImageProvider)
                   : const AssetImage('assets/images/newsshore_logo.jpg')
-                      as ImageProvider)
               : const AssetImage('assets/images/newsshore_logo.jpg'),
           width: 200,
           fit: BoxFit.cover,

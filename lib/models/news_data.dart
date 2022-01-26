@@ -48,4 +48,34 @@ class NewsData {
       sourceId: json['source_id'],
     );
   }
+
+  Map<String, Object> toMap() {
+    return {
+      'id': id ?? const Uuid().v4(),
+      'title': title ?? '',
+      'keywords': keywords?.join(',') ?? '',
+      'creator': creator?.join(',') ?? '',
+      'video_url': videoUrl ?? '',
+      'description': description ?? '',
+      'pub_date': pubDate ?? '',
+      'full_description': fullDescription ?? '',
+      'image_url': imageUrl ?? '',
+      'source_id': sourceId ?? '',
+    };
+  }
+
+  factory NewsData.fromMap(Map<String, dynamic> dataMap) {
+    return NewsData(
+      id: dataMap['id'],
+      title: dataMap['title'],
+      keywords: (dataMap['keywords'] as String).split(','),
+      creator: (dataMap['creator'] as String).split(','),
+      videoUrl: dataMap['video_url'],
+      description: dataMap['description'],
+      pubDate: dataMap['pub_date'],
+      fullDescription: dataMap['full_description'],
+      imageUrl: dataMap['image_url'],
+      sourceId: dataMap['source_id'],
+    );
+  }
 }

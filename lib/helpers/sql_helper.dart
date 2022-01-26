@@ -12,9 +12,15 @@ class SQLHelper {
   }
 
   static Future<void> insertBookmark(
-      String table, Map<String, Object> data) async {
+      String table, Map<String, Object> dataMap) async {
     final sqlDB = await SQLHelper.fetchBookmarksDB();
-    sqlDB.insert(table, data, conflictAlgorithm: sql.ConflictAlgorithm.replace);
+    sqlDB.insert(table, dataMap,
+        conflictAlgorithm: sql.ConflictAlgorithm.replace);
+  }
+
+  static Future<void> removeBookmark(String table, String bookmarkId) async {
+    final sqlDB = await SQLHelper.fetchBookmarksDB();
+    sqlDB.delete(table, where: 'id = ?', whereArgs: [bookmarkId]);
   }
 
   static Future<List<Map<String, dynamic>>> getBookmarks(String table) async {

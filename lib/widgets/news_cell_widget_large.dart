@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '/providers/news_provider.dart';
 import '/models/news_data.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 class NewsCellWidgetLarge extends StatelessWidget {
-  const NewsCellWidgetLarge({Key? key, this.ctx, this.newsData})
-      : super(key: key);
   final BuildContext? ctx;
   final NewsData? newsData;
+  final Function checkBookmarkFunc;
+  final Function addBookmarkFunc;
+  final Function removeBookmarkFunc;
+
+  const NewsCellWidgetLarge(
+      {Key? key,
+      this.ctx,
+      this.newsData,
+      required this.checkBookmarkFunc,
+      required this.addBookmarkFunc,
+      required this.removeBookmarkFunc})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +32,43 @@ class NewsCellWidgetLarge extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(child: ImageWidgetLarge(newsData: newsData)),
-              Expanded(child: TitleAndSourceWidgetLarge(newsData: newsData)),
+              Expanded(
+                  child: TitleAndSourceWidgetLarge(
+                      newsData: newsData,
+                      checkBookmarkFunc: checkBookmarkFunc,
+                      addBookmarkFunc: addBookmarkFunc,
+                      removeBookmarkFunc: removeBookmarkFunc)),
             ]),
       ),
     );
   }
 }
 
-class TitleAndSourceWidgetLarge extends StatelessWidget {
-  const TitleAndSourceWidgetLarge({Key? key, required this.newsData})
+class TitleAndSourceWidgetLarge extends StatefulWidget {
+  const TitleAndSourceWidgetLarge(
+      {Key? key,
+      required this.newsData,
+      required this.checkBookmarkFunc,
+      required this.addBookmarkFunc,
+      required this.removeBookmarkFunc})
       : super(key: key);
 
   final NewsData? newsData;
+  final Function checkBookmarkFunc;
+  final Function addBookmarkFunc;
+  final Function removeBookmarkFunc;
 
   @override
+  State<TitleAndSourceWidgetLarge> createState() =>
+      _TitleAndSourceWidgetLargeState();
+}
+
+class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
+  @override
   Widget build(BuildContext context) {
+    bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
+        .bookmarkedNewsList
+        .any((item) => item.id == widget.newsData!.id);
     return Card(
       color: Theme.of(context).colorScheme.primary,
       shape: const RoundedRectangleBorder(),
@@ -47,7 +81,7 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const Spacer(),
-            AutoSizeText(newsData?.title ?? '',
+            AutoSizeText(widget.newsData?.title ?? '',
                 presetFontSizes: const [17],
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -57,9 +91,9 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
                     color: Theme.of(context).colorScheme.background)),
             const Spacer(),
             AutoSizeText(
-              newsData?.description ??
-                  newsData?.content ??
-                  newsData?.fullDescription ??
+              widget.newsData?.description ??
+                  widget.newsData?.content ??
+                  widget.newsData?.fullDescription ??
                   '',
               presetFontSizes: const [14],
               maxLines: 4,
@@ -76,18 +110,30 @@ class TitleAndSourceWidgetLarge extends StatelessWidget {
                   color: Theme.of(context).colorScheme.background,
                 ),
                 const SizedBox(width: 10),
-                AutoSizeText(newsData?.sourceId ?? '',
+                AutoSizeText(widget.newsData?.sourceId ?? '',
                     presetFontSizes: const [14],
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.background)),
                 const Spacer(),
                 InkWell(
                   child: Icon(
-                    Icons.bookmark_border,
+                    isFavorite ? Icons.bookmark : Icons.bookmark_border,
                     size: 24,
-                    color: Theme.of(context).colorScheme.background,
+                    color: isFavorite
+                        ? Colors.yellow
+                        : Theme.of(context).colorScheme.background,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      isFavorite
+                          ? {
+                              Provider.of<NewsProvider>(context, listen: false)
+                                  .removeBookmark(widget.newsData!)
+                            }
+                          : Provider.of<NewsProvider>(context, listen: false)
+                              .addBookmark(widget.newsData!);
+                    });
+                  },
                 ),
               ],
             ),
@@ -114,12 +160,14 @@ class ImageWidgetLarge extends StatelessWidget {
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData?.imageUrl != null
-              ? (newsData!.imageUrl!
-                          .substring(newsData!.imageUrl!.length - 3) !=
-                      'mp4'
-                  ? NetworkImage(newsData!.imageUrl!)
+              ? newsData!.imageUrl!.isNotEmpty
+                  ? (newsData!.imageUrl!
+                              .substring(newsData!.imageUrl!.length - 3) !=
+                          'mp4'
+                      ? NetworkImage(newsData!.imageUrl!)
+                      : const AssetImage('assets/images/newsshore_logo.jpg')
+                          as ImageProvider)
                   : const AssetImage('assets/images/newsshore_logo.jpg')
-                      as ImageProvider)
               : const AssetImage('assets/images/newsshore_logo.jpg'),
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,

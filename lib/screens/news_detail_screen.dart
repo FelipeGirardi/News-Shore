@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
 
+import '/providers/news_provider.dart';
 import '/widgets/custom_app_bar.dart';
 import '/models/news_data.dart';
+import '/models/news_detail_arguments.dart';
 
-class NewsDetailScreen extends StatelessWidget {
+class NewsDetailScreen extends StatefulWidget {
   const NewsDetailScreen({Key? key}) : super(key: key);
   static const routeName = '/news-detail';
 
+  @override
+  State<NewsDetailScreen> createState() => _NewsDetailScreenState();
+}
+
+class _NewsDetailScreenState extends State<NewsDetailScreen> {
   _launchNewsUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -19,7 +27,15 @@ class NewsDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final newsData = ModalRoute.of(context)!.settings.arguments as NewsData;
+    final NewsDetailArguments args =
+        ModalRoute.of(context)!.settings.arguments as NewsDetailArguments;
+    final NewsData newsData = args.newsData;
+    final Function checkBookmarkFunc = args.checkBookmarkFunc;
+    final Function addBookmarkFunc = args.addBookmarkFunc;
+    final Function removeBookmarkFunc = args.removeBookmarkFunc;
+    bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
+        .bookmarkedNewsList
+        .any((item) => item.id == newsData.id);
     return Scaffold(
       appBar: CustomAppBar(
         title: 'News Shore',
@@ -33,12 +49,14 @@ class NewsDetailScreen extends StatelessWidget {
             child: FadeInImage(
               placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
               image: newsData.imageUrl != null
-                  ? (newsData.imageUrl!
-                              .substring(newsData.imageUrl!.length - 3) !=
-                          'mp4'
-                      ? NetworkImage(newsData.imageUrl!)
+                  ? newsData.imageUrl!.isNotEmpty
+                      ? (newsData.imageUrl!
+                                  .substring(newsData.imageUrl!.length - 3) !=
+                              'mp4'
+                          ? NetworkImage(newsData.imageUrl!)
+                          : const AssetImage('assets/images/newsshore_logo.jpg')
+                              as ImageProvider)
                       : const AssetImage('assets/images/newsshore_logo.jpg')
-                          as ImageProvider)
                   : const AssetImage('assets/images/newsshore_logo.jpg'),
               height: 200,
               width: MediaQuery.of(context).size.width,
@@ -99,8 +117,22 @@ class NewsDetailScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     InkWell(
-                      child: const Icon(Icons.bookmark_border, size: 24),
-                      onTap: () {},
+                      child: Icon(
+                        isFavorite ? Icons.bookmark : Icons.bookmark_border,
+                        size: 24,
+                        color: isFavorite ? Colors.yellow : null,
+                      ),
+                      onTap: () {
+                        setState(() {
+                          isFavorite
+                              ? Provider.of<NewsProvider>(context,
+                                      listen: false)
+                                  .removeBookmark(newsData)
+                              : Provider.of<NewsProvider>(context,
+                                      listen: false)
+                                  .addBookmark(newsData);
+                        });
+                      },
                     ),
                   ],
                 ),

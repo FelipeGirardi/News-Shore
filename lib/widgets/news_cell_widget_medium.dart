@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:provider/provider.dart';
 
+import '/providers/news_provider.dart';
 import '/models/news_data.dart';
 
 class NewsCellWidgetMedium extends StatelessWidget {
   final BuildContext? ctx;
   final NewsData? newsData;
   final int? index;
+  final Function checkBookmarkFunc;
+  final Function addBookmarkFunc;
+  final Function removeBookmarkFunc;
 
-  const NewsCellWidgetMedium({Key? key, this.ctx, this.newsData, this.index})
+  const NewsCellWidgetMedium(
+      {Key? key,
+      this.ctx,
+      this.newsData,
+      this.index,
+      required this.checkBookmarkFunc,
+      required this.addBookmarkFunc,
+      required this.removeBookmarkFunc})
       : super(key: key);
 
   @override
@@ -24,7 +36,11 @@ class NewsCellWidgetMedium extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TitleAndSourceWidgetMedium(newsData: newsData),
+                  TitleAndSourceWidgetMedium(
+                      newsData: newsData,
+                      checkBookmarkFunc: checkBookmarkFunc,
+                      addBookmarkFunc: addBookmarkFunc,
+                      removeBookmarkFunc: removeBookmarkFunc),
                   const SizedBox(
                     width: 5,
                   ),
@@ -50,14 +66,32 @@ class NewsCellWidgetMedium extends StatelessWidget {
   }
 }
 
-class TitleAndSourceWidgetMedium extends StatelessWidget {
-  const TitleAndSourceWidgetMedium({Key? key, required this.newsData})
+class TitleAndSourceWidgetMedium extends StatefulWidget {
+  const TitleAndSourceWidgetMedium(
+      {Key? key,
+      required this.newsData,
+      required this.checkBookmarkFunc,
+      required this.addBookmarkFunc,
+      required this.removeBookmarkFunc})
       : super(key: key);
 
   final NewsData? newsData;
+  final Function checkBookmarkFunc;
+  final Function addBookmarkFunc;
+  final Function removeBookmarkFunc;
 
   @override
+  State<TitleAndSourceWidgetMedium> createState() =>
+      _TitleAndSourceWidgetMediumState();
+}
+
+class _TitleAndSourceWidgetMediumState
+    extends State<TitleAndSourceWidgetMedium> {
+  @override
   Widget build(BuildContext context) {
+    bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
+        .bookmarkedNewsList
+        .any((item) => item.id == widget.newsData!.id);
     return Expanded(
       flex: 7,
       child: SizedBox(
@@ -68,7 +102,7 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              AutoSizeText(newsData?.title ?? '',
+              AutoSizeText(widget.newsData?.title ?? '',
                   presetFontSizes: const [15],
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -78,9 +112,9 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
                   )),
               const Spacer(),
               AutoSizeText(
-                newsData?.description ??
-                    newsData?.content ??
-                    newsData?.fullDescription ??
+                widget.newsData?.description ??
+                    widget.newsData?.content ??
+                    widget.newsData?.fullDescription ??
                     '',
                 presetFontSizes: const [12],
                 maxLines: 3,
@@ -97,16 +131,25 @@ class TitleAndSourceWidgetMedium extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   AutoSizeText(
-                    newsData?.sourceId ?? '',
+                    widget.newsData?.sourceId ?? '',
                     presetFontSizes: const [12],
                   ),
                   const Spacer(),
                   InkWell(
-                    child: const Icon(
-                      Icons.bookmark_border,
+                    child: Icon(
+                      isFavorite ? Icons.bookmark : Icons.bookmark_border,
                       size: 24,
+                      color: isFavorite ? Colors.yellow : null,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      setState(() {
+                        isFavorite
+                            ? Provider.of<NewsProvider>(context, listen: false)
+                                .removeBookmark(widget.newsData!)
+                            : Provider.of<NewsProvider>(context, listen: false)
+                                .addBookmark(widget.newsData!);
+                      });
+                    },
                   ),
                 ],
               ),
@@ -135,12 +178,14 @@ class ImageWidgetMedium extends StatelessWidget {
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData?.imageUrl != null
-              ? (newsData!.imageUrl!
-                          .substring(newsData!.imageUrl!.length - 3) !=
-                      'mp4'
-                  ? NetworkImage(newsData!.imageUrl!)
+              ? newsData!.imageUrl!.isNotEmpty
+                  ? (newsData!.imageUrl!
+                              .substring(newsData!.imageUrl!.length - 3) !=
+                          'mp4'
+                      ? NetworkImage(newsData!.imageUrl!)
+                      : const AssetImage('assets/images/newsshore_logo.jpg')
+                          as ImageProvider)
                   : const AssetImage('assets/images/newsshore_logo.jpg')
-                      as ImageProvider)
               : const AssetImage('assets/images/newsshore_logo.jpg'),
           height: 120,
           fit: BoxFit.cover,

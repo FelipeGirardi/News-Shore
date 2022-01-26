@@ -3,6 +3,7 @@ import 'package:newsshore/models/news_data.dart';
 // ignore: non_constant_identifier_names
 List<NewsData> MOCK_NEWS = [
   const NewsData(
+      id: '0',
       title:
           "TV-Tipp: Arte stellt die Regisseurin Alice Guy vor TV-Tipp: Arte stellt die Regisseurin Alice Guy vor",
       link:
@@ -20,6 +21,7 @@ List<NewsData> MOCK_NEWS = [
           "https://bilder.t-online.de/b/91/42/50/00/id_91425000/tid_da/die-franzoesin-alice-guy-die-1873-geboren-wurde-und-1968-starb-war-die-erste-regisseurin-und-produzentin-der-filmgeschichte-.jpg",
       sourceId: "t-online"),
   const NewsData(
+      id: '1',
       title: "Popsänger - \"Jetzt werde ich alt\": Sasha feiert 50. Geburtstag",
       link:
           "https://www.t-online.de/unterhaltung/stars/id_91425008/popsaenger-jetzt-werde-ich-alt-sasha-feiert-50-geburtstag.html",
@@ -36,6 +38,7 @@ List<NewsData> MOCK_NEWS = [
           "https://bilder.t-online.de/b/91/42/50/12/id_91425012/tid_da/der-saenger-sasha-wird-50-.jpg",
       sourceId: "t-online"),
   const NewsData(
+      id: '2',
       title:
           "Äußerungen zu Impfungen: Maaßen verteidigt sich gegen Parteiausschluss",
       link:
@@ -52,6 +55,7 @@ List<NewsData> MOCK_NEWS = [
       imageUrl: null,
       sourceId: "sueddeutsche"),
   const NewsData(
+      id: '3',
       title:
           "So stark profitiert der Finanzminister von sprudelnden Energiesteuern",
       link:
@@ -69,6 +73,7 @@ List<NewsData> MOCK_NEWS = [
           "https://www.noz.de/media/2022/01/04/preise-fuer-diesel-e10-super-super-und-super-pl_202201041222_full.jpeg",
       sourceId: "noz"),
   const NewsData(
+      id: '4',
       title:
           "Aktien-Tipps der Euro am Sonntag-Redaktion für 2022: 32 x Rendite",
       link:
@@ -85,6 +90,7 @@ List<NewsData> MOCK_NEWS = [
       imageUrl: null,
       sourceId: "finanzen"),
   const NewsData(
+      id: '5',
       title: "Tesla wegen neuen Geschäfts in Xinjiang in der Kritik",
       link:
           "https://www.tz.de/wirtschaft/tesla-wegen-neuen-geschaefts-in-xinjiang-in-der-kritik-zr-91217185.html?cmp=defrss",
@@ -100,6 +106,7 @@ List<NewsData> MOCK_NEWS = [
           "https://bilder.t-online.de/b/91/42/50/36/id_91425036/640/c_Master-16-9-Large/tid_da/das-james-webb-teleskop-vor-dem-flug-ins-all-archivbild-rechts-und-links-ist-der-gefaltete-sonnenschutz-zu-sehen-.jpg",
       sourceId: "t-online"),
   const NewsData(
+      id: '6',
       title: "Sonnenschild von Weltraumteleskop James Webb voll entfaltet",
       link:
           "https://www.t-online.de/nachrichten/wissen/weltall/id_91424974/sonnenschild-von-weltraumteleskop-james-webb-voll-entfaltet.html",
@@ -116,6 +123,7 @@ List<NewsData> MOCK_NEWS = [
           "https://www.tz.de/bilder/2022/01/04/91217185/27816211-tesla-1w01.jpg",
       sourceId: "tz"),
   const NewsData(
+      id: '7',
       title:
           "Coronavirus in Deutschland: Lauterbach will härtere Kontaktbeschränkungen TV-Tipp: Arte stellt die Regisseurin Alice Guy vor",
       link:
@@ -140,6 +148,7 @@ List<NewsData> MOCK_NEWS = [
       imageUrl: null,
       sourceId: "sueddeutsche"),
   const NewsData(
+      id: '8',
       title:
           "46.000 Schwangerschaften geprüft: Covid-Impfung führt nicht zu Frühgeburten",
       link:
@@ -158,6 +167,7 @@ List<NewsData> MOCK_NEWS = [
           "https://bilder2.n-tv.de/img/incoming/crop23037029/6128674438-cImg_4_3-w250/240648570.jpg",
       sourceId: "n-tv"),
   const NewsData(
+      id: '9',
       title: "US-Automarkt schwächelt - Toyota zieht an GM vorbei",
       link:
           "https://www.merkur.de/wirtschaft/us-automarkt-schwaechelt-toyota-zieht-an-gm-vorbei-zr-91217179.html?cmp=defrss",
