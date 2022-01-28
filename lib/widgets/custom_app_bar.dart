@@ -23,6 +23,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       title: Text(
         title,
       ),
+      centerTitle: true,
       backgroundColor: Theme.of(context).colorScheme.secondary,
       automaticallyImplyLeading: true,
       actions: showSearchIcon

@@ -8,17 +8,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 class NewsCellWidgetLarge extends StatelessWidget {
   final BuildContext? ctx;
   final NewsData? newsData;
-  final Function checkBookmarkFunc;
-  final Function addBookmarkFunc;
-  final Function removeBookmarkFunc;
 
-  const NewsCellWidgetLarge(
-      {Key? key,
-      this.ctx,
-      this.newsData,
-      required this.checkBookmarkFunc,
-      required this.addBookmarkFunc,
-      required this.removeBookmarkFunc})
+  const NewsCellWidgetLarge({Key? key, this.ctx, this.newsData})
       : super(key: key);
 
   @override
@@ -32,12 +23,7 @@ class NewsCellWidgetLarge extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(child: ImageWidgetLarge(newsData: newsData)),
-              Expanded(
-                  child: TitleAndSourceWidgetLarge(
-                      newsData: newsData,
-                      checkBookmarkFunc: checkBookmarkFunc,
-                      addBookmarkFunc: addBookmarkFunc,
-                      removeBookmarkFunc: removeBookmarkFunc)),
+              Expanded(child: TitleAndSourceWidgetLarge(newsData: newsData)),
             ]),
       ),
     );
@@ -45,18 +31,10 @@ class NewsCellWidgetLarge extends StatelessWidget {
 }
 
 class TitleAndSourceWidgetLarge extends StatefulWidget {
-  const TitleAndSourceWidgetLarge(
-      {Key? key,
-      required this.newsData,
-      required this.checkBookmarkFunc,
-      required this.addBookmarkFunc,
-      required this.removeBookmarkFunc})
+  const TitleAndSourceWidgetLarge({Key? key, required this.newsData})
       : super(key: key);
 
   final NewsData? newsData;
-  final Function checkBookmarkFunc;
-  final Function addBookmarkFunc;
-  final Function removeBookmarkFunc;
 
   @override
   State<TitleAndSourceWidgetLarge> createState() =>

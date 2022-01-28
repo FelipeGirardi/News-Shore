@@ -1,47 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
-import '/providers/news_provider.dart';
 import '/models/news_data.dart';
-import '/models/news_detail_arguments.dart';
 import '/screens/news_detail_screen.dart';
 import '/widgets/news_cell_widget_large.dart';
 import '/widgets/news_cell_widget_medium.dart';
 import '/widgets/news_cell_widget_small.dart';
+import '/models/news_detail_arguments.dart';
 
 class NewsCellWidget extends StatelessWidget {
   const NewsCellWidget(
-      {Key? key, this.ctx, this.cellType, this.index, this.newsData})
+      {Key? key,
+      this.ctx,
+      this.cellType,
+      this.index,
+      this.newsData,
+      this.isBookmarked})
       : super(key: key);
   final BuildContext? ctx;
   final int? cellType;
   final int? index;
   final NewsData? newsData;
+  final bool? isBookmarked;
 
   @override
   Widget build(BuildContext context) {
-    bool _checkBookmark() {
-      return Provider.of<NewsProvider>(context, listen: false)
-          .bookmarkedNewsList
-          .any((item) => item.id == newsData!.id);
-    }
-
-    void _addBookmark() {
-      Provider.of<NewsProvider>(context, listen: false).addBookmark(newsData!);
-    }
-
-    void _removeBookmark() {
-      Provider.of<NewsProvider>(context, listen: false)
-          .removeBookmark(newsData!);
-    }
-
+    final String? bookmarkHeroTag =
+        isBookmarked ?? false ? index!.toString() : null;
+    final NewsDetailArguments newsDetailArguments = NewsDetailArguments(
+        newsData!, isBookmarked ?? false, bookmarkHeroTag ?? '');
     return InkWell(
         onTap: () {
-          final NewsDetailArguments args = NewsDetailArguments(
-              newsData!, _checkBookmark, _addBookmark, _removeBookmark);
           Navigator.of(context).pushNamed(
             NewsDetailScreen.routeName,
-            arguments: args,
+            arguments: newsDetailArguments,
           );
         },
         child: cellType! % 3 == 0
@@ -49,9 +41,6 @@ class NewsCellWidget extends StatelessWidget {
                 key: key,
                 ctx: ctx,
                 newsData: newsData,
-                checkBookmarkFunc: _checkBookmark,
-                addBookmarkFunc: _addBookmark,
-                removeBookmarkFunc: _removeBookmark,
               )
             : (cellType! - 1) % 3 == 0
                 ? NewsCellWidgetMedium(
@@ -59,18 +48,14 @@ class NewsCellWidget extends StatelessWidget {
                     ctx: ctx,
                     newsData: newsData,
                     index: index,
-                    checkBookmarkFunc: _checkBookmark,
-                    addBookmarkFunc: _addBookmark,
-                    removeBookmarkFunc: _removeBookmark,
+                    isBookmarked: isBookmarked ?? false,
+                    bookmarkHeroTag: bookmarkHeroTag ?? '',
                   )
                 : NewsCellWidgetSmall(
                     key: key,
                     ctx: ctx,
                     newsData: newsData,
                     index: index,
-                    checkBookmarkFunc: _checkBookmark,
-                    addBookmarkFunc: _addBookmark,
-                    removeBookmarkFunc: _removeBookmark,
                   ));
   }
 }

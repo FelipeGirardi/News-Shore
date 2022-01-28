@@ -2,10 +2,8 @@ import '/models/news_data.dart';
 
 class NewsDetailArguments {
   final NewsData newsData;
-  final Function checkBookmarkFunc;
-  final Function addBookmarkFunc;
-  final Function removeBookmarkFunc;
+  final bool isBookmarked;
+  final String heroTag;
 
-  NewsDetailArguments(this.newsData, this.checkBookmarkFunc,
-      this.addBookmarkFunc, this.removeBookmarkFunc);
+  NewsDetailArguments(this.newsData, this.isBookmarked, this.heroTag);
 }

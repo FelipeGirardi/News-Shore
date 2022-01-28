@@ -9,18 +9,16 @@ class NewsCellWidgetMedium extends StatelessWidget {
   final BuildContext? ctx;
   final NewsData? newsData;
   final int? index;
-  final Function checkBookmarkFunc;
-  final Function addBookmarkFunc;
-  final Function removeBookmarkFunc;
+  final bool? isBookmarked;
+  final String? bookmarkHeroTag;
 
   const NewsCellWidgetMedium(
       {Key? key,
       this.ctx,
       this.newsData,
       this.index,
-      required this.checkBookmarkFunc,
-      required this.addBookmarkFunc,
-      required this.removeBookmarkFunc})
+      this.isBookmarked,
+      this.bookmarkHeroTag})
       : super(key: key);
 
   @override
@@ -36,15 +34,14 @@ class NewsCellWidgetMedium extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TitleAndSourceWidgetMedium(
-                      newsData: newsData,
-                      checkBookmarkFunc: checkBookmarkFunc,
-                      addBookmarkFunc: addBookmarkFunc,
-                      removeBookmarkFunc: removeBookmarkFunc),
+                  TitleAndSourceWidgetMedium(newsData: newsData),
                   const SizedBox(
                     width: 5,
                   ),
-                  ImageWidgetMedium(newsData: newsData)
+                  ImageWidgetMedium(
+                      newsData: newsData,
+                      isBookmarked: isBookmarked,
+                      bookmarkHeroTag: bookmarkHeroTag)
                 ],
               ),
               const SizedBox(height: 10),
@@ -67,18 +64,10 @@ class NewsCellWidgetMedium extends StatelessWidget {
 }
 
 class TitleAndSourceWidgetMedium extends StatefulWidget {
-  const TitleAndSourceWidgetMedium(
-      {Key? key,
-      required this.newsData,
-      required this.checkBookmarkFunc,
-      required this.addBookmarkFunc,
-      required this.removeBookmarkFunc})
+  const TitleAndSourceWidgetMedium({Key? key, required this.newsData})
       : super(key: key);
 
   final NewsData? newsData;
-  final Function checkBookmarkFunc;
-  final Function addBookmarkFunc;
-  final Function removeBookmarkFunc;
 
   @override
   State<TitleAndSourceWidgetMedium> createState() =>
@@ -162,19 +151,23 @@ class _TitleAndSourceWidgetMediumState
 }
 
 class ImageWidgetMedium extends StatelessWidget {
-  const ImageWidgetMedium({
-    Key? key,
-    required this.newsData,
-  }) : super(key: key);
+  const ImageWidgetMedium(
+      {Key? key,
+      required this.newsData,
+      this.isBookmarked,
+      this.bookmarkHeroTag})
+      : super(key: key);
 
   final NewsData? newsData;
+  final bool? isBookmarked;
+  final String? bookmarkHeroTag;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       flex: 3,
       child: Hero(
-        tag: newsData!.id!,
+        tag: isBookmarked! ? bookmarkHeroTag! : newsData!.id!,
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData?.imageUrl != null

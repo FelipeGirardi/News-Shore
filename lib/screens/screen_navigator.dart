@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import '/screens/main_feed_screen.dart';
 import 'package:provider/provider.dart';
 
 import '/widgets/custom_app_bar.dart';
 import '/widgets/app_drawer.dart';
 import '/providers/news_provider.dart';
-import '/screens/settings_screen.dart';
+import '/screens/main_feed_screen.dart';
+import '/screens/bookmarks_screen.dart';
+import '/screens/languages_screen.dart';
 import '/screens/auth_screen.dart';
 
 class ScreenNavigator extends StatefulWidget {
@@ -19,7 +20,8 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
   int _selectedOption = 0;
   static const List<Widget> _bottomNavBarOptions = <Widget>[
     MainFeedScreen(),
-    SettingsScreen(),
+    BookmarksScreen(),
+    LanguagesScreen(),
     AuthScreen()
   ];
 
@@ -49,8 +51,12 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
             label: 'News',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.bookmark),
+            label: 'Bookmarks',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.language),
+            label: 'Languages',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -64,11 +70,26 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
     );
   }
 
+  String getAppBarTitle() {
+    switch (_selectedOption) {
+      case 0:
+        return 'News Shore';
+      case 1:
+        return 'Bookmarks';
+      case 2:
+        return 'Languages';
+      case 3:
+        return 'Account';
+      default:
+        return 'News Shore';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'News Shore',
+        title: getAppBarTitle(),
         showSearchIcon: _selectedOption == 0 ? true : false,
       ),
       drawer: _selectedOption == 0 ? const AppDrawer() : null,
@@ -80,7 +101,7 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
       },
       backgroundColor: Theme.of(context).colorScheme.background,
       body: IndexedStack(
-          alignment: Alignment.center,
+          //alignment: Alignment.center,
           index: _selectedOption,
           children: _bottomNavBarOptions),
       bottomNavigationBar: bottomNavBar(),

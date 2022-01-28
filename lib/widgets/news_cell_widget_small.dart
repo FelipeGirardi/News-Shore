@@ -9,18 +9,8 @@ class NewsCellWidgetSmall extends StatelessWidget {
   final BuildContext? ctx;
   final NewsData? newsData;
   final int? index;
-  final Function checkBookmarkFunc;
-  final Function addBookmarkFunc;
-  final Function removeBookmarkFunc;
 
-  const NewsCellWidgetSmall(
-      {Key? key,
-      this.ctx,
-      this.newsData,
-      this.index,
-      required this.checkBookmarkFunc,
-      required this.addBookmarkFunc,
-      required this.removeBookmarkFunc})
+  const NewsCellWidgetSmall({Key? key, this.ctx, this.newsData, this.index})
       : super(key: key);
 
   @override
@@ -44,29 +34,15 @@ class NewsCellWidgetSmall extends StatelessWidget {
             children: [
               Expanded(flex: 4, child: ImageWidgetSmall(newsData: newsData)),
               Expanded(
-                  flex: 6,
-                  child: TitleAndSourceWidgetSmall(
-                      newsData: newsData,
-                      checkBookmarkFunc: checkBookmarkFunc,
-                      addBookmarkFunc: addBookmarkFunc,
-                      removeBookmarkFunc: removeBookmarkFunc))
+                  flex: 6, child: TitleAndSourceWidgetSmall(newsData: newsData))
             ]));
   }
 }
 
 class TitleAndSourceWidgetSmall extends StatefulWidget {
-  const TitleAndSourceWidgetSmall(
-      {Key? key,
-      this.newsData,
-      required this.checkBookmarkFunc,
-      required this.addBookmarkFunc,
-      required this.removeBookmarkFunc})
-      : super(key: key);
+  const TitleAndSourceWidgetSmall({Key? key, this.newsData}) : super(key: key);
 
   final NewsData? newsData;
-  final Function checkBookmarkFunc;
-  final Function addBookmarkFunc;
-  final Function removeBookmarkFunc;
 
   @override
   State<TitleAndSourceWidgetSmall> createState() =>

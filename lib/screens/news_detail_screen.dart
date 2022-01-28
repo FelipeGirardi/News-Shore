@@ -30,9 +30,8 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
     final NewsDetailArguments args =
         ModalRoute.of(context)!.settings.arguments as NewsDetailArguments;
     final NewsData newsData = args.newsData;
-    final Function checkBookmarkFunc = args.checkBookmarkFunc;
-    final Function addBookmarkFunc = args.addBookmarkFunc;
-    final Function removeBookmarkFunc = args.removeBookmarkFunc;
+    final bool isBookmarked = args.isBookmarked;
+    final String heroTag = args.heroTag;
     bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
         .bookmarkedNewsList
         .any((item) => item.id == newsData.id);
@@ -45,7 +44,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
       body: SingleChildScrollView(
         child: Column(children: [
           Hero(
-            tag: newsData.id!,
+            tag: isBookmarked ? heroTag : newsData.id!,
             child: FadeInImage(
               placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
               image: newsData.imageUrl != null

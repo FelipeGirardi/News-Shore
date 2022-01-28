@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
 import '/widgets/news_cell_widget.dart';
-import '/widgets/custom_app_bar.dart';
 
 class BookmarksScreen extends StatefulWidget {
   const BookmarksScreen({Key? key}) : super(key: key);
@@ -29,38 +28,59 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Bookmarks',
-        showSearchIcon: false,
-      ),
-      body: FutureBuilder(
-        future: _newsProvider,
-        builder: (context, snapshot) => Consumer<NewsProvider>(
-            builder: (ctx, newsProv, _) =>
-                snapshot.connectionState == ConnectionState.waiting
-                    ? const Center(child: CircularProgressIndicator.adaptive())
-                    : snapshot.hasError
-                        ? Container(
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'News could not be loaded.',
-                              style: TextStyle(fontSize: 28),
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: newsProv.bookmarkedNewsList.length,
-                                itemBuilder: (ctx, i) => NewsCellWidget(
-                                    key: UniqueKey(),
-                                    ctx: ctx,
-                                    cellType: 1,
-                                    index: 0,
-                                    newsData: newsProv.bookmarkedNewsList[i])),
-                          )),
-      ),
+    return FutureBuilder(
+      future: _newsProvider,
+      builder: (context, snapshot) => Consumer<NewsProvider>(
+          builder: (ctx, newsProv, _) =>
+              snapshot.connectionState == ConnectionState.waiting
+                  ? const Center(child: CircularProgressIndicator.adaptive())
+                  : snapshot.hasError
+                      ? Container(
+                          alignment: Alignment.center,
+                          child: const Text(
+                            'News could not be loaded.',
+                            style: TextStyle(fontSize: 28),
+                          ),
+                        )
+                      : newsProv.bookmarkedNewsList.isEmpty
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                //const Spacer(),
+                                const Text(
+                                  'No bookmarked news.',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                const SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Text(
+                                      'Bookmark news by pressing ',
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                    Icon(
+                                      Icons.bookmark_border,
+                                      size: 24,
+                                    ),
+                                  ],
+                                ),
+                                //const Spacer(),
+                              ],
+                            )
+                          : Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: newsProv.bookmarkedNewsList.length,
+                                  itemBuilder: (ctx, i) => NewsCellWidget(
+                                      key: UniqueKey(),
+                                      ctx: ctx,
+                                      cellType: 1,
+                                      index: 0,
+                                      newsData: newsProv.bookmarkedNewsList[i],
+                                      isBookmarked: true)),
+                            )),
     );
   }
 }
