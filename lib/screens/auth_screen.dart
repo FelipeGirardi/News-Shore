@@ -13,9 +13,9 @@ class AuthScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             const Image(
-              image: AssetImage('assets/images/newsshore_title.jpg'),
-              fit: BoxFit.cover,
-            ),
+                image: AssetImage('assets/images/newsshore_title.jpg'),
+                fit: BoxFit.cover,
+                height: 150),
             Expanded(
               child: Stack(children: [
                 Container(

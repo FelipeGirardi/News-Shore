@@ -44,6 +44,7 @@ dependencies:
   sqflite: ^2.0.2
   path: ^1.8.0
   uuid: ^3.0.5
+  flutter_svg: ^1.0.3
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,32 @@ flutter:
   assets:
     - assets/images/newsshore_logo.jpg
     - assets/images/newsshore_title.jpg
+    - assets/images/flags/ae.svg
+    - assets/images/flags/ar.svg
+    - assets/images/flags/au.svg
+    - assets/images/flags/be.svg
+    - assets/images/flags/ca.svg
+    - assets/images/flags/cn.svg
+    - assets/images/flags/co.svg
+    - assets/images/flags/de.svg
+    - assets/images/flags/eg.svg
+    - assets/images/flags/es.svg
+    - assets/images/flags/fr.svg
+    - assets/images/flags/gb.svg
+    - assets/images/flags/hu.svg
+    - assets/images/flags/id.svg
+    - assets/images/flags/il.svg
+    - assets/images/flags/in.svg
+    - assets/images/flags/it.svg
+    - assets/images/flags/jp.svg
+    - assets/images/flags/mx.svg
+    - assets/images/flags/nl.svg
+    - assets/images/flags/pk.svg
+    - assets/images/flags/pl.svg
+    - assets/images/flags/sa.svg
+    - assets/images/flags/sg.svg
+    - assets/images/flags/th.svg
+    - assets/images/flags/us.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

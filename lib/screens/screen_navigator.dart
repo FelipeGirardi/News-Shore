@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '/widgets/custom_app_bar.dart';
 import '/widgets/app_drawer.dart';
 import '/providers/news_provider.dart';
-import '/screens/main_feed_screen.dart';
+import '/screens/mock_main_feed_screen.dart';
 import '/screens/bookmarks_screen.dart';
 import '/screens/languages_screen.dart';
 import '/screens/auth_screen.dart';
@@ -19,7 +19,7 @@ class ScreenNavigator extends StatefulWidget {
 class _ScreenNavigatorState extends State<ScreenNavigator> {
   int _selectedOption = 0;
   static const List<Widget> _bottomNavBarOptions = <Widget>[
-    MainFeedScreen(),
+    MockMainFeedScreen(),
     BookmarksScreen(),
     LanguagesScreen(),
     AuthScreen()

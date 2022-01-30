@@ -16,12 +16,16 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       titleTextStyle: TextStyle(
+          fontFamily: 'Objectivity',
           fontWeight: FontWeight.bold,
           fontSize: 20,
           color: Theme.of(context).colorScheme.onSurface),
       iconTheme: IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-      title: Text(
-        title,
+      title: Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: Text(
+          title,
+        ),
       ),
       centerTitle: true,
       backgroundColor: Theme.of(context).colorScheme.secondary,
