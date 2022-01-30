@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/models/news_category.dart';
+import '../models/news_enums.dart';
 import '/providers/news_provider.dart';
 
 class AppDrawer extends StatefulWidget {

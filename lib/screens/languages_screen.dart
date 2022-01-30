@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '/models/news_enums.dart';
+
 class LanguagesScreen extends StatelessWidget {
   const LanguagesScreen({Key? key}) : super(key: key);
 
