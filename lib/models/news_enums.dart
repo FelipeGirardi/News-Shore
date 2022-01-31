@@ -51,7 +51,7 @@ extension NewsCountryExtension on NewsCountry {
   String get countryCode {
     switch (this) {
       case NewsCountry.All:
-        return '';
+        return 'all';
       case NewsCountry.Argentina:
         return 'ar';
       case NewsCountry.Australia:
@@ -173,7 +173,7 @@ extension NewsCountryExtension on NewsCountry {
   String get countryIcon {
     switch (this) {
       case NewsCountry.All:
-        return '';
+        return 'assets/images/flags/globe.svg';
       case NewsCountry.Argentina:
         return 'assets/images/flags/ar.svg';
       case NewsCountry.Australia:
@@ -267,7 +267,7 @@ extension NewsLanguageExtension on NewsLanguage {
       case NewsLanguage.Hungarian:
         return 'hu';
       case NewsLanguage.Arabic:
-        return 'in';
+        return 'ar';
       case NewsLanguage.Japanese:
         return 'jp';
       case NewsLanguage.Thai:
@@ -361,5 +361,36 @@ extension NewsLanguageExtension on NewsLanguage {
       default:
         return [];
     }
+  }
+}
+
+int languageIndex(String code) {
+  switch (code) {
+    case 'en':
+      return 0;
+    case 'es':
+      return 1;
+    case 'de':
+      return 2;
+    case 'fr':
+      return 3;
+    case 'it':
+      return 4;
+    case 'nl':
+      return 5;
+    case 'pl':
+      return 6;
+    case 'hu':
+      return 7;
+    case 'ar':
+      return 8;
+    case 'jp':
+      return 9;
+    case 'th':
+      return 10;
+    case 'in':
+      return 11;
+    default:
+      return 0;
   }
 }

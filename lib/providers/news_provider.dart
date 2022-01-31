@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'dart:developer';
 
 import '/models/news_response.dart';
 import '/models/news_data.dart';
@@ -24,6 +26,8 @@ class NewsProvider with ChangeNotifier {
   bool _isLastSearchPage = false;
   // ignore: prefer_final_fields
   List<NewsData> _bookmarkedNewsList = [];
+  String? currentLang;
+  String? currentCountry;
 
   List<NewsData> get newsList {
     return [..._newsList];
@@ -57,6 +61,12 @@ class NewsProvider with ChangeNotifier {
     return [..._bookmarkedNewsList];
   }
 
+  void clearNews() {
+    _newsList.clear();
+    _totalNews = 0;
+    _nextPage = 0;
+  }
+
   Future<void> didCloseFiltersDrawer() async {
     if (filtersSelected.isNotEmpty ||
         (filtersSelected.isEmpty && _isFilterSelected)) {
@@ -73,11 +83,20 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<void> fetchNewsPage() async {
+    print('Is fetching');
+    final prefs = await SharedPreferences.getInstance();
+    final String language = prefs.getString('language') ?? '';
+    final String country = prefs.getString('country') ?? '';
     if (_newsList.length <= _totalNews) {
-      final String urlString = _isFilterSelected
-          ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$nextPage&category=' +
-              filtersSelected.join(',')
-          : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$nextPage&category=top';
+      final String urlString = country == 'all'
+          ? (_isFilterSelected
+              ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$nextPage&category=' +
+                  filtersSelected.join(',')
+              : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$nextPage&category=top')
+          : (_isFilterSelected
+              ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$nextPage&category=' +
+                  filtersSelected.join(',')
+              : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$nextPage&category=top');
       final response = await http.get(Uri.parse(urlString));
       if (response.statusCode == 200) {
         final decoded = jsonDecode(utf8.decode(response.bodyBytes));
@@ -91,6 +110,7 @@ class NewsProvider with ChangeNotifier {
             .map((i) => NewsData.fromJson(i))
             .toList());
         isLoadingNews = false;
+        inspect(_newsList);
         notifyListeners();
       } else {
         throw Exception('Failed to load news');
@@ -99,9 +119,13 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<List<NewsData?>?> fetchSearchNewsPage(String query) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String language = prefs.getString('language') ?? '';
+    final String country = prefs.getString('country') ?? '';
     if (_searchNewsList.length <= _searchTotalNews) {
-      final String urlString =
-          'https://newsdata.io/api/1/news?apikey=$apiKey&language=en&page=$_searchNextPage&qInTitle=$query';
+      final String urlString = country == 'all'
+          ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$_searchNextPage&qInTitle=$query'
+          : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$_searchNextPage&qInTitle=$query';
       final response = await http.get(Uri.parse(urlString));
       if (response.statusCode == 200) {
         final decoded = jsonDecode(utf8.decode(response.bodyBytes));
@@ -146,6 +170,22 @@ class NewsProvider with ChangeNotifier {
     final bookmarks = await SQLHelper.getBookmarks('bookmarked_news');
     _bookmarkedNewsList =
         bookmarks.map((newsData) => NewsData.fromMap(newsData)).toList();
+    notifyListeners();
+  }
+
+  void setLanguagePref(SharedPreferences prefs, String langName) {
+    prefs.setString('language', langName);
+    prefs.setString('country', 'all');
+    currentLang = langName;
+    currentCountry = 'all';
+    clearNews();
+    notifyListeners();
+  }
+
+  void setCountryPref(SharedPreferences prefs, String countryName) {
+    prefs.setString('country', countryName);
+    currentCountry = countryName;
+    clearNews();
     notifyListeners();
   }
 }

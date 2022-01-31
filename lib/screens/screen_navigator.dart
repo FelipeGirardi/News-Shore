@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '/widgets/custom_app_bar.dart';
 import '/widgets/app_drawer.dart';
 import '/providers/news_provider.dart';
-import '/screens/mock_main_feed_screen.dart';
+import '/screens/main_feed_screen.dart';
 import '/screens/bookmarks_screen.dart';
 import '/screens/languages_screen.dart';
 import '/screens/auth_screen.dart';
@@ -18,15 +18,21 @@ class ScreenNavigator extends StatefulWidget {
 
 class _ScreenNavigatorState extends State<ScreenNavigator> {
   int _selectedOption = 0;
-  static const List<Widget> _bottomNavBarOptions = <Widget>[
-    MockMainFeedScreen(),
-    BookmarksScreen(),
-    LanguagesScreen(),
-    AuthScreen()
+  // ignore: prefer_final_fields
+  List<Widget> _bottomNavBarOptions = <Widget>[
+    const MainFeedScreen(),
+    const BookmarksScreen(),
+    const LanguagesScreen(),
+    const AuthScreen()
   ];
 
   void _onOptionTapped(int index) {
+    final provider = Provider.of<NewsProvider>(context, listen: false);
     setState(() {
+      if (index == 0 && provider.newsList.isEmpty) {
+        print('Index is 0');
+        provider.fetchNewsPage();
+      }
       _selectedOption = index;
     });
   }
@@ -100,10 +106,8 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
         }
       },
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: IndexedStack(
-          //alignment: Alignment.center,
-          index: _selectedOption,
-          children: _bottomNavBarOptions),
+      body:
+          IndexedStack(index: _selectedOption, children: _bottomNavBarOptions),
       bottomNavigationBar: bottomNavBar(),
     );
   }

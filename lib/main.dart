@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '/providers/news_provider.dart';
 import '/screens/screen_navigator.dart';
@@ -47,17 +48,43 @@ class MyApp extends StatelessWidget {
           const AppBarTheme(systemOverlayStyle: SystemUiOverlayStyle.dark),
       primaryIconTheme: const IconThemeData(color: Colors.white),
     );
-    return ChangeNotifierProvider<NewsProvider>(
-        create: (ctx) => NewsProvider(),
-        child: MaterialApp(
-          title: 'News Shore',
-          theme: lightThemeData,
-          darkTheme: darkThemeData,
-          home: const ScreenNavigator(),
-          routes: {
-            NewsDetailScreen.routeName: (ctx) => const NewsDetailScreen(),
-            BookmarksScreen.routeName: (ctx) => const BookmarksScreen(),
-          },
-        ));
+
+    return FutureBuilder<SharedPreferences>(
+        future: SharedPreferences.getInstance(),
+        builder:
+            (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            default:
+              if (!snapshot.hasError) {
+                if (snapshot.data?.getBool('firstOpen') == null) {
+                  snapshot.data?.setBool('firstOpen', true);
+                  snapshot.data?.setString('language', 'en');
+                  snapshot.data?.setString('country', 'all');
+                }
+                return ChangeNotifierProvider<NewsProvider>(
+                    create: (ctx) => NewsProvider(),
+                    child: MaterialApp(
+                      title: 'News Shore',
+                      theme: lightThemeData,
+                      darkTheme: darkThemeData,
+                      home: const ScreenNavigator(),
+                      routes: {
+                        NewsDetailScreen.routeName: (ctx) =>
+                            const NewsDetailScreen(),
+                        BookmarksScreen.routeName: (ctx) =>
+                            const BookmarksScreen(),
+                      },
+                    ));
+              }
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+          }
+        });
   }
 }

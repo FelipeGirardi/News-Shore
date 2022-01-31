@@ -72,6 +72,7 @@ flutter:
   assets:
     - assets/images/newsshore_logo.jpg
     - assets/images/newsshore_title.jpg
+    - assets/images/flags/globe.svg
     - assets/images/flags/ae.svg
     - assets/images/flags/ar.svg
     - assets/images/flags/au.svg
