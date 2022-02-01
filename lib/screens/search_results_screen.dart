@@ -79,7 +79,10 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     ),
                   );
                 } else {
-                  return buildNewsResult(snapshot.data as List<NewsData>);
+                  return NewsResultWidget(
+                      scrollController: scrollController,
+                      willFetchNewsPage: _willFetchNewsPage,
+                      newsData: snapshot.data as List<NewsData>);
                 }
               }),
         ),
@@ -92,8 +95,23 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       ],
     );
   }
+}
 
-  Widget buildNewsResult(List<NewsData> newsData) {
+class NewsResultWidget extends StatelessWidget {
+  const NewsResultWidget({
+    Key? key,
+    required this.scrollController,
+    required bool willFetchNewsPage,
+    required this.newsData,
+  })  : _willFetchNewsPage = willFetchNewsPage,
+        super(key: key);
+
+  final ScrollController scrollController;
+  final bool _willFetchNewsPage;
+  final List<NewsData> newsData;
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: ListView.builder(

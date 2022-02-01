@@ -30,7 +30,6 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
     final provider = Provider.of<NewsProvider>(context, listen: false);
     setState(() {
       if (index == 0 && provider.newsList.isEmpty) {
-        print('Index is 0');
         provider.fetchNewsPage();
       }
       _selectedOption = index;

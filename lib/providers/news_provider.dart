@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'dart:developer';
 
 import '/models/news_response.dart';
 import '/models/news_data.dart';
@@ -83,7 +82,6 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<void> fetchNewsPage() async {
-    print('Is fetching');
     final prefs = await SharedPreferences.getInstance();
     final String language = prefs.getString('language') ?? '';
     final String country = prefs.getString('country') ?? '';
@@ -110,7 +108,6 @@ class NewsProvider with ChangeNotifier {
             .map((i) => NewsData.fromJson(i))
             .toList());
         isLoadingNews = false;
-        inspect(_newsList);
         notifyListeners();
       } else {
         throw Exception('Failed to load news');
