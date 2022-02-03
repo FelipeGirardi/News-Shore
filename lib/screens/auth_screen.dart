@@ -12,7 +12,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  final _auth = FirebaseAuth.instance;
+  final _authInstance = FirebaseAuth.instance;
   var _isLoading = false;
 
   void _executeAuth(String email, String password, AuthMode authMode,
@@ -23,10 +23,10 @@ class _AuthScreenState extends State<AuthScreen> {
         _isLoading = true;
       });
       if (authMode == AuthMode.login) {
-        authResult = await _auth.signInWithEmailAndPassword(
+        authResult = await _authInstance.signInWithEmailAndPassword(
             email: email, password: password);
       } else {
-        authResult = await _auth.createUserWithEmailAndPassword(
+        authResult = await _authInstance.createUserWithEmailAndPassword(
             email: email, password: password);
       }
     } on PlatformException catch (err) {
@@ -51,40 +51,80 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const Image(
-                image: AssetImage('assets/images/newsshore_title.jpg'),
-                fit: BoxFit.cover,
-                height: 150),
-            Expanded(
-              child: Stack(children: [
-                Container(
-                    decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color.fromARGB(255, 182, 237, 232),
-                      Color.fromARGB(255, 21, 45, 121),
-                    ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    stops: [0, 1],
-                  ),
-                )),
-                SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      AuthForm(
-                          executeAuth: _executeAuth, isLoading: _isLoading),
-                      const SizedBox(height: 25),
-                    ],
-                  ),
-                ),
-              ]),
-            )
-          ]),
+      body: StreamBuilder(
+          stream: _authInstance.authStateChanges(),
+          builder: (ctx, userSnapshot) {
+            if (userSnapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
+            }
+            if (userSnapshot.hasData) {
+              return const Center(
+                child: Text('You are logged in.'),
+              );
+            }
+            return MainAuthScreen(
+              executeAuth: _executeAuth,
+              isLoading: _isLoading,
+            );
+          }),
     );
+  }
+}
+
+class MainAuthScreen extends StatefulWidget {
+  final void Function(String email, String password, AuthMode authMode,
+      BuildContext context) executeAuth;
+  final bool isLoading;
+
+  const MainAuthScreen({
+    Key? key,
+    required this.executeAuth,
+    required this.isLoading,
+  }) : super(key: key);
+
+  @override
+  _MainAuthScreenState createState() => _MainAuthScreenState();
+}
+
+class _MainAuthScreenState extends State<MainAuthScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          const Image(
+              image: AssetImage('assets/images/newsshore_title.jpg'),
+              fit: BoxFit.cover,
+              height: 150),
+          Expanded(
+            child: Stack(children: [
+              Container(
+                  decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 182, 237, 232),
+                    Color.fromARGB(255, 21, 45, 121),
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0, 1],
+                ),
+              )),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    AuthForm(
+                        executeAuth: widget.executeAuth,
+                        isLoading: widget.isLoading),
+                    const SizedBox(height: 25),
+                  ],
+                ),
+              ),
+            ]),
+          )
+        ]);
   }
 }
