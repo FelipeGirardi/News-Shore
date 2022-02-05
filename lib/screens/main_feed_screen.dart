@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
 import '/widgets/news_cell_widget.dart';
+import '/widgets/loading_widget.dart';
 
 class MainFeedScreen extends StatefulWidget {
   const MainFeedScreen({Key? key}) : super(key: key);
@@ -66,7 +67,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                       newsProv.isLoadingNews ||
                       newsProv.newsList.isEmpty ||
                       snapshot.hasError
-                  ? const Center(child: CircularProgressIndicator.adaptive())
+                  ? const LoadingWidget()
                   : ListView.builder(
                       controller: scrollController,
                       physics: _willFetchNewsPage
@@ -119,7 +120,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       ),
       Center(
           child: _isLoadingPage
-              ? const CircularProgressIndicator.adaptive()
+              ? const LoadingWidget()
               : const SizedBox(
                   height: 0,
                 )),

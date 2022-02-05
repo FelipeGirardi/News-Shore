@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '/widgets/loading_widget.dart';
+
 enum AuthMode { signup, login }
 
 class AuthForm extends StatefulWidget {
@@ -42,7 +44,6 @@ class _AuthFormState extends State<AuthForm> {
             borderRadius: BorderRadius.circular(10.0),
           ),
           elevation: 8.0,
-          //margin: const EdgeInsets.all(10),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             child: Container(
@@ -107,11 +108,13 @@ class _AuthFormState extends State<AuthForm> {
                             height: 0,
                           ),
                     const Spacer(),
-                    ElevatedButton(
-                        onPressed: _submitAuth,
-                        child: Text(_authMode == AuthMode.signup
-                            ? 'Sign up'
-                            : 'Login')),
+                    widget.isLoading
+                        ? const LoadingWidget()
+                        : ElevatedButton(
+                            onPressed: _submitAuth,
+                            child: Text(_authMode == AuthMode.signup
+                                ? 'Sign up'
+                                : 'Login')),
                     TextButton(
                       onPressed: () {
                         setState(() {

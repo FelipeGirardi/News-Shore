@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '/models/news_data.dart';
 import '/providers/news_provider.dart';
 import '/widgets/news_cell_widget.dart';
+import '/widgets/loading_widget.dart';
 
 class SearchResultsScreen extends StatefulWidget {
   const SearchResultsScreen({Key? key, required this.query}) : super(key: key);
@@ -68,8 +69,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting ||
                     snapshot.data == null) {
-                  return const Center(
-                      child: CircularProgressIndicator.adaptive());
+                  return const LoadingWidget();
                 } else if (snapshot.hasError) {
                   return Container(
                     alignment: Alignment.center,
@@ -88,7 +88,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         ),
         Center(
             child: _isLoadingPage
-                ? const CircularProgressIndicator.adaptive()
+                ? const LoadingWidget()
                 : const SizedBox(
                     height: 0,
                   )),

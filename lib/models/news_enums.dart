@@ -394,3 +394,95 @@ int languageIndex(String code) {
       return 0;
   }
 }
+
+String getLangNameFromCode(String code) {
+  switch (code) {
+    case 'en':
+      return 'English';
+    case 'es':
+      return 'Spanish';
+    case 'de':
+      return 'German';
+    case 'fr':
+      return 'Frech';
+    case 'it':
+      return 'Italian';
+    case 'nl':
+      return 'Dutch';
+    case 'pl':
+      return 'Polish';
+    case 'hu':
+      return 'Hungarian';
+    case 'ar':
+      return 'Arabic';
+    case 'jp':
+      return 'Japanese';
+    case 'th':
+      return 'Thai';
+    case 'in':
+      return 'Indonesian';
+    default:
+      return 'English';
+  }
+}
+
+String getCountryNameFromCode(String code) {
+  switch (code) {
+    case 'all':
+      return 'All';
+    case 'ar':
+      return 'Argentina';
+    case 'au':
+      return 'Australia';
+    case 'be':
+      return 'Belgium';
+    case 'ca':
+      return 'Canada';
+    case 'cn':
+      return 'China';
+    case 'co':
+      return 'Colombia';
+    case 'eg':
+      return 'Egypt';
+    case 'fr':
+      return 'France';
+    case 'de':
+      return 'Germany';
+    case 'hu':
+      return 'Hungary';
+    case 'in':
+      return 'India';
+    case 'id':
+      return 'Indonesia';
+    case 'il':
+      return 'Israel';
+    case 'it':
+      return 'Italy';
+    case 'jp':
+      return 'Japan';
+    case 'mx':
+      return 'Mexico';
+    case 'nl':
+      return 'Netherlands';
+    case 'pk':
+      return 'Pakistan';
+    case 'pl':
+      return 'Poland';
+    case 'sa':
+      return 'Saudi Arabia';
+    case 'sg':
+      return 'Singapore';
+    case 'es':
+      return 'Spain';
+    case 'th':
+      return 'Thailand';
+    case 'ae':
+      return 'UAE';
+    case 'uk':
+      return 'United Kingdom';
+    case 'us':
+      return 'United States';
+    default:
+      return 'All';
+  }
+}

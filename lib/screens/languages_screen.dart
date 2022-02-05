@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '/providers/news_provider.dart';
 import '/models/news_enums.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '/widgets/loading_widget.dart';
 
 class LanguagesScreen extends StatefulWidget {
   const LanguagesScreen({Key? key}) : super(key: key);
@@ -30,9 +31,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none:
                     case ConnectionState.waiting:
-                      return const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      );
+                      return const LoadingWidget();
                     default:
                       if (!snapshot.hasError && snapshot.data != null) {
                         final SharedPreferences prefs = snapshot.data!;
@@ -70,9 +69,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                           ),
                         );
                       }
-                      return const Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      );
+                      return const LoadingWidget();
                   }
                 },
                 child: LanguageHeader(deviceSize: deviceSize)));

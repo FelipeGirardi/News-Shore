@@ -8,6 +8,7 @@ import '/providers/news_provider.dart';
 import '/screens/screen_navigator.dart';
 import '/screens/news_detail_screen.dart';
 import '/screens/bookmarks_screen.dart';
+import '/widgets/loading_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -61,9 +62,7 @@ class MyApp extends StatelessWidget {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
                   case ConnectionState.waiting:
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
+                    return const LoadingWidget();
                   default:
                     if (!snapshot.hasError) {
                       if (snapshot.data?.getBool('firstOpen') == null) {
@@ -86,9 +85,7 @@ class MyApp extends StatelessWidget {
                             },
                           ));
                     }
-                    return const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    );
+                    return LoadingWidget();
                 }
               });
         });

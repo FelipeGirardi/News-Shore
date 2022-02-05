@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
 import '/widgets/news_cell_widget.dart';
+import '/widgets/loading_widget.dart';
 
 class BookmarksScreen extends StatefulWidget {
   const BookmarksScreen({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
       builder: (context, snapshot) => Consumer<NewsProvider>(
         builder: (ctx, newsProv, child) =>
             snapshot.connectionState == ConnectionState.waiting
-                ? const Center(child: CircularProgressIndicator.adaptive())
+                ? const LoadingWidget()
                 : snapshot.hasError
                     ? Container(
                         alignment: Alignment.center,
