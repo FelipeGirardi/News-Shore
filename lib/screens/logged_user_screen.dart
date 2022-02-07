@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:newsshore/models/news_enums.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
@@ -10,8 +12,9 @@ import '/widgets/loading_widget.dart';
 class LoggedUserScreen extends StatelessWidget {
   const LoggedUserScreen({Key? key}) : super(key: key);
 
-  void _logout() {
-    FirebaseAuth.instance.signOut();
+  void _logout() async {
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
   }
 
   @override
@@ -61,10 +64,14 @@ class LoggedUserScreen extends StatelessWidget {
                                               const SizedBox(
                                                 width: 10,
                                               ),
-                                              Text(
+                                              AutoSizeText(
                                                 user?.email ?? 'E-mail',
+                                                presetFontSizes: const [
+                                                  18,
+                                                  21,
+                                                  25
+                                                ],
                                                 style: const TextStyle(
-                                                    fontSize: 25,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
@@ -100,7 +107,12 @@ class LoggedUserScreen extends StatelessWidget {
                                           const SizedBox(height: 50),
                                           ElevatedButton(
                                               onPressed: _logout,
-                                              child: const Text('Log out'),
+                                              child: const Text(
+                                                'Log out',
+                                                style: TextStyle(
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                               style: ElevatedButton.styleFrom(
                                                   primary: Colors.red)),
                                         ],
@@ -113,7 +125,7 @@ class LoggedUserScreen extends StatelessWidget {
                     );
                   }
               }
-              return LoadingWidget();
+              return const LoadingWidget();
             }));
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '/widgets/loading_widget.dart';
@@ -115,35 +116,37 @@ class _AuthFormState extends State<AuthForm> {
                             child: Text(_authMode == AuthMode.signup
                                 ? 'Sign up'
                                 : 'Login')),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _authMode = _authMode == AuthMode.signup
-                              ? AuthMode.login
-                              : AuthMode.signup;
-                        });
-                      },
-                      child: RichText(
-                          text: TextSpan(
-                        text: _authMode == AuthMode.signup
-                            ? 'Already a user?  '
-                            : 'Don\'t have an account?  ',
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Theme.of(context).colorScheme.onSurface),
-                        children: [
-                          TextSpan(
-                              text: _authMode == AuthMode.signup
-                                  ? 'Login'
-                                  : 'Sign up',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      Theme.of(context).colorScheme.primary)),
-                        ],
-                      )),
-                    ),
+                    const SizedBox(height: 10),
+                    RichText(
+                        text: TextSpan(
+                      text: _authMode == AuthMode.signup
+                          ? 'Already a user?  '
+                          : 'Don\'t have an account?  ',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Objectivity',
+                          color: Theme.of(context).colorScheme.onSurface),
+                      children: [
+                        TextSpan(
+                            text: _authMode == AuthMode.signup
+                                ? 'Login'
+                                : 'Sign up',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Objectivity',
+                                color: Theme.of(context).colorScheme.primary),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                setState(() {
+                                  _authMode = _authMode == AuthMode.signup
+                                      ? AuthMode.login
+                                      : AuthMode.signup;
+                                });
+                              }),
+                      ],
+                    )),
+                    const SizedBox(height: 15),
                   ],
                 ),
               ),

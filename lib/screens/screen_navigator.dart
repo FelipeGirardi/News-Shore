@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '/widgets/custom_app_bar.dart';
 import '/widgets/app_drawer.dart';
 import '/providers/news_provider.dart';
-import '/screens/main_feed_screen.dart';
+import '/screens/mock_main_feed_screen.dart';
 import '/screens/bookmarks_screen.dart';
 import '/screens/languages_screen.dart';
 import '/screens/auth_screen.dart';
@@ -20,7 +20,7 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
   int _selectedOption = 0;
   // ignore: prefer_final_fields
   List<Widget> _bottomNavBarOptions = <Widget>[
-    const MainFeedScreen(),
+    const MockMainFeedScreen(),
     const BookmarksScreen(),
     const LanguagesScreen(),
     const AuthScreen()
