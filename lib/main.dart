@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import '/providers/news_provider.dart';
@@ -9,8 +10,10 @@ import '/screens/screen_navigator.dart';
 import '/screens/news_detail_screen.dart';
 import '/screens/bookmarks_screen.dart';
 import '/widgets/loading_widget.dart';
+import '/providers/auth_provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -70,8 +73,23 @@ class MyApp extends StatelessWidget {
                         snapshot.data?.setString('language', 'en');
                         snapshot.data?.setString('country', 'all');
                       }
-                      return ChangeNotifierProvider<NewsProvider>(
-                          create: (ctx) => NewsProvider(),
+                      return MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider<NewsProvider>(
+                                create: (ctx) => NewsProvider()),
+                            ChangeNotifierProvider(
+                              create: (ctx) =>
+                                  AuthProvider(FirebaseAuth.instance),
+                            ),
+                            StreamProvider(
+                              create: (BuildContext context) {
+                                return context
+                                    .read<AuthProvider>()
+                                    .authStateChanges;
+                              },
+                              initialData: null,
+                            )
+                          ],
                           child: MaterialApp(
                             title: 'News Shore',
                             theme: lightThemeData,

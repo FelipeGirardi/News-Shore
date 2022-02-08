@@ -111,12 +111,20 @@ class _AuthFormState extends State<AuthForm> {
                     const Spacer(),
                     widget.isLoading
                         ? const LoadingWidget()
-                        : ElevatedButton(
-                            onPressed: _submitAuth,
-                            child: Text(_authMode == AuthMode.signup
-                                ? 'Sign up'
-                                : 'Login')),
-                    const SizedBox(height: 10),
+                        : SizedBox(
+                            width: deviceSize.width * 0.4,
+                            child: ElevatedButton(
+                                onPressed: _submitAuth,
+                                child: Text(
+                                  _authMode == AuthMode.signup
+                                      ? 'Sign up'
+                                      : 'Login',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                )),
+                          ),
+                    const SizedBox(height: 15),
                     RichText(
                         text: TextSpan(
                       text: _authMode == AuthMode.signup

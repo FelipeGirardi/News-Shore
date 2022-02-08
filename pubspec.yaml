@@ -46,6 +46,8 @@ dependencies:
   uuid: ^3.0.5
   flutter_svg: ^1.0.3
   google_sign_in: ^5.2.3
+  sign_in_with_apple: ^3.3.0
+  crypto: ^3.0.1
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +76,7 @@ flutter:
     - assets/images/newsshore_logo.jpg
     - assets/images/newsshore_title.jpg
     - assets/images/newsshore_title.png
+    - assets/images/newsshore_title_only.png
     - assets/images/google_logo.png
     - assets/images/flags/globe.svg
     - assets/images/flags/ae.svg
@@ -122,9 +125,9 @@ flutter:
         - asset: assets/fonts/Objectivity-Light.otf
     - family: Roboto
       fonts:
-        - asset: assets/fonts/Roboto-Regular.otf
-        - asset: assets/fonts/Roboto-Bold.otf
-        - asset: assets/fonts/Roboto-Light.otf
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto-Light.ttf
 
   #
   # For details regarding fonts from package dependencies,

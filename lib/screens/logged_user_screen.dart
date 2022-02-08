@@ -53,7 +53,7 @@ class LoggedUserScreen extends StatelessWidget {
                                     child: Align(
                                       child: Column(
                                         children: [
-                                          Row(
+                                          Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
@@ -62,15 +62,13 @@ class LoggedUserScreen extends StatelessWidget {
                                                 size: 36,
                                               ),
                                               const SizedBox(
-                                                width: 10,
+                                                height: 10,
                                               ),
                                               AutoSizeText(
-                                                user?.email ?? 'E-mail',
-                                                presetFontSizes: const [
-                                                  18,
-                                                  21,
-                                                  25
-                                                ],
+                                                user?.displayName ??
+                                                    user?.email ??
+                                                    'E-mail',
+                                                textScaleFactor: 1.5,
                                                 style: const TextStyle(
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -119,7 +117,6 @@ class LoggedUserScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ))),
-                          const Spacer(),
                         ],
                       ),
                     );
