@@ -47,11 +47,11 @@ class _AuthFormState extends State<AuthForm> {
           elevation: 8.0,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-            child: Container(
-              height: _authMode == AuthMode.signup ? 325 : 265,
+            child: SizedBox(
+              height: _authMode == AuthMode.signup
+                  ? deviceSize.height * 0.42
+                  : deviceSize.height * 0.37,
               width: deviceSize.width * 0.75,
-              constraints: BoxConstraints(
-                  minHeight: _authMode == AuthMode.signup ? 325 : 265),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -124,7 +124,7 @@ class _AuthFormState extends State<AuthForm> {
                                       fontSize: 16),
                                 )),
                           ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
                     RichText(
                         text: TextSpan(
                       text: _authMode == AuthMode.signup
@@ -154,7 +154,7 @@ class _AuthFormState extends State<AuthForm> {
                               }),
                       ],
                     )),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
