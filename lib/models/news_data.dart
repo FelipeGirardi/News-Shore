@@ -31,6 +31,7 @@ class NewsData {
   });
 
   factory NewsData.fromJson(Map<String, dynamic> json) {
+    final pubDateSplit = json['pubDate'].split(' ');
     return NewsData(
       id: const Uuid().v4(),
       title: json['title'],
@@ -40,8 +41,11 @@ class NewsData {
       videoUrl: json['video_url'],
       description: json['description'],
       content: json['content'],
-      pubDate: DateFormat("dd-MM-yyyy")
-          .format(DateTime.parse(json['pubDate'].split(' ')[0])),
+      pubDate:
+          DateFormat("dd-MM-yyyy").format(DateTime.parse(pubDateSplit[0])) +
+              ', ' +
+              pubDateSplit[1] +
+              ' GMT',
       fullDescription: json['full_description'],
       imageUrl: json['image_url'],
       sourceId: json['source_id'],

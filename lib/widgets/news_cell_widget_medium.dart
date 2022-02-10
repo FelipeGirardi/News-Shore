@@ -122,6 +122,7 @@ class _TitleAndSourceWidgetMediumState
                   AutoSizeText(
                     widget.newsData?.sourceId ?? '',
                     presetFontSizes: const [12],
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const Spacer(),
                   InkWell(

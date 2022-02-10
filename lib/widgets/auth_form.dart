@@ -20,12 +20,24 @@ class AuthForm extends StatefulWidget {
   State<AuthForm> createState() => _AuthFormState();
 }
 
-class _AuthFormState extends State<AuthForm> {
+class _AuthFormState extends State<AuthForm>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   AuthMode _authMode = AuthMode.signup;
   String _email = '';
   String _password = '';
   final _passwordController = TextEditingController();
+  late AnimationController _animationController;
+  late Animation<double> _opacityAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 300));
+    _opacityAnimation = Tween(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+        parent: _animationController, curve: Curves.fastOutSlowIn));
+  }
 
   void _submitAuth() {
     final isAuthValid = _formKey.currentState!.validate();
@@ -47,7 +59,9 @@ class _AuthFormState extends State<AuthForm> {
           elevation: 8.0,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-            child: SizedBox(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeIn,
               height: _authMode == AuthMode.signup
                   ? deviceSize.height * 0.42
                   : deviceSize.height * 0.37,
@@ -89,25 +103,29 @@ class _AuthFormState extends State<AuthForm> {
                       decoration: const InputDecoration(labelText: 'Password'),
                       obscureText: true,
                     ),
-                    _authMode == AuthMode.signup
-                        ? TextFormField(
-                            key: const ValueKey('confirmPassword'),
-                            enabled: _authMode == AuthMode.signup,
-                            decoration: const InputDecoration(
-                                labelText: 'Confirm Password'),
-                            obscureText: true,
-                            validator: _authMode == AuthMode.signup
-                                ? (value) {
-                                    if (value != _passwordController.text) {
-                                      return 'Passwords do not match.';
+                    AnimatedContainer(
+                      constraints: BoxConstraints(
+                          minHeight: _authMode == AuthMode.signup ? 60 : 0,
+                          maxHeight: _authMode == AuthMode.signup ? 120 : 0),
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeIn,
+                      child: FadeTransition(
+                          opacity: _opacityAnimation,
+                          child: TextFormField(
+                              key: const ValueKey('confirmPassword'),
+                              enabled: _authMode == AuthMode.signup,
+                              decoration: const InputDecoration(
+                                  labelText: 'Confirm Password'),
+                              obscureText: true,
+                              validator: _authMode == AuthMode.signup
+                                  ? (value) {
+                                      if (value != _passwordController.text) {
+                                        return 'Passwords do not match.';
+                                      }
+                                      return null;
                                     }
-                                    return null;
-                                  }
-                                : null,
-                          )
-                        : const SizedBox(
-                            height: 0,
-                          ),
+                                  : null)),
+                    ),
                     const Spacer(),
                     widget.isLoading
                         ? const LoadingWidget()

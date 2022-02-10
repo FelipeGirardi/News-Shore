@@ -42,7 +42,7 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                         return Scaffold(
                           body: Column(
                             children: [
-                              child ?? const SizedBox(height: 0),
+                              child ?? Container(),
                               Expanded(
                                 child: Row(
                                   children: [
@@ -92,37 +92,32 @@ class LanguageHeader extends StatelessWidget {
                 child: Row(
               children: [
                 Expanded(
-                  child: SizedBox(
-                    child: ListTile(
-                        title: Center(
-                      child: Text('Language',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.onSurface)),
-                    )),
-                  ),
+                  child: ListTile(
+                      title: Center(
+                    child: Text('Language',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onSurface)),
+                  )),
                 ),
                 VerticalDivider(
                   width: 1,
                   color: Theme.of(context).colorScheme.primary,
                 ),
                 Expanded(
-                  child: SizedBox(
-                    child: ListTile(
-                        title: Center(
-                      child: Text('Country',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.onSurface)),
-                    )),
-                  ),
+                  child: ListTile(
+                      title: Center(
+                    child: Text('Country',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.onSurface)),
+                  )),
                 ),
               ],
             ))),
         Divider(
-          //thickness: 2,
           height: 1,
           color: Theme.of(context).colorScheme.primary,
         ),
@@ -152,33 +147,50 @@ class LanguagesListWidget extends StatelessWidget {
       child: ListView.builder(
           controller: _firstController,
           shrinkWrap: true,
-          padding: const EdgeInsets.only(bottom: 10),
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: languagesList.length,
           itemBuilder: (BuildContext context, int index) {
             final lang = languagesList[index];
-            return ListTile(
-                horizontalTitleGap: 5,
-                leading: SvgPicture.asset(
-                  lang.languageIcon,
-                  width: 25,
-                  height: 25,
-                ),
-                trailing: lang.languageCode == provider.currentLang
-                    ? Icon(
-                        Icons.keyboard_arrow_right,
-                        color: Theme.of(context).colorScheme.background,
+            return Column(
+              children: [
+                ListTile(
+                    horizontalTitleGap: 5,
+                    contentPadding:
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
+                    leading: SvgPicture.asset(
+                      lang.languageIcon,
+                      width: 25,
+                      height: 25,
+                    ),
+                    trailing: lang.languageCode == provider.currentLang
+                        ? Icon(
+                            Icons.keyboard_arrow_right,
+                            color: Theme.of(context).colorScheme.background,
+                          )
+                        : null,
+                    title: Text(languagesList[index].name),
+                    tileColor: lang.languageCode == provider.currentLang
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+                    textColor: lang.languageCode == provider.currentLang
+                        ? Theme.of(context).colorScheme.background
+                        : null,
+                    onTap: () => provider.setLanguagePref(
+                        prefs, languagesList[index].languageCode)),
+                (index == (languagesList.length - 1) ||
+                        lang.languageCode == provider.currentLang ||
+                        languagesList[index + 1].languageCode ==
+                            provider.currentLang)
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Divider(
+                          height: 1,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       )
-                    : null,
-                title: Text(languagesList[index].name),
-                tileColor: lang.languageCode == provider.currentLang
-                    ? Theme.of(context).colorScheme.primary
-                    : null,
-                textColor: lang.languageCode == provider.currentLang
-                    ? Theme.of(context).colorScheme.background
-                    : null,
-                onTap: () => provider.setLanguagePref(
-                    prefs, languagesList[index].languageCode));
+              ],
+            );
           }),
     );
   }
@@ -209,26 +221,47 @@ class CountriesListWidget extends StatelessWidget {
         child: ListView.builder(
             controller: _secondController,
             shrinkWrap: true,
-            padding: const EdgeInsets.only(bottom: 10),
             itemCount: languagesList[langIndex].countryLanguage.length,
             itemBuilder: (BuildContext context, int index) {
               final country = languagesList[langIndex].countryLanguage[index];
-              return ListTile(
-                  horizontalTitleGap: 5,
-                  leading: SvgPicture.asset(
-                    country.countryIcon,
-                    width: 25,
-                    height: 25,
-                  ),
-                  title: Text(country.fullCountryName),
-                  tileColor: country.countryCode == provider.currentCountry
-                      ? Theme.of(context).colorScheme.primary
-                      : null,
-                  textColor: country.countryCode == provider.currentCountry
-                      ? Theme.of(context).colorScheme.background
-                      : null,
-                  onTap: () =>
-                      provider.setCountryPref(prefs, country.countryCode));
+              return Column(
+                children: [
+                  ListTile(
+                      horizontalTitleGap: 5,
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 5, horizontal: 16),
+                      leading: SvgPicture.asset(
+                        country.countryIcon,
+                        width: 25,
+                        height: 25,
+                      ),
+                      title: Text(country.fullCountryName),
+                      tileColor: country.countryCode == provider.currentCountry
+                          ? Theme.of(context).colorScheme.primary
+                          : null,
+                      textColor: country.countryCode == provider.currentCountry
+                          ? Theme.of(context).colorScheme.background
+                          : null,
+                      onTap: () =>
+                          provider.setCountryPref(prefs, country.countryCode)),
+                  (index ==
+                              (languagesList[langIndex].countryLanguage.length -
+                                  1) ||
+                          country.countryCode == provider.currentCountry ||
+                          languagesList[langIndex]
+                                  .countryLanguage[index + 1]
+                                  .countryCode ==
+                              provider.currentCountry)
+                      ? Container()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Divider(
+                            height: 1,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        )
+                ],
+              );
             }),
       ),
     );

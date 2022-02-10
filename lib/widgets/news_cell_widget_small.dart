@@ -75,9 +75,13 @@ class _TitleAndSourceWidgetSmallState extends State<TitleAndSourceWidgetSmall> {
                 size: 11,
               ),
               const SizedBox(width: 10),
-              AutoSizeText(
-                widget.newsData?.sourceId ?? '',
-                presetFontSizes: const [11],
+              Container(
+                constraints: const BoxConstraints(maxWidth: 100),
+                child: AutoSizeText(
+                  widget.newsData?.sourceId ?? '',
+                  presetFontSizes: const [11],
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               const Spacer(),
               InkWell(

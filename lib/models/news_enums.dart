@@ -30,7 +30,6 @@ enum NewsCountry {
   Germany,
   Hungary,
   India,
-  Indonesia,
   Israel,
   Italy,
   Japan,
@@ -74,8 +73,6 @@ extension NewsCountryExtension on NewsCountry {
         return 'hu';
       case NewsCountry.India:
         return 'in';
-      case NewsCountry.Indonesia:
-        return 'id';
       case NewsCountry.Israel:
         return 'il';
       case NewsCountry.Italy:
@@ -135,8 +132,6 @@ extension NewsCountryExtension on NewsCountry {
         return 'Hungary';
       case NewsCountry.India:
         return 'India';
-      case NewsCountry.Indonesia:
-        return 'indonesia';
       case NewsCountry.Israel:
         return 'Israel';
       case NewsCountry.Italy:
@@ -224,8 +219,6 @@ extension NewsCountryExtension on NewsCountry {
         return 'assets/images/flags/jp.svg';
       case NewsCountry.Thailand:
         return 'assets/images/flags/th.svg';
-      case NewsCountry.Indonesia:
-        return 'assets/images/flags/id.svg';
       default:
         return 'assets/images/flags/gb.svg';
     }
@@ -244,7 +237,6 @@ enum NewsLanguage {
   Arabic,
   Japanese,
   Thai,
-  Indonesian
 }
 
 extension NewsLanguageExtension on NewsLanguage {
@@ -272,8 +264,6 @@ extension NewsLanguageExtension on NewsLanguage {
         return 'jp';
       case NewsLanguage.Thai:
         return 'th';
-      case NewsLanguage.Indonesian:
-        return 'in';
       default:
         return 'en';
     }
@@ -303,8 +293,6 @@ extension NewsLanguageExtension on NewsLanguage {
         return 'assets/images/flags/jp.svg';
       case NewsLanguage.Thai:
         return 'assets/images/flags/th.svg';
-      case NewsLanguage.Indonesian:
-        return 'assets/images/flags/id.svg';
       default:
         return 'assets/images/flags/gb.svg';
     }
@@ -356,8 +344,6 @@ extension NewsLanguageExtension on NewsLanguage {
         return [NewsCountry.All, NewsCountry.Japan];
       case NewsLanguage.Thai:
         return [NewsCountry.All, NewsCountry.Thailand];
-      case NewsLanguage.Indonesian:
-        return [NewsCountry.All, NewsCountry.Indonesia];
       default:
         return [];
     }
@@ -419,8 +405,6 @@ String getLangNameFromCode(String code) {
       return 'Japanese';
     case 'th':
       return 'Thai';
-    case 'in':
-      return 'Indonesian';
     default:
       return 'English';
   }
@@ -452,8 +436,6 @@ String getCountryNameFromCode(String code) {
       return 'Hungary';
     case 'in':
       return 'India';
-    case 'id':
-      return 'Indonesia';
     case 'il':
       return 'Israel';
     case 'it':

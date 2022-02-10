@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
@@ -63,28 +64,31 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
             ),
           ),
           Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
                 if (newsData.keywords != null)
                   Column(children: [
                     Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
-                          newsData.keywords!.join(', '),
+                        child: AutoSizeText(
+                          newsData.keywords!.take(5).join(', '),
+                          maxLines: 1,
+                          presetFontSizes: const [13],
+                          overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
                               height: 1.5),
                         )),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 15),
                   ]),
                 Text(
                   newsData.title ?? '',
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 24, height: 1.3),
+                      fontWeight: FontWeight.bold, fontSize: 22, height: 1.4),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 25),
                 Row(
                   children: [
                     Column(
@@ -94,71 +98,76 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           children: [
                             const Icon(
                               Icons.library_books,
-                              size: 14,
+                              size: 15,
                             ),
                             const SizedBox(width: 10),
                             Text(newsData.sourceId ?? '',
-                                style: const TextStyle(fontSize: 14)),
+                                style: const TextStyle(fontSize: 15)),
                           ],
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 15),
                         Row(children: [
                           const Icon(
                             Icons.access_time,
-                            size: 14,
+                            size: 15,
                           ),
                           const SizedBox(width: 10),
                           Text(newsData.pubDate ?? '',
                               textAlign: TextAlign.left,
-                              style: const TextStyle(fontSize: 14))
+                              style: const TextStyle(fontSize: 15))
                         ]),
                       ],
                     ),
                     const Spacer(),
-                    InkWell(
-                      child: Icon(
-                        isFavorite ? Icons.bookmark : Icons.bookmark_border,
-                        size: 24,
-                        color: isFavorite ? Colors.yellow : null,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5),
+                      child: InkWell(
+                        child: Icon(
+                          isFavorite ? Icons.bookmark : Icons.bookmark_border,
+                          size: 28,
+                          color: isFavorite ? Colors.yellow : null,
+                        ),
+                        onTap: () {
+                          setState(() {
+                            isFavorite
+                                ? Provider.of<NewsProvider>(context,
+                                        listen: false)
+                                    .removeBookmark(newsData)
+                                : Provider.of<NewsProvider>(context,
+                                        listen: false)
+                                    .addBookmark(newsData);
+                          });
+                        },
                       ),
-                      onTap: () {
-                        setState(() {
-                          isFavorite
-                              ? Provider.of<NewsProvider>(context,
-                                      listen: false)
-                                  .removeBookmark(newsData)
-                              : Provider.of<NewsProvider>(context,
-                                      listen: false)
-                                  .addBookmark(newsData);
-                        });
-                      },
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 25),
                 Text(
                   newsData.fullDescription ??
                       newsData.content ??
                       newsData.description ??
                       '',
-                  style: const TextStyle(fontSize: 14, height: 1.5),
+                  style: const TextStyle(fontSize: 15, height: 1.75),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 Row(
                   children: [
                     const Spacer(),
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).colorScheme.primary),
+                            primary: Theme.of(context).colorScheme.primary,
+                            minimumSize: const Size(100, 50)),
                         onPressed: () => _launchNewsUrl(newsData.link ?? ''),
                         child: const Text(
                           'See full news',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
                         )),
                     const Spacer()
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
               ])),
         ]),
       ),

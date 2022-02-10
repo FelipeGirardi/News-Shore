@@ -103,7 +103,7 @@ class MyApp extends StatelessWidget {
                             },
                           ));
                     }
-                    return LoadingWidget();
+                    return const LoadingWidget();
                 }
               });
         });

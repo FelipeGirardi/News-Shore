@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '/providers/news_provider.dart';
 import '/models/news_data.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 
 class NewsCellWidgetLarge extends StatelessWidget {
   final BuildContext? ctx;
@@ -60,7 +60,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
           children: [
             const Spacer(),
             AutoSizeText(widget.newsData?.title ?? '',
-                presetFontSizes: const [17],
+                presetFontSizes: const [18],
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -90,6 +90,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
                 const SizedBox(width: 10),
                 AutoSizeText(widget.newsData?.sourceId ?? '',
                     presetFontSizes: const [14],
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.background)),
                 const Spacer(),

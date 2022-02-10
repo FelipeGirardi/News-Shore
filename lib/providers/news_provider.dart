@@ -7,7 +7,7 @@ import '/models/news_response.dart';
 import '/models/news_data.dart';
 import '/helpers/sql_helper.dart';
 
-String apiKey = "pub_3162ee115d2cfdf10b4bb42c76aca12b66fd";
+String apiKey = 'pub_3162ee115d2cfdf10b4bb42c76aca12b66fd';
 
 class NewsProvider with ChangeNotifier {
   // ignore: prefer_final_fields
