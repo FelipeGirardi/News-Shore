@@ -77,7 +77,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           presetFontSizes: const [13],
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               fontSize: 13,
                               height: 1.5),
                         )),
