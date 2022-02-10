@@ -48,6 +48,7 @@ dependencies:
   google_sign_in: ^5.2.3
   sign_in_with_apple: ^3.3.0
   crypto: ^3.0.1
+  video_player: ^2.2.18
 
 dev_dependencies:
   flutter_test:

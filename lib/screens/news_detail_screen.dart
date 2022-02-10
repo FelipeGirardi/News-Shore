@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
 import '/widgets/custom_app_bar.dart';
 import '/models/news_data.dart';
 import '/models/news_detail_arguments.dart';
+import '/widgets/loading_widget.dart';
 
 class NewsDetailScreen extends StatefulWidget {
   const NewsDetailScreen({Key? key}) : super(key: key);
@@ -17,11 +19,12 @@ class NewsDetailScreen extends StatefulWidget {
 }
 
 class _NewsDetailScreenState extends State<NewsDetailScreen> {
+  // https://vcl.abcotv.net/video/kgo/021022-kgo-745am-bart-budget-vid.mp4
+
   _launchNewsUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      // can't launch url, there is some error
       throw "Could not launch $url";
     }
   }
@@ -81,12 +84,12 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                               fontSize: 13,
                               height: 1.5),
                         )),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 10),
                   ]),
                 Text(
                   newsData.title ?? '',
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 22, height: 1.4),
+                      fontWeight: FontWeight.bold, fontSize: 22, height: 1.3),
                 ),
                 const SizedBox(height: 25),
                 Row(
@@ -143,6 +146,11 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                   ],
                 ),
                 const SizedBox(height: 25),
+                newsData.videoUrl != null
+                    ? NewsVideoWidget(
+                        videoUrl: newsData.videoUrl!,
+                      )
+                    : Container(),
                 Text(
                   newsData.fullDescription ??
                       newsData.content ??
@@ -171,6 +179,56 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               ])),
         ]),
       ),
+    );
+  }
+}
+
+class NewsVideoWidget extends StatefulWidget {
+  final String videoUrl;
+  const NewsVideoWidget({Key? key, required this.videoUrl}) : super(key: key);
+
+  @override
+  _NewsVideoWidgetState createState() => _NewsVideoWidgetState();
+}
+
+class _NewsVideoWidgetState extends State<NewsVideoWidget> {
+  late VideoPlayerController _controller;
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.videoUrl)
+      ..initialize().then((_) {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        AspectRatio(
+          aspectRatio: _controller.value.aspectRatio,
+          child: InkWell(
+            child: VideoPlayer(_controller),
+            onTap: () {
+              setState(() {
+                if (_controller.value.isPlaying) {
+                  _controller.pause();
+                } else {
+                  _controller.play();
+                }
+              });
+            },
+          ),
+        ),
+        const SizedBox(height: 25),
+      ],
     );
   }
 }
