@@ -8,7 +8,6 @@ import '/providers/news_provider.dart';
 import '/widgets/custom_app_bar.dart';
 import '/models/news_data.dart';
 import '/models/news_detail_arguments.dart';
-import '/widgets/loading_widget.dart';
 
 class NewsDetailScreen extends StatefulWidget {
   const NewsDetailScreen({Key? key}) : super(key: key);
@@ -91,7 +90,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 22, height: 1.3),
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 15),
                 Row(
                   children: [
                     Column(
@@ -101,23 +100,23 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           children: [
                             const Icon(
                               Icons.library_books,
-                              size: 15,
+                              size: 13,
                             ),
                             const SizedBox(width: 10),
                             Text(newsData.sourceId ?? '',
-                                style: const TextStyle(fontSize: 15)),
+                                style: const TextStyle(fontSize: 13)),
                           ],
                         ),
                         const SizedBox(height: 15),
                         Row(children: [
                           const Icon(
                             Icons.access_time,
-                            size: 15,
+                            size: 13,
                           ),
                           const SizedBox(width: 10),
                           Text(newsData.pubDate ?? '',
                               textAlign: TextAlign.left,
-                              style: const TextStyle(fontSize: 15))
+                              style: const TextStyle(fontSize: 13))
                         ]),
                       ],
                     ),
@@ -145,7 +144,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 25),
+                const SizedBox(height: 20),
                 newsData.videoUrl != null
                     ? NewsVideoWidget(
                         videoUrl: newsData.videoUrl!,
@@ -193,6 +192,7 @@ class NewsVideoWidget extends StatefulWidget {
 
 class _NewsVideoWidgetState extends State<NewsVideoWidget> {
   late VideoPlayerController _controller;
+
   @override
   void initState() {
     super.initState();
@@ -212,20 +212,31 @@ class _NewsVideoWidgetState extends State<NewsVideoWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AspectRatio(
-          aspectRatio: _controller.value.aspectRatio,
-          child: InkWell(
-            child: VideoPlayer(_controller),
-            onTap: () {
-              setState(() {
-                if (_controller.value.isPlaying) {
-                  _controller.pause();
-                } else {
-                  _controller.play();
-                }
-              });
-            },
-          ),
+        InkWell(
+          child: Stack(alignment: Alignment.center, children: [
+            SizedBox(
+              height: 200,
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: VideoPlayer(_controller),
+              ),
+            ),
+            !_controller.value.isPlaying
+                ? const Icon(
+                    Icons.play_arrow,
+                    size: 72,
+                  )
+                : Container(),
+          ]),
+          onTap: () {
+            setState(() {
+              if (_controller.value.isPlaying) {
+                _controller.pause();
+              } else {
+                _controller.play();
+              }
+            });
+          },
         ),
         const SizedBox(height: 25),
       ],
