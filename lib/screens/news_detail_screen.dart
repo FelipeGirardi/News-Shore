@@ -18,7 +18,7 @@ class NewsDetailScreen extends StatefulWidget {
 }
 
 class _NewsDetailScreenState extends State<NewsDetailScreen> {
-  // https://vcl.abcotv.net/video/kgo/021022-kgo-745am-bart-budget-vid.mp4
+  // Test video: https://vcl.abcotv.net/video/kgo/021022-kgo-745am-bart-budget-vid.mp4
 
   _launchNewsUrl(String url) async {
     if (await canLaunch(url)) {

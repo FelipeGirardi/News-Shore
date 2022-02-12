@@ -19,8 +19,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   bool _willFetchNewsPage = false;
 
   Future<void> _setNewsProvider() async {
-    return await Provider.of<NewsProvider>(context, listen: false)
-        .fetchNewsPage();
+    return await Provider.of<NewsProvider>(context, listen: false).fetchNews();
   }
 
   @override
@@ -47,7 +46,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       setState(() {
         _isLoadingPage = true;
       });
-      await provider.fetchNewsPage();
+      await provider.fetchNews();
       setState(() {
         _isLoadingPage = false;
       });

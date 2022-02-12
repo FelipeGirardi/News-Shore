@@ -22,7 +22,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
 
   Future<List<NewsData?>?>? _setNewsProvider() async {
     return await Provider.of<NewsProvider>(context, listen: false)
-        .fetchSearchNewsPage(widget.query);
+        .fetchSearchNews(widget.query);
   }
 
   @override
@@ -50,7 +50,7 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
         _isLoadingPage = true;
       });
       await Provider.of<NewsProvider>(context, listen: false)
-          .fetchSearchNewsPage(widget.query);
+          .fetchSearchNews(widget.query);
       setState(() {
         _isLoadingPage = false;
       });

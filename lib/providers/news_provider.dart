@@ -77,71 +77,86 @@ class NewsProvider with ChangeNotifier {
           : _isFilterSelected = true;
       isLoadingNews = true;
       notifyListeners();
-      await fetchNewsPage();
+      await fetchNews();
     }
   }
 
-  Future<void> fetchNewsPage() async {
+  Future<void> fetchNewsPage(String language, String country) async {
+    final String urlString = country == 'all'
+        ? (_isFilterSelected
+            ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$nextPage&category=' +
+                filtersSelected.join(',')
+            : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$nextPage&category=top')
+        : (_isFilterSelected
+            ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$nextPage&category=' +
+                filtersSelected.join(',')
+            : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$nextPage&category=top');
+    final response = await http.get(Uri.parse(urlString));
+    if (response.statusCode == 200) {
+      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+      final initialNewsResponse = NewsResponse.fromJson(decoded);
+      _totalNews = initialNewsResponse.totalResults ?? 0;
+      if (initialNewsResponse.nextPage == null) {
+        _isLastPage = true;
+      }
+      _newsList.addAll(initialNewsResponse.results!
+          .map((i) => NewsData.fromJson(i))
+          .toList());
+    }
+  }
+
+  Future<void> fetchNews() async {
     final prefs = await SharedPreferences.getInstance();
     final String language = prefs.getString('language') ?? '';
     final String country = prefs.getString('country') ?? '';
+    // get 2 pages (20 news)
     if (_newsList.length <= _totalNews) {
-      final String urlString = country == 'all'
-          ? (_isFilterSelected
-              ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$nextPage&category=' +
-                  filtersSelected.join(',')
-              : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$nextPage&category=top')
-          : (_isFilterSelected
-              ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$nextPage&category=' +
-                  filtersSelected.join(',')
-              : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$nextPage&category=top');
-      final response = await http.get(Uri.parse(urlString));
-      if (response.statusCode == 200) {
-        final decoded = jsonDecode(utf8.decode(response.bodyBytes));
-        final initialNewsResponse = NewsResponse.fromJson(decoded);
-        _totalNews = initialNewsResponse.totalResults ?? 0;
-        if (initialNewsResponse.nextPage == null) {
-          _isLastPage = true;
-        }
-        _nextPage = initialNewsResponse.nextPage ?? _nextPage;
-        _newsList.addAll(initialNewsResponse.results!
-            .map((i) => NewsData.fromJson(i))
-            .toList());
-        isLoadingNews = false;
-        notifyListeners();
-      } else {
-        throw Exception('Failed to load news');
+      for (var i = 0; i < 2; i++) {
+        await fetchNewsPage(language, country);
+        _nextPage += 1;
       }
+      isLoadingNews = false;
+      notifyListeners();
+    } else {
+      throw Exception('Failed to load news');
     }
   }
 
-  Future<List<NewsData?>?> fetchSearchNewsPage(String query) async {
+  Future<void> fetchSearchNewsPage(
+      String language, String country, String query) async {
+    final String urlString = country == 'all'
+        ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$_searchNextPage&qInTitle=$query'
+        : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$_searchNextPage&qInTitle=$query';
+    final response = await http.get(Uri.parse(urlString));
+    if (response.statusCode == 200) {
+      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+      final initialNewsResponse = NewsResponse.fromJson(decoded);
+      _searchTotalNews = initialNewsResponse.totalResults ?? 0;
+      if (initialNewsResponse.nextPage == null) {
+        _isLastSearchPage = true;
+      }
+      _searchNextPage = initialNewsResponse.nextPage ?? _searchNextPage;
+      _searchNewsList.addAll(initialNewsResponse.results!
+          .map((i) => NewsData.fromJson(i))
+          .toList());
+    }
+  }
+
+  Future<List<NewsData?>?> fetchSearchNews(String query) async {
     final prefs = await SharedPreferences.getInstance();
     final String language = prefs.getString('language') ?? '';
     final String country = prefs.getString('country') ?? '';
     if (_searchNewsList.length <= _searchTotalNews) {
-      final String urlString = country == 'all'
-          ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$_searchNextPage&qInTitle=$query'
-          : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$_searchNextPage&qInTitle=$query';
-      final response = await http.get(Uri.parse(urlString));
-      if (response.statusCode == 200) {
-        final decoded = jsonDecode(utf8.decode(response.bodyBytes));
-        final initialNewsResponse = NewsResponse.fromJson(decoded);
-        _searchTotalNews = initialNewsResponse.totalResults ?? 0;
-        if (initialNewsResponse.nextPage == null) {
-          _isLastSearchPage = true;
-        }
-        _searchNextPage = initialNewsResponse.nextPage ?? _searchNextPage;
-        _searchNewsList.addAll(initialNewsResponse.results!
-            .map((i) => NewsData.fromJson(i))
-            .toList());
-        notifyListeners();
-        return _searchNewsList;
-      } else {
-        throw Exception('Failed to load news');
+      // get 2 pages (20 news)
+      for (var i = 0; i < 2; i++) {
+        await fetchSearchNewsPage(language, country, query);
+        _searchNextPage += 1;
       }
+      notifyListeners();
+      return _searchNewsList;
+    } else {
+      throw Exception('Failed to load news');
     }
-    return null;
   }
 
   void clearSearchNewsList() {
