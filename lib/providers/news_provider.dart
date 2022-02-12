@@ -109,7 +109,7 @@ class NewsProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final String language = prefs.getString('language') ?? '';
     final String country = prefs.getString('country') ?? '';
-    // get 2 pages (20 news)
+    // fetch 2 pages (20 news)
     if (_newsList.length <= _totalNews) {
       for (var i = 0; i < 2; i++) {
         await fetchNewsPage(language, country);
@@ -147,7 +147,7 @@ class NewsProvider with ChangeNotifier {
     final String language = prefs.getString('language') ?? '';
     final String country = prefs.getString('country') ?? '';
     if (_searchNewsList.length <= _searchTotalNews) {
-      // get 2 pages (20 news)
+      // fetch 2 pages (20 news)
       for (var i = 0; i < 2; i++) {
         await fetchSearchNewsPage(language, country, query);
         _searchNextPage += 1;
