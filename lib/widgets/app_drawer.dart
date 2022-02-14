@@ -22,11 +22,10 @@ class _AppDrawerState extends State<AppDrawer> {
           ? setState(() {
               newsProvider.filtersSelected.remove(categoryName);
             })
-          : newsProvider.filtersSelected.length < 5
-              ? setState(() {
-                  newsProvider.filtersSelected.add(categoryName);
-                })
-              : null;
+          : setState(() {
+              newsProvider.filtersSelected.clear();
+              newsProvider.filtersSelected.add(categoryName);
+            });
     }
 
     return Drawer(
@@ -54,15 +53,6 @@ class _AppDrawerState extends State<AppDrawer> {
               checkColor: Colors.white,
             );
           }).toList(),
-          const SizedBox(height: 50),
-          const Center(
-            child: Text(
-              'Maximum: 5 filters',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          )
         ],
       ),
     );

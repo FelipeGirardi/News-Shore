@@ -4,11 +4,9 @@ enum NewsCategory {
   business,
   entertainment,
   health,
-  politics,
   science,
   sports,
   technology,
-  world,
 }
 
 extension StringExtension on String {
@@ -22,6 +20,7 @@ enum NewsCountry {
   Argentina,
   Australia,
   Belgium,
+  Brazil,
   Canada,
   China,
   Colombia,
@@ -37,6 +36,7 @@ enum NewsCountry {
   Netherlands,
   Pakistan,
   Poland,
+  Portugal,
   SaudiArabia,
   Singapore,
   Spain,
@@ -57,6 +57,8 @@ extension NewsCountryExtension on NewsCountry {
         return 'au';
       case NewsCountry.Belgium:
         return 'be';
+      case NewsCountry.Brazil:
+        return 'br';
       case NewsCountry.Canada:
         return 'ca';
       case NewsCountry.China:
@@ -87,6 +89,8 @@ extension NewsCountryExtension on NewsCountry {
         return 'pk';
       case NewsCountry.Poland:
         return 'pl';
+      case NewsCountry.Portugal:
+        return 'pt';
       case NewsCountry.SaudiArabia:
         return 'sa';
       case NewsCountry.Singapore:
@@ -102,7 +106,7 @@ extension NewsCountryExtension on NewsCountry {
       case NewsCountry.USA:
         return 'us';
       default:
-        return '';
+        return 'all';
     }
   }
 
@@ -116,6 +120,8 @@ extension NewsCountryExtension on NewsCountry {
         return 'Australia';
       case NewsCountry.Belgium:
         return 'Belgium';
+      case NewsCountry.Brazil:
+        return 'Brazil';
       case NewsCountry.Canada:
         return 'Canada';
       case NewsCountry.China:
@@ -146,6 +152,8 @@ extension NewsCountryExtension on NewsCountry {
         return 'Pakistan';
       case NewsCountry.Poland:
         return 'Poland';
+      case NewsCountry.Portugal:
+        return 'Portugal';
       case NewsCountry.SaudiArabia:
         return 'Saudi Arabia';
       case NewsCountry.Singapore:
@@ -175,6 +183,8 @@ extension NewsCountryExtension on NewsCountry {
         return 'assets/images/flags/au.svg';
       case NewsCountry.Belgium:
         return 'assets/images/flags/be.svg';
+      case NewsCountry.Brazil:
+        return 'assets/images/flags/br.svg';
       case NewsCountry.Canada:
         return 'assets/images/flags/ca.svg';
       case NewsCountry.China:
@@ -211,6 +221,8 @@ extension NewsCountryExtension on NewsCountry {
         return 'assets/images/flags/nl.svg';
       case NewsCountry.Poland:
         return 'assets/images/flags/pl.svg';
+      case NewsCountry.Portugal:
+        return 'assets/images/flags/pt.svg';
       case NewsCountry.Hungary:
         return 'assets/images/flags/hu.svg';
       case NewsCountry.SaudiArabia:
@@ -233,6 +245,7 @@ enum NewsLanguage {
   Italian,
   Dutch,
   Polish,
+  Portuguese,
   Hungarian,
   Arabic,
   Japanese,
@@ -256,6 +269,8 @@ extension NewsLanguageExtension on NewsLanguage {
         return 'nl';
       case NewsLanguage.Polish:
         return 'pl';
+      case NewsLanguage.Portuguese:
+        return 'pt';
       case NewsLanguage.Hungarian:
         return 'hu';
       case NewsLanguage.Arabic:
@@ -285,6 +300,8 @@ extension NewsLanguageExtension on NewsLanguage {
         return 'assets/images/flags/nl.svg';
       case NewsLanguage.Polish:
         return 'assets/images/flags/pl.svg';
+      case NewsLanguage.Portuguese:
+        return 'assets/images/flags/pt.svg';
       case NewsLanguage.Hungarian:
         return 'assets/images/flags/hu.svg';
       case NewsLanguage.Arabic:
@@ -330,9 +347,11 @@ extension NewsLanguageExtension on NewsLanguage {
       case NewsLanguage.Dutch:
         return [NewsCountry.All, NewsCountry.Netherlands, NewsCountry.Belgium];
       case NewsLanguage.Polish:
-        return [NewsCountry.All, NewsCountry.Poland];
+        return [NewsCountry.Poland];
+      case NewsLanguage.Portuguese:
+        return [NewsCountry.Brazil, NewsCountry.Portugal];
       case NewsLanguage.Hungarian:
-        return [NewsCountry.All, NewsCountry.Hungary];
+        return [NewsCountry.Hungary];
       case NewsLanguage.Arabic:
         return [
           NewsCountry.All,
@@ -341,9 +360,9 @@ extension NewsLanguageExtension on NewsLanguage {
           NewsCountry.SaudiArabia
         ];
       case NewsLanguage.Japanese:
-        return [NewsCountry.All, NewsCountry.Japan];
+        return [NewsCountry.Japan];
       case NewsLanguage.Thai:
-        return [NewsCountry.All, NewsCountry.Thailand];
+        return [NewsCountry.Thailand];
       default:
         return [];
     }
@@ -366,16 +385,18 @@ int languageIndex(String code) {
       return 5;
     case 'pl':
       return 6;
-    case 'hu':
+    case 'pt':
       return 7;
-    case 'ar':
+    case 'hu':
       return 8;
-    case 'jp':
+    case 'ar':
       return 9;
-    case 'th':
+    case 'jp':
       return 10;
-    case 'in':
+    case 'th':
       return 11;
+    case 'in':
+      return 12;
     default:
       return 0;
   }
@@ -397,6 +418,8 @@ String getLangNameFromCode(String code) {
       return 'Dutch';
     case 'pl':
       return 'Polish';
+    case 'pt':
+      return 'Portuguese';
     case 'hu':
       return 'Hungarian';
     case 'ar':
@@ -420,6 +443,8 @@ String getCountryNameFromCode(String code) {
       return 'Australia';
     case 'be':
       return 'Belgium';
+    case 'br':
+      return 'Brazil';
     case 'ca':
       return 'Canada';
     case 'cn':
@@ -450,6 +475,8 @@ String getCountryNameFromCode(String code) {
       return 'Pakistan';
     case 'pl':
       return 'Poland';
+    case 'pt':
+      return 'Portugal';
     case 'sa':
       return 'Saudi Arabia';
     case 'sg':

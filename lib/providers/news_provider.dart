@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_final_fields
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -5,28 +6,37 @@ import 'dart:convert';
 
 import '/models/news_response.dart';
 import '/models/news_data.dart';
+import '/models/news_api_response.dart';
+import '/models/news_api_data.dart';
 import '/helpers/sql_helper.dart';
 
-String apiKey = 'pub_3162ee115d2cfdf10b4bb42c76aca12b66fd';
+String apiKeyNewsData = 'pub_3162ee115d2cfdf10b4bb42c76aca12b66fd';
+String apiKeyNewsApi = 'c4e583b9475d4ae387011a2cf2c9f951';
 
 class NewsProvider with ChangeNotifier {
-  // ignore: prefer_final_fields
+  // ** NewsData list **
   List<NewsData> _newsList = [];
   int _totalNews = 0;
   int _nextPage = 0;
   bool _isLastPage = false;
+
   List<String> filtersSelected = [];
   bool _isFilterSelected = false;
   bool isLoadingNews = false;
-  // ignore: prefer_final_fields
+
   List<NewsData> _searchNewsList = [];
   int _searchTotalNews = 0;
   int _searchNextPage = 0;
   bool _isLastSearchPage = false;
-  // ignore: prefer_final_fields
+
   List<NewsData> _bookmarkedNewsList = [];
   String? currentLang;
   String? currentCountry;
+
+  // ** NewsAPIData list **
+  List<NewsAPIData> _newsAPIList = [];
+  List<NewsAPIData> _searchNewsAPIList = [];
+  List<NewsAPIData> _bookmarkedNewsAPIList = [];
 
   List<NewsData> get newsList {
     return [..._newsList];
@@ -60,6 +70,18 @@ class NewsProvider with ChangeNotifier {
     return [..._bookmarkedNewsList];
   }
 
+  List<NewsAPIData> get newAPIsList {
+    return [..._newsAPIList];
+  }
+
+  List<NewsAPIData> get searchNewsAPIList {
+    return [..._searchNewsAPIList];
+  }
+
+  List<NewsAPIData> get bookmarkedNewsAPIList {
+    return [..._bookmarkedNewsAPIList];
+  }
+
   void clearNews() {
     _newsList.clear();
     _totalNews = 0;
@@ -84,13 +106,13 @@ class NewsProvider with ChangeNotifier {
   Future<void> fetchNewsPage(String language, String country) async {
     final String urlString = country == 'all'
         ? (_isFilterSelected
-            ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$nextPage&category=' +
+            ? 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&page=$nextPage&category=' +
                 filtersSelected.join(',')
-            : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$nextPage&category=top')
+            : 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&page=$nextPage&category=top')
         : (_isFilterSelected
-            ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$nextPage&category=' +
+            ? 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=' +
                 filtersSelected.join(',')
-            : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$nextPage&category=top');
+            : 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=top');
     final response = await http.get(Uri.parse(urlString));
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
@@ -125,8 +147,8 @@ class NewsProvider with ChangeNotifier {
   Future<void> fetchSearchNewsPage(
       String language, String country, String query) async {
     final String urlString = country == 'all'
-        ? 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&page=$_searchNextPage&qInTitle=$query'
-        : 'https://newsdata.io/api/1/news?apikey=$apiKey&language=$language&country=$country&page=$_searchNextPage&qInTitle=$query';
+        ? 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&page=$_searchNextPage&qInTitle=$query'
+        : 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&country=$country&page=$_searchNextPage&qInTitle=$query';
     final response = await http.get(Uri.parse(urlString));
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
@@ -135,7 +157,6 @@ class NewsProvider with ChangeNotifier {
       if (initialNewsResponse.nextPage == null) {
         _isLastSearchPage = true;
       }
-      _searchNextPage = initialNewsResponse.nextPage ?? _searchNextPage;
       _searchNewsList.addAll(initialNewsResponse.results!
           .map((i) => NewsData.fromJson(i))
           .toList());
