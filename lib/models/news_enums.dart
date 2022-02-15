@@ -495,3 +495,5 @@ String getCountryNameFromCode(String code) {
       return 'All';
   }
 }
+
+final List<String> newsAPILangs = ['pt'];

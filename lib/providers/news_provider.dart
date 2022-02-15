@@ -8,6 +8,7 @@ import '/models/news_response.dart';
 import '/models/news_data.dart';
 import '/models/news_api_response.dart';
 import '/models/news_api_data.dart';
+import '/models/news_enums.dart';
 import '/helpers/sql_helper.dart';
 
 String apiKeyNewsData = 'pub_3162ee115d2cfdf10b4bb42c76aca12b66fd';
@@ -82,8 +83,13 @@ class NewsProvider with ChangeNotifier {
     return [..._bookmarkedNewsAPIList];
   }
 
+  bool get isNewsAPILang {
+    return newsAPILangs.contains(currentLang);
+  }
+
   void clearNews() {
     _newsList.clear();
+    _newsAPIList.clear();
     _totalNews = 0;
     _nextPage = 0;
   }
@@ -92,6 +98,7 @@ class NewsProvider with ChangeNotifier {
     if (filtersSelected.isNotEmpty ||
         (filtersSelected.isEmpty && _isFilterSelected)) {
       _newsList.clear();
+      _newsAPIList.clear();
       _totalNews = 0;
       _nextPage = 0;
       filtersSelected.isEmpty
@@ -103,38 +110,15 @@ class NewsProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchNewsPage(String language, String country) async {
-    final String urlString = country == 'all'
-        ? (_isFilterSelected
-            ? 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&page=$nextPage&category=' +
-                filtersSelected.join(',')
-            : 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&page=$nextPage&category=top')
-        : (_isFilterSelected
-            ? 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=' +
-                filtersSelected.join(',')
-            : 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=top');
-    final response = await http.get(Uri.parse(urlString));
-    if (response.statusCode == 200) {
-      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
-      final initialNewsResponse = NewsResponse.fromJson(decoded);
-      _totalNews = initialNewsResponse.totalResults ?? 0;
-      if (initialNewsResponse.nextPage == null) {
-        _isLastPage = true;
-      }
-      _newsList.addAll(initialNewsResponse.results!
-          .map((i) => NewsData.fromJson(i))
-          .toList());
-    }
-  }
-
   Future<void> fetchNews() async {
     final prefs = await SharedPreferences.getInstance();
-    final String language = prefs.getString('language') ?? '';
-    final String country = prefs.getString('country') ?? '';
-    // fetch 2 pages (20 news)
+    if (currentLang == null || currentCountry == null) {
+      currentLang = prefs.getString('language') ?? '';
+      currentCountry = prefs.getString('country') ?? '';
+    }
     if (_newsList.length <= _totalNews) {
       for (var i = 0; i < 2; i++) {
-        await fetchNewsPage(language, country);
+        await fetchNewsPage(currentLang ?? 'en', currentCountry ?? 'all');
         _nextPage += 1;
       }
       isLoadingNews = false;
@@ -144,11 +128,54 @@ class NewsProvider with ChangeNotifier {
     }
   }
 
+  Future<void> fetchNewsPage(String language, String country) async {
+    final Uri url = Uri.parse(country == 'all'
+        ? (_isFilterSelected
+            ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$nextPage&category=' +
+                filtersSelected.join(',')
+            : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$nextPage&category=top')
+        : (_isFilterSelected
+            ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=' +
+                filtersSelected.join(',')
+            : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=top'));
+    print(url);
+    final response = await http.get(url);
+    print(response);
+    if (response.statusCode == 200) {
+      print('Success getting');
+      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+      final initialNewsResponse = NewsResponse.fromJson(decoded);
+      _totalNews = initialNewsResponse.totalResults ?? 0;
+      if (initialNewsResponse.nextPage == null) {
+        _isLastPage = true;
+      }
+      print('Will add news');
+      _newsList.addAll(initialNewsResponse.results!
+          .map((i) => NewsData.fromJson(i))
+          .toList());
+    }
+  }
+
+  Future<List<NewsData?>?> fetchSearchNews(String query) async {
+    if (_searchNewsList.length <= _searchTotalNews) {
+      for (var i = 0; i < 2; i++) {
+        await fetchSearchNewsPage(
+            currentLang ?? 'en', currentCountry ?? 'all', query);
+        _searchNextPage += 1;
+      }
+      notifyListeners();
+      print('Will return');
+      return _searchNewsList;
+    } else {
+      throw Exception('Failed to load news');
+    }
+  }
+
   Future<void> fetchSearchNewsPage(
       String language, String country, String query) async {
     final String urlString = country == 'all'
-        ? 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&page=$_searchNextPage&qInTitle=$query'
-        : 'https://newsdata.io/api/1/news?apiKeyNewsData=$apiKeyNewsData&language=$language&country=$country&page=$_searchNextPage&qInTitle=$query';
+        ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$_searchNextPage&qInTitle=$query'
+        : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$_searchNextPage&qInTitle=$query';
     final response = await http.get(Uri.parse(urlString));
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
@@ -160,23 +187,6 @@ class NewsProvider with ChangeNotifier {
       _searchNewsList.addAll(initialNewsResponse.results!
           .map((i) => NewsData.fromJson(i))
           .toList());
-    }
-  }
-
-  Future<List<NewsData?>?> fetchSearchNews(String query) async {
-    final prefs = await SharedPreferences.getInstance();
-    final String language = prefs.getString('language') ?? '';
-    final String country = prefs.getString('country') ?? '';
-    if (_searchNewsList.length <= _searchTotalNews) {
-      // fetch 2 pages (20 news)
-      for (var i = 0; i < 2; i++) {
-        await fetchSearchNewsPage(language, country, query);
-        _searchNextPage += 1;
-      }
-      notifyListeners();
-      return _searchNewsList;
-    } else {
-      throw Exception('Failed to load news');
     }
   }
 
@@ -206,9 +216,10 @@ class NewsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setLanguagePref(SharedPreferences prefs, String langName) {
+  void setLanguagePref(
+      SharedPreferences prefs, String langName, String countryName) {
     prefs.setString('language', langName);
-    prefs.setString('country', 'all');
+    prefs.setString('country', countryName);
     currentLang = langName;
     currentCountry = 'all';
     clearNews();

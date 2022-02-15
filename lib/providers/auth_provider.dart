@@ -68,6 +68,7 @@ class AuthProvider with ChangeNotifier {
     } catch (exception) {
       print(exception);
     }
+    return null;
   }
 
   Future<void> googleSignUp(BuildContext context) async {

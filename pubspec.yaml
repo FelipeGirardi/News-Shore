@@ -84,6 +84,7 @@ flutter:
     - assets/images/flags/ar.svg
     - assets/images/flags/au.svg
     - assets/images/flags/be.svg
+    - assets/images/flags/br.svg
     - assets/images/flags/ca.svg
     - assets/images/flags/cn.svg
     - assets/images/flags/co.svg
@@ -101,6 +102,7 @@ flutter:
     - assets/images/flags/nl.svg
     - assets/images/flags/pk.svg
     - assets/images/flags/pl.svg
+    - assets/images/flags/pt.svg
     - assets/images/flags/sa.svg
     - assets/images/flags/sg.svg
     - assets/images/flags/th.svg

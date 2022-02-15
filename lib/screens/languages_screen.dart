@@ -35,8 +35,6 @@ class _LanguagesScreenState extends State<LanguagesScreen> {
                     default:
                       if (!snapshot.hasError && snapshot.data != null) {
                         final SharedPreferences prefs = snapshot.data!;
-                        provider.currentLang = prefs.getString('language');
-                        provider.currentCountry = prefs.getString('country');
                         int langIndex =
                             languageIndex(provider.currentLang ?? 'en');
                         return Scaffold(
@@ -176,7 +174,9 @@ class LanguagesListWidget extends StatelessWidget {
                         ? Theme.of(context).colorScheme.background
                         : null,
                     onTap: () => provider.setLanguagePref(
-                        prefs, languagesList[index].languageCode)),
+                        prefs,
+                        languagesList[index].languageCode,
+                        languagesList[index].countryLanguage[0].countryCode)),
                 (index == (languagesList.length - 1) ||
                         lang.languageCode == provider.currentLang ||
                         languagesList[index + 1].languageCode ==

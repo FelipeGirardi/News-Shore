@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:newsshore/models/news_enums.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -8,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
 import '/widgets/loading_widget.dart';
+import '/models/news_enums.dart';
 
 class LoggedUserScreen extends StatelessWidget {
   const LoggedUserScreen({Key? key}) : super(key: key);
