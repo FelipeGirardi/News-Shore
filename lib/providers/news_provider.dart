@@ -138,18 +138,14 @@ class NewsProvider with ChangeNotifier {
             ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=' +
                 filtersSelected.join(',')
             : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=top'));
-    print(url);
     final response = await http.get(url);
-    print(response);
     if (response.statusCode == 200) {
-      print('Success getting');
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
       final initialNewsResponse = NewsResponse.fromJson(decoded);
       _totalNews = initialNewsResponse.totalResults ?? 0;
       if (initialNewsResponse.nextPage == null) {
         _isLastPage = true;
       }
-      print('Will add news');
       _newsList.addAll(initialNewsResponse.results!
           .map((i) => NewsData.fromJson(i))
           .toList());
@@ -164,7 +160,6 @@ class NewsProvider with ChangeNotifier {
         _searchNextPage += 1;
       }
       notifyListeners();
-      print('Will return');
       return _searchNewsList;
     } else {
       throw Exception('Failed to load news');
