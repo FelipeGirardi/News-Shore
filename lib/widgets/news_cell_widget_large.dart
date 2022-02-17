@@ -4,12 +4,15 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 import '/providers/news_provider.dart';
 import '/models/news_data.dart';
+import '/models/news_api_data.dart';
 
 class NewsCellWidgetLarge extends StatelessWidget {
   final BuildContext? ctx;
   final NewsData? newsData;
+  final NewsAPIData? newsAPIData;
 
-  const NewsCellWidgetLarge({Key? key, this.ctx, this.newsData})
+  const NewsCellWidgetLarge(
+      {Key? key, this.ctx, this.newsData, this.newsAPIData})
       : super(key: key);
 
   @override
@@ -22,8 +25,14 @@ class NewsCellWidgetLarge extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Expanded(child: ImageWidgetLarge(newsData: newsData)),
-              Expanded(child: TitleAndSourceWidgetLarge(newsData: newsData)),
+              Expanded(
+                  child: ImageWidgetLarge(
+                      newsData: newsData, newsAPIData: newsAPIData)),
+              Expanded(
+                  child: TitleAndSourceWidgetLarge(
+                newsData: newsData,
+                newsAPIData: newsAPIData,
+              )),
             ]),
       ),
     );
@@ -31,10 +40,12 @@ class NewsCellWidgetLarge extends StatelessWidget {
 }
 
 class TitleAndSourceWidgetLarge extends StatefulWidget {
-  const TitleAndSourceWidgetLarge({Key? key, required this.newsData})
+  const TitleAndSourceWidgetLarge(
+      {Key? key, required this.newsData, required this.newsAPIData})
       : super(key: key);
 
   final NewsData? newsData;
+  final NewsAPIData? newsAPIData;
 
   @override
   State<TitleAndSourceWidgetLarge> createState() =>
@@ -44,9 +55,12 @@ class TitleAndSourceWidgetLarge extends StatefulWidget {
 class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
   @override
   Widget build(BuildContext context) {
-    bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
-        .bookmarkedNewsList
-        .any((item) => item.id == widget.newsData!.id);
+    final provider = Provider.of<NewsProvider>(context, listen: false);
+    bool isFavorite = widget.newsData != null
+        ? provider.bookmarkedNewsList
+            .any((item) => item.id == widget.newsData!.id)
+        : provider.bookmarkedNewsAPIList
+            .any((item) => item.id == widget.newsData!.id);
     return Card(
       color: Theme.of(context).colorScheme.primary,
       shape: const RoundedRectangleBorder(),
@@ -59,7 +73,10 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const Spacer(),
-            AutoSizeText(widget.newsData?.title ?? '',
+            AutoSizeText(
+                widget.newsData != null
+                    ? widget.newsData?.title ?? ''
+                    : widget.newsAPIData?.title ?? '',
                 presetFontSizes: const [18],
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -69,10 +86,14 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
                     color: Theme.of(context).colorScheme.background)),
             const Spacer(),
             AutoSizeText(
-              widget.newsData?.description ??
-                  widget.newsData?.content ??
-                  widget.newsData?.fullDescription ??
-                  '',
+              widget.newsData != null
+                  ? widget.newsData?.description ??
+                      widget.newsData?.content ??
+                      widget.newsData?.fullDescription ??
+                      ''
+                  : widget.newsAPIData?.description ??
+                      widget.newsAPIData?.content ??
+                      '',
               presetFontSizes: const [14],
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
@@ -88,7 +109,10 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
                   color: Theme.of(context).colorScheme.background,
                 ),
                 const SizedBox(width: 10),
-                AutoSizeText(widget.newsData?.sourceId ?? '',
+                AutoSizeText(
+                    widget.newsData != null
+                        ? widget.newsData?.sourceId ?? ''
+                        : widget.newsAPIData?.source?.name ?? '',
                     presetFontSizes: const [14],
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -127,23 +151,25 @@ class ImageWidgetLarge extends StatelessWidget {
   const ImageWidgetLarge({
     Key? key,
     required this.newsData,
+    required this.newsAPIData,
   }) : super(key: key);
 
   final NewsData? newsData;
+  final NewsAPIData? newsAPIData;
 
   @override
   Widget build(BuildContext context) {
+    final String? imageUrl =
+        newsData != null ? newsData?.imageUrl : newsAPIData?.urlToImage;
     return ClipRRect(
       child: Hero(
-        tag: newsData!.id!,
+        tag: newsData != null ? newsData?.id! ?? '' : newsAPIData?.id! ?? '',
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
-          image: newsData?.imageUrl != null
-              ? newsData!.imageUrl!.isNotEmpty
-                  ? (newsData!.imageUrl!
-                              .substring(newsData!.imageUrl!.length - 3) !=
-                          'mp4'
-                      ? NetworkImage(newsData!.imageUrl!)
+          image: imageUrl != null
+              ? imageUrl.isNotEmpty
+                  ? (imageUrl.substring(imageUrl.length - 3) != 'mp4'
+                      ? NetworkImage(imageUrl)
                       : const AssetImage('assets/images/newsshore_logo.jpg')
                           as ImageProvider)
                   : const AssetImage('assets/images/newsshore_logo.jpg')

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
 import '/models/news_data.dart';
-import 'package:auto_size_text/auto_size_text.dart';
+import '/models/news_api_data.dart';
 
 class NewsCellWidgetSmall extends StatelessWidget {
   final BuildContext? ctx;
   final NewsData? newsData;
+  final NewsAPIData? newsAPIData;
   final int? index;
 
-  const NewsCellWidgetSmall({Key? key, this.ctx, this.newsData, this.index})
+  const NewsCellWidgetSmall(
+      {Key? key, this.ctx, this.newsData, this.newsAPIData, this.index})
       : super(key: key);
 
   @override
@@ -32,17 +35,24 @@ class NewsCellWidgetSmall extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Expanded(flex: 4, child: ImageWidgetSmall(newsData: newsData)),
               Expanded(
-                  flex: 6, child: TitleAndSourceWidgetSmall(newsData: newsData))
+                  flex: 4,
+                  child: ImageWidgetSmall(
+                      newsData: newsData, newsAPIData: newsAPIData)),
+              Expanded(
+                  flex: 6,
+                  child: TitleAndSourceWidgetSmall(
+                      newsData: newsData, newsAPIData: newsAPIData))
             ]));
   }
 }
 
 class TitleAndSourceWidgetSmall extends StatefulWidget {
-  const TitleAndSourceWidgetSmall({Key? key, this.newsData}) : super(key: key);
+  const TitleAndSourceWidgetSmall({Key? key, this.newsData, this.newsAPIData})
+      : super(key: key);
 
   final NewsData? newsData;
+  final NewsAPIData? newsAPIData;
 
   @override
   State<TitleAndSourceWidgetSmall> createState() =>
@@ -52,16 +62,22 @@ class TitleAndSourceWidgetSmall extends StatefulWidget {
 class _TitleAndSourceWidgetSmallState extends State<TitleAndSourceWidgetSmall> {
   @override
   Widget build(BuildContext context) {
-    bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
-        .bookmarkedNewsList
-        .any((item) => item.id == widget.newsData!.id);
+    final provider = Provider.of<NewsProvider>(context, listen: false);
+    bool isFavorite = widget.newsData != null
+        ? provider.bookmarkedNewsList
+            .any((item) => item.id == widget.newsData!.id)
+        : provider.bookmarkedNewsAPIList
+            .any((item) => item.id == widget.newsData!.id);
     return Padding(
       padding: const EdgeInsets.fromLTRB(7, 5, 7, 7),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          AutoSizeText(widget.newsData?.title ?? '',
+          AutoSizeText(
+              widget.newsData != null
+                  ? widget.newsData?.title ?? ''
+                  : widget.newsAPIData?.title ?? '',
               presetFontSizes: const [13],
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
@@ -78,7 +94,9 @@ class _TitleAndSourceWidgetSmallState extends State<TitleAndSourceWidgetSmall> {
               Container(
                 constraints: const BoxConstraints(maxWidth: 100),
                 child: AutoSizeText(
-                  widget.newsData?.sourceId ?? '',
+                  widget.newsData != null
+                      ? widget.newsData?.sourceId ?? ''
+                      : widget.newsAPIData?.source?.name ?? '',
                   presetFontSizes: const [11],
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -112,25 +130,27 @@ class ImageWidgetSmall extends StatelessWidget {
   const ImageWidgetSmall({
     Key? key,
     required this.newsData,
+    required this.newsAPIData,
   }) : super(key: key);
 
   final NewsData? newsData;
+  final NewsAPIData? newsAPIData;
 
   @override
   Widget build(BuildContext context) {
+    final String? imageUrl =
+        newsData != null ? newsData?.imageUrl : newsAPIData?.urlToImage;
     return ClipRRect(
       borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(5), topRight: Radius.circular(5)),
       child: Hero(
-        tag: newsData!.id!,
+        tag: newsData != null ? newsData?.id! ?? '' : newsAPIData?.id! ?? '',
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
-          image: newsData!.imageUrl != null
-              ? newsData!.imageUrl!.isNotEmpty
-                  ? (newsData!.imageUrl!
-                              .substring(newsData!.imageUrl!.length - 3) !=
-                          'mp4'
-                      ? NetworkImage(newsData!.imageUrl!)
+          image: imageUrl != null
+              ? imageUrl.isNotEmpty
+                  ? (imageUrl.substring(imageUrl.length - 3) != 'mp4'
+                      ? NetworkImage(imageUrl)
                       : const AssetImage('assets/images/newsshore_logo.jpg')
                           as ImageProvider)
                   : const AssetImage('assets/images/newsshore_logo.jpg')
