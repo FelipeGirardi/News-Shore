@@ -4,12 +4,10 @@ import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
 import '/models/news_data.dart';
-import '/models/news_api_data.dart';
 
 class NewsCellWidgetMedium extends StatelessWidget {
   final BuildContext? ctx;
   final NewsData? newsData;
-  final NewsAPIData? newsAPIData;
   final int? index;
   final bool? isBookmarked;
   final String? bookmarkHeroTag;
@@ -18,7 +16,6 @@ class NewsCellWidgetMedium extends StatelessWidget {
       {Key? key,
       this.ctx,
       this.newsData,
-      this.newsAPIData,
       this.index,
       this.isBookmarked,
       this.bookmarkHeroTag})
@@ -37,14 +34,12 @@ class NewsCellWidgetMedium extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TitleAndSourceWidgetMedium(
-                      newsData: newsData, newsAPIData: newsAPIData),
+                  TitleAndSourceWidgetMedium(newsData: newsData),
                   const SizedBox(
                     width: 5,
                   ),
                   ImageWidgetMedium(
                       newsData: newsData,
-                      newsAPIData: newsAPIData,
                       isBookmarked: isBookmarked,
                       bookmarkHeroTag: bookmarkHeroTag)
                 ],
@@ -69,12 +64,10 @@ class NewsCellWidgetMedium extends StatelessWidget {
 }
 
 class TitleAndSourceWidgetMedium extends StatefulWidget {
-  const TitleAndSourceWidgetMedium(
-      {Key? key, required this.newsData, required this.newsAPIData})
+  const TitleAndSourceWidgetMedium({Key? key, required this.newsData})
       : super(key: key);
 
   final NewsData? newsData;
-  final NewsAPIData? newsAPIData;
 
   @override
   State<TitleAndSourceWidgetMedium> createState() =>
@@ -85,12 +78,9 @@ class _TitleAndSourceWidgetMediumState
     extends State<TitleAndSourceWidgetMedium> {
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<NewsProvider>(context, listen: false);
-    bool isFavorite = widget.newsData != null
-        ? provider.bookmarkedNewsList
-            .any((item) => item.id == widget.newsData!.id)
-        : provider.bookmarkedNewsAPIList
-            .any((item) => item.id == widget.newsData!.id);
+    bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
+        .bookmarkedNewsList
+        .any((item) => item.id == widget.newsData!.id);
     return Expanded(
       flex: 7,
       child: SizedBox(
@@ -101,10 +91,7 @@ class _TitleAndSourceWidgetMediumState
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              AutoSizeText(
-                  widget.newsData != null
-                      ? widget.newsData?.title ?? ''
-                      : widget.newsAPIData?.title ?? '',
+              AutoSizeText(widget.newsData?.title ?? '',
                   presetFontSizes: const [15],
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -114,14 +101,10 @@ class _TitleAndSourceWidgetMediumState
                   )),
               const Spacer(),
               AutoSizeText(
-                widget.newsData != null
-                    ? widget.newsData?.description ??
-                        widget.newsData?.content ??
-                        widget.newsData?.fullDescription ??
-                        ''
-                    : widget.newsAPIData?.description ??
-                        widget.newsAPIData?.content ??
-                        '',
+                widget.newsData?.description ??
+                    widget.newsData?.content ??
+                    widget.newsData?.fullDescription ??
+                    '',
                 presetFontSizes: const [12],
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
@@ -137,9 +120,7 @@ class _TitleAndSourceWidgetMediumState
                   ),
                   const SizedBox(width: 10),
                   AutoSizeText(
-                    widget.newsData != null
-                        ? widget.newsData?.sourceId ?? ''
-                        : widget.newsAPIData?.source?.name ?? '',
+                    widget.newsData?.sourceId ?? '',
                     presetFontSizes: const [12],
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -174,32 +155,28 @@ class ImageWidgetMedium extends StatelessWidget {
   const ImageWidgetMedium(
       {Key? key,
       required this.newsData,
-      required this.newsAPIData,
       this.isBookmarked,
       this.bookmarkHeroTag})
       : super(key: key);
 
   final NewsData? newsData;
-  final NewsAPIData? newsAPIData;
   final bool? isBookmarked;
   final String? bookmarkHeroTag;
 
   @override
   Widget build(BuildContext context) {
-    final String? imageUrl =
-        newsData != null ? newsData?.imageUrl : newsAPIData?.urlToImage;
     return Expanded(
       flex: 3,
       child: Hero(
-        tag: isBookmarked!
-            ? bookmarkHeroTag!
-            : (newsData != null ? newsData?.id! ?? '' : newsAPIData?.id! ?? ''),
+        tag: isBookmarked! ? bookmarkHeroTag! : newsData!.id!,
         child: FadeInImage(
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
-          image: imageUrl != null
-              ? imageUrl.isNotEmpty
-                  ? (imageUrl.substring(imageUrl.length - 3) != 'mp4'
-                      ? NetworkImage(imageUrl)
+          image: newsData?.imageUrl != null
+              ? newsData!.imageUrl!.isNotEmpty
+                  ? (newsData!.imageUrl!
+                              .substring(newsData!.imageUrl!.length - 3) !=
+                          'mp4'
+                      ? NetworkImage(newsData!.imageUrl!)
                       : const AssetImage('assets/images/newsshore_logo.jpg')
                           as ImageProvider)
                   : const AssetImage('assets/images/newsshore_logo.jpg')

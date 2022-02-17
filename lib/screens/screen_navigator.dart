@@ -29,9 +29,7 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
   void _onOptionTapped(int index) {
     final provider = Provider.of<NewsProvider>(context, listen: false);
     setState(() {
-      if (index == 0 &&
-              (!provider.isNewsAPILang && provider.newsList.isEmpty) ||
-          (provider.isNewsAPILang && provider.newsAPIList.isEmpty)) {
+      if (index == 0 && provider.newsList.isEmpty) {
         provider.fetchNews();
       }
       _selectedOption = index;

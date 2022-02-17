@@ -21,7 +21,7 @@ class NewsProvider with ChangeNotifier {
   int _nextPage = 0;
   bool _isLastPage = false;
 
-  String selectedFilter = '';
+  List<String> filtersSelected = [];
   bool _isFilterSelected = false;
   bool isLoadingNews = false;
 
@@ -71,7 +71,7 @@ class NewsProvider with ChangeNotifier {
     return [..._bookmarkedNewsList];
   }
 
-  List<NewsAPIData> get newsAPIList {
+  List<NewsAPIData> get newAPIsList {
     return [..._newsAPIList];
   }
 
@@ -95,13 +95,13 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<void> didCloseFiltersDrawer() async {
-    if (selectedFilter.isNotEmpty ||
-        (selectedFilter.isEmpty && _isFilterSelected)) {
+    if (filtersSelected.isNotEmpty ||
+        (filtersSelected.isEmpty && _isFilterSelected)) {
       _newsList.clear();
       _newsAPIList.clear();
       _totalNews = 0;
       _nextPage = 0;
-      selectedFilter.isEmpty
+      filtersSelected.isEmpty
           ? _isFilterSelected = false
           : _isFilterSelected = true;
       isLoadingNews = true;
@@ -116,26 +116,15 @@ class NewsProvider with ChangeNotifier {
       currentLang = prefs.getString('language') ?? '';
       currentCountry = prefs.getString('country') ?? '';
     }
-    if (!isNewsAPILang) {
-      if (_newsList.length <= _totalNews) {
-        for (var i = 0; i < 2; i++) {
-          await fetchNewsPage(currentLang ?? 'en', currentCountry ?? 'all');
-          _nextPage += 1;
-        }
-        isLoadingNews = false;
-        notifyListeners();
-      } else {
-        throw Exception('Failed to load news');
+    if (_newsList.length <= _totalNews) {
+      for (var i = 0; i < 2; i++) {
+        await fetchNewsPage(currentLang ?? 'en', currentCountry ?? 'all');
+        _nextPage += 1;
       }
+      isLoadingNews = false;
+      notifyListeners();
     } else {
-      if (_newsAPIList.length <= _totalNews) {
-        await fetchNewsAPIPage(currentCountry ?? 'br');
-        _nextPage += 2;
-        isLoadingNews = false;
-        notifyListeners();
-      } else {
-        throw Exception('Failed to load news');
-      }
+      throw Exception('Failed to load news');
     }
   }
 
@@ -143,11 +132,11 @@ class NewsProvider with ChangeNotifier {
     final Uri url = Uri.parse(country == 'all'
         ? (_isFilterSelected
             ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$nextPage&category=' +
-                selectedFilter
+                filtersSelected.join(',')
             : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$nextPage&category=top')
         : (_isFilterSelected
             ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=' +
-                selectedFilter
+                filtersSelected.join(',')
             : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=top'));
     final response = await http.get(url);
     if (response.statusCode == 200) {
@@ -160,24 +149,6 @@ class NewsProvider with ChangeNotifier {
       _newsList.addAll(initialNewsResponse.results!
           .map((i) => NewsData.fromJson(i))
           .toList());
-    }
-  }
-
-  Future<void> fetchNewsAPIPage(String country) async {
-    final Uri url = Uri.parse(_isFilterSelected
-        ? 'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPage&category=' +
-            selectedFilter
-        : 'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPage');
-    print(url);
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
-      final initialNewsResponse = NewsAPIResponse.fromJson(decoded);
-      _totalNews = initialNewsResponse.totalResults ?? 0;
-      _newsAPIList.addAll(initialNewsResponse.articles!
-          .map((i) => NewsAPIData.fromJson(i))
-          .toList());
-      print(_newsAPIList);
     }
   }
 
@@ -245,7 +216,7 @@ class NewsProvider with ChangeNotifier {
     prefs.setString('language', langName);
     prefs.setString('country', countryName);
     currentLang = langName;
-    currentCountry = countryName;
+    currentCountry = 'all';
     clearNews();
     notifyListeners();
   }

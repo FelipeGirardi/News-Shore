@@ -20,10 +20,11 @@ class _AppDrawerState extends State<AppDrawer> {
     void _setCategoryState(String categoryName, bool newValue) {
       !newValue
           ? setState(() {
-              newsProvider.selectedFilter = '';
+              newsProvider.filtersSelected.remove(categoryName);
             })
           : setState(() {
-              newsProvider.selectedFilter = categoryName;
+              newsProvider.filtersSelected.clear();
+              newsProvider.filtersSelected.add(categoryName);
             });
     }
 
@@ -44,7 +45,7 @@ class _AppDrawerState extends State<AppDrawer> {
           ...NewsCategory.values.map((NewsCategory category) {
             return CheckboxListTile(
               title: Text(category.name.capitalize()),
-              value: newsProvider.selectedFilter == category.name,
+              value: newsProvider.filtersSelected.contains(category.name),
               onChanged: (bool? newValue) {
                 _setCategoryState(category.name, newValue!);
               },

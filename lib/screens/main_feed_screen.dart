@@ -40,8 +40,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent &&
         !_willFetchNewsPage &&
-        ((!provider.isNewsAPILang && provider.newsList.length < 100) ||
-            (provider.isNewsAPILang && provider.newsAPIList.length < 100)) &&
+        provider.newsList.length < 100 &&
         !provider.isLastPage) {
       _willFetchNewsPage = true;
       setState(() {
@@ -65,9 +64,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
               builder: (ctx, newsProv, _) => snapshot.connectionState ==
                           ConnectionState.waiting ||
                       newsProv.isLoadingNews ||
-                      ((!newsProv.isNewsAPILang && newsProv.newsList.isEmpty) ||
-                          (newsProv.isNewsAPILang &&
-                              newsProv.newsAPIList.isEmpty)) ||
+                      newsProv.newsList.isEmpty ||
                       snapshot.hasError
                   ? const LoadingWidget()
                   : ListView.builder(
@@ -83,31 +80,19 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                               ctx: ctx,
                               cellType: cellType,
                               index: 0,
-                              newsData: !newsProv.isNewsAPILang
-                                  ? newsProv.newsList[10 * cellType ~/ 3]
-                                  : null,
-                              newsAPIData: newsProv.isNewsAPILang
-                                  ? newsProv.newsAPIList[10 * cellType ~/ 3]
-                                  : null)
+                              newsData: newsProv.newsList[10 * cellType ~/ 3])
                           : (cellType - 1) % 3 == 0
                               ? ListView.builder(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: 3,
                                   itemBuilder: (ctx, i) => NewsCellWidget(
-                                        key: UniqueKey(),
-                                        ctx: ctx,
-                                        cellType: cellType,
-                                        index: i,
-                                        newsData: !newsProv.isNewsAPILang
-                                            ? newsProv.newsList[
-                                                (cellType ~/ 3) * 10 + i + 1]
-                                            : null,
-                                        newsAPIData: newsProv.isNewsAPILang
-                                            ? newsProv.newsAPIList[
-                                                (cellType ~/ 3) * 10 + i + 1]
-                                            : null,
-                                      ))
+                                      key: UniqueKey(),
+                                      ctx: ctx,
+                                      cellType: cellType,
+                                      index: i,
+                                      newsData: newsProv.newsList[
+                                          (cellType ~/ 3) * 10 + i + 1]))
                               : Column(
                                   children: [
                                     GridView.builder(
@@ -120,24 +105,12 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                                             const NeverScrollableScrollPhysics(),
                                         itemCount: 6,
                                         itemBuilder: (ctx, i) => NewsCellWidget(
-                                              key: UniqueKey(),
-                                              ctx: ctx,
-                                              cellType: cellType,
-                                              index: i,
-                                              newsData: !newsProv.isNewsAPILang
-                                                  ? newsProv.newsList[
-                                                      (cellType ~/ 3) * 10 +
-                                                          i +
-                                                          4]
-                                                  : null,
-                                              newsAPIData:
-                                                  newsProv.isNewsAPILang
-                                                      ? newsProv.newsAPIList[
-                                                          (cellType ~/ 3) * 10 +
-                                                              i +
-                                                              4]
-                                                      : null,
-                                            )),
+                                            key: UniqueKey(),
+                                            ctx: ctx,
+                                            cellType: cellType,
+                                            index: i,
+                                            newsData: newsProv.newsList[
+                                                (cellType ~/ 3) * 10 + i + 4])),
                                     const SizedBox(height: 10),
                                   ],
                                 ),

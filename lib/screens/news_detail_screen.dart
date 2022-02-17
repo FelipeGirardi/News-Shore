@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '/providers/news_provider.dart';
 import '/widgets/custom_app_bar.dart';
 import '/models/news_data.dart';
-import '/models/news_api_data.dart';
 import '/models/news_detail_arguments.dart';
 
 class NewsDetailScreen extends StatefulWidget {
@@ -19,6 +18,8 @@ class NewsDetailScreen extends StatefulWidget {
 }
 
 class _NewsDetailScreenState extends State<NewsDetailScreen> {
+  // Test video: https://vcl.abcotv.net/video/kgo/021022-kgo-745am-bart-budget-vid.mp4
+
   _launchNewsUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -31,17 +32,12 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
   Widget build(BuildContext context) {
     final NewsDetailArguments args =
         ModalRoute.of(context)!.settings.arguments as NewsDetailArguments;
-    final NewsData? newsData = args.newsData;
-    final NewsAPIData? newsAPIData = args.newsAPIData;
+    final NewsData newsData = args.newsData;
     final bool isBookmarked = args.isBookmarked;
     final String heroTag = args.heroTag;
-    final provider = Provider.of<NewsProvider>(context, listen: false);
-    bool isFavorite = newsData != null
-        ? provider.bookmarkedNewsList.any((item) => item.id == newsData.id)
-        : provider.bookmarkedNewsAPIList
-            .any((item) => item.id == newsAPIData?.id);
-    final String? imageUrl =
-        newsData != null ? newsData.imageUrl : newsAPIData?.urlToImage;
+    bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
+        .bookmarkedNewsList
+        .any((item) => item.id == newsData.id);
     return Scaffold(
       appBar: CustomAppBar(
         title: 'News Shore',
@@ -51,15 +47,15 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
       body: SingleChildScrollView(
         child: Column(children: [
           Hero(
-            tag: isBookmarked
-                ? heroTag
-                : (newsData != null ? newsData.id! : newsAPIData?.id! ?? ''),
+            tag: isBookmarked ? heroTag : newsData.id!,
             child: FadeInImage(
               placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
-              image: imageUrl != null
-                  ? imageUrl.isNotEmpty
-                      ? (imageUrl.substring(imageUrl.length - 3) != 'mp4'
-                          ? NetworkImage(imageUrl)
+              image: newsData.imageUrl != null
+                  ? newsData.imageUrl!.isNotEmpty
+                      ? (newsData.imageUrl!
+                                  .substring(newsData.imageUrl!.length - 3) !=
+                              'mp4'
+                          ? NetworkImage(newsData.imageUrl!)
                           : const AssetImage('assets/images/newsshore_logo.jpg')
                               as ImageProvider)
                       : const AssetImage('assets/images/newsshore_logo.jpg')
@@ -73,7 +69,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-                if (newsData != null && newsData.keywords != null)
+                if (newsData.keywords != null)
                   Column(children: [
                     Align(
                         alignment: Alignment.centerLeft,
@@ -90,9 +86,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                     const SizedBox(height: 10),
                   ]),
                 Text(
-                  newsData != null
-                      ? newsData.title ?? ''
-                      : newsAPIData?.title ?? '',
+                  newsData.title ?? '',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 22, height: 1.3),
                 ),
@@ -109,10 +103,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                               size: 13,
                             ),
                             const SizedBox(width: 10),
-                            Text(
-                                newsData != null
-                                    ? newsData.sourceId ?? ''
-                                    : newsAPIData?.source?.name ?? '',
+                            Text(newsData.sourceId ?? '',
                                 style: const TextStyle(fontSize: 13)),
                           ],
                         ),
@@ -123,10 +114,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             size: 13,
                           ),
                           const SizedBox(width: 10),
-                          Text(
-                              newsData != null
-                                  ? newsData.pubDate ?? ''
-                                  : newsAPIData?.publishedAt ?? '',
+                          Text(newsData.pubDate ?? '',
                               textAlign: TextAlign.left,
                               style: const TextStyle(fontSize: 13))
                         ]),
@@ -146,11 +134,10 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             isFavorite
                                 ? Provider.of<NewsProvider>(context,
                                         listen: false)
-                                    .removeBookmark(
-                                        newsData ?? const NewsData())
+                                    .removeBookmark(newsData)
                                 : Provider.of<NewsProvider>(context,
                                         listen: false)
-                                    .addBookmark(newsData ?? const NewsData());
+                                    .addBookmark(newsData);
                           });
                         },
                       ),
@@ -158,18 +145,16 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                newsData != null && newsData.videoUrl != null
+                newsData.videoUrl != null
                     ? NewsVideoWidget(
                         videoUrl: newsData.videoUrl!,
                       )
                     : Container(),
                 Text(
-                  newsData != null
-                      ? newsData.description ??
-                          newsData.content ??
-                          newsData.fullDescription ??
-                          ''
-                      : newsAPIData?.description ?? newsAPIData?.content ?? '',
+                  newsData.fullDescription ??
+                      newsData.content ??
+                      newsData.description ??
+                      '',
                   style: const TextStyle(fontSize: 15, height: 1.75),
                 ),
                 const SizedBox(height: 30),
@@ -180,9 +165,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                         style: ElevatedButton.styleFrom(
                             primary: Theme.of(context).colorScheme.primary,
                             minimumSize: const Size(100, 50)),
-                        onPressed: () => _launchNewsUrl(newsData != null
-                            ? newsData.link ?? ''
-                            : newsAPIData?.url ?? ''),
+                        onPressed: () => _launchNewsUrl(newsData.link ?? ''),
                         child: const Text(
                           'See full news',
                           style: TextStyle(
