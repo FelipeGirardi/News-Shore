@@ -25,38 +25,36 @@ class NewsCellWidgetMedium extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.center,
-      child: IntrinsicHeight(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TitleAndSourceWidgetMedium(newsData: newsData),
+                const SizedBox(
+                  width: 5,
+                ),
+                ImageWidgetMedium(
+                    newsData: newsData,
+                    isBookmarked: isBookmarked,
+                    bookmarkHeroTag: bookmarkHeroTag)
+              ],
+            ),
+            const SizedBox(height: 10),
+            if (index != 2)
+              Column(
                 children: [
-                  TitleAndSourceWidgetMedium(newsData: newsData),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  ImageWidgetMedium(
-                      newsData: newsData,
-                      isBookmarked: isBookmarked,
-                      bookmarkHeroTag: bookmarkHeroTag)
+                  Divider(
+                      height: 3,
+                      thickness: 2,
+                      color: Theme.of(context).colorScheme.primary),
+                  const SizedBox(height: 10),
                 ],
               ),
-              const SizedBox(height: 10),
-              if (index != 2)
-                Column(
-                  children: [
-                    Divider(
-                        height: 3,
-                        thickness: 2,
-                        color: Theme.of(context).colorScheme.primary),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -81,6 +79,9 @@ class _TitleAndSourceWidgetMediumState
     bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
         .bookmarkedNewsList
         .any((item) => item.id == widget.newsData!.id);
+    bool hasDescription = (widget.newsData?.description != null ||
+        widget.newsData?.content != null ||
+        widget.newsData?.fullDescription != null);
     return Expanded(
       flex: 7,
       child: SizedBox(
@@ -92,8 +93,8 @@ class _TitleAndSourceWidgetMediumState
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               AutoSizeText(widget.newsData?.title ?? '',
-                  presetFontSizes: const [15],
-                  maxLines: 2,
+                  presetFontSizes: hasDescription ? const [15] : const [18],
+                  maxLines: hasDescription ? 2 : 3,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -108,7 +109,7 @@ class _TitleAndSourceWidgetMediumState
                 presetFontSizes: const [12],
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(height: 1.3),
+                style: const TextStyle(height: 1.5),
               ),
               const Spacer(),
               const Spacer(),

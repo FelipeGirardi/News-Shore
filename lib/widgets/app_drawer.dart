@@ -20,11 +20,10 @@ class _AppDrawerState extends State<AppDrawer> {
     void _setCategoryState(String categoryName, bool newValue) {
       !newValue
           ? setState(() {
-              newsProvider.filtersSelected.remove(categoryName);
+              newsProvider.selectedFilter = '';
             })
           : setState(() {
-              newsProvider.filtersSelected.clear();
-              newsProvider.filtersSelected.add(categoryName);
+              newsProvider.selectedFilter = categoryName;
             });
     }
 
@@ -44,12 +43,13 @@ class _AppDrawerState extends State<AppDrawer> {
           const Divider(),
           ...NewsCategory.values.map((NewsCategory category) {
             return CheckboxListTile(
+              side: BorderSide(color: Theme.of(context).colorScheme.primary),
               title: Text(category.name.capitalize()),
-              value: newsProvider.filtersSelected.contains(category.name),
+              value: newsProvider.selectedFilter == category.name,
               onChanged: (bool? newValue) {
                 _setCategoryState(category.name, newValue!);
               },
-              activeColor: Colors.green,
+              activeColor: Theme.of(context).colorScheme.primary,
               checkColor: Colors.white,
             );
           }).toList(),

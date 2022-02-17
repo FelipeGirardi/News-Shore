@@ -18,8 +18,6 @@ class NewsDetailScreen extends StatefulWidget {
 }
 
 class _NewsDetailScreenState extends State<NewsDetailScreen> {
-  // Test video: https://vcl.abcotv.net/video/kgo/021022-kgo-745am-bart-budget-vid.mp4
-
   _launchNewsUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -38,6 +36,9 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
     bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
         .bookmarkedNewsList
         .any((item) => item.id == newsData.id);
+    bool hasDescription = (newsData.description != null ||
+        newsData.content != null ||
+        newsData.fullDescription != null);
     return Scaffold(
       appBar: CustomAppBar(
         title: 'News Shore',
@@ -157,7 +158,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       '',
                   style: const TextStyle(fontSize: 15, height: 1.75),
                 ),
-                const SizedBox(height: 30),
+                hasDescription ? const SizedBox(height: 30) : Container(),
                 Row(
                   children: [
                     const Spacer(),

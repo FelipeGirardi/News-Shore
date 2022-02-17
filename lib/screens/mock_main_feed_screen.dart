@@ -45,7 +45,7 @@ class _MockMainFeedScreenState extends State<MockMainFeedScreen> {
                         GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
+                                    crossAxisCount: 2, childAspectRatio: 8 / 9),
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: 6,

@@ -14,10 +14,15 @@ class NewsCellWidgetLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool hasDescription = (newsData?.description != null ||
+        newsData?.content != null ||
+        newsData?.fullDescription != null);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: SizedBox(
-        height: MediaQuery.of(context).size.height / 2.2,
+        height: hasDescription
+            ? MediaQuery.of(context).size.height / 2.3
+            : MediaQuery.of(context).size.height / 2.6,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -47,21 +52,24 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
     bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
         .bookmarkedNewsList
         .any((item) => item.id == widget.newsData!.id);
+    bool hasDescription = (widget.newsData?.description != null ||
+        widget.newsData?.content != null ||
+        widget.newsData?.fullDescription != null);
     return Card(
       color: Theme.of(context).colorScheme.primary,
       shape: const RoundedRectangleBorder(),
       elevation: 0,
       margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Spacer(),
             AutoSizeText(widget.newsData?.title ?? '',
-                presetFontSizes: const [18],
-                maxLines: 2,
+                presetFontSizes:
+                    hasDescription ? const [24, 21, 18] : const [24, 22],
+                maxLines: hasDescription ? 2 : 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -74,11 +82,12 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
                   widget.newsData?.fullDescription ??
                   '',
               presetFontSizes: const [14],
-              maxLines: 4,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  height: 1.3, color: Theme.of(context).colorScheme.background),
+                  height: 1.5, color: Theme.of(context).colorScheme.background),
             ),
+            const Spacer(),
             const Spacer(),
             Row(
               children: [

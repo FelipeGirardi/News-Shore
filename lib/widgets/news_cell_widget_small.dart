@@ -65,7 +65,7 @@ class _TitleAndSourceWidgetSmallState extends State<TitleAndSourceWidgetSmall> {
               presetFontSizes: const [13],
               maxLines: 4,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontWeight: FontWeight.bold, height: 1.3)),
+              style: const TextStyle(fontWeight: FontWeight.bold, height: 1.4)),
           const Spacer(),
           const Spacer(),
           Row(

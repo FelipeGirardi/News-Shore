@@ -69,8 +69,7 @@ List<NewsData> MOCK_NEWS = [
       pubDate: "2022-01-05 00:00:00",
       fullDescription:
           "Osnabrück. Finanzminister Lindner hat Steuerentlastungen für Bürger und Unternehmen in Aussicht gestellt. Zunächst macht er aber ordentlich Kasse: Das Aufkommen aus den Energiesteuern steigt deutlich. Bundesfinanzminister Christian Lindner (FDP) kann im laufenden Jahr mit deutlich mehr Einnahmen aus der Energie- und Stromsteuer kalkulieren. Die Gesamteinnahmen werden im Vergleich zum Vorjahr voraussichtlich um rund 1,4 Milliarden Euro au",
-      imageUrl:
-          "https://www.noz.de/media/2022/01/04/preise-fuer-diesel-e10-super-super-und-super-pl_202201041222_full.jpeg",
+      imageUrl: null,
       sourceId: "noz"),
   const NewsData(
       id: '4',

@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+import '/models/news_data.dart';
 
 class NewsAPIData {
   final String? id;
@@ -41,6 +42,23 @@ class NewsAPIData {
               timestampSplit[0] +
               ' GMT',
       content: json['content'],
+    );
+  }
+
+  NewsData toNewsData() {
+    return NewsData(
+      id: id,
+      title: title,
+      link: url,
+      keywords: null,
+      creator: null,
+      videoUrl: null,
+      description: description,
+      content: content,
+      pubDate: publishedAt,
+      fullDescription: null,
+      imageUrl: urlToImage,
+      sourceId: source?.name ?? source?.id ?? '',
     );
   }
 
