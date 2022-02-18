@@ -45,8 +45,6 @@ class AuthProvider with ChangeNotifier {
         nonce: nonce,
       );
 
-      print(appleCredential.authorizationCode);
-
       final oauthCredential = OAuthProvider("apple.com").credential(
         idToken: appleCredential.identityToken,
         rawNonce: rawNonce,
@@ -60,13 +58,13 @@ class AuthProvider with ChangeNotifier {
       final userEmail = '${appleCredential.email}';
 
       final firebaseUser = authResult.user;
-      print(displayName);
       await firebaseUser?.updateDisplayName(displayName);
       await firebaseUser?.updateEmail(userEmail);
 
       return firebaseUser;
     } catch (exception) {
-      print(exception);
+      //print(exception);
+      null;
     }
     return null;
   }

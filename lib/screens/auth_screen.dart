@@ -29,17 +29,17 @@ class _AuthScreenState extends State<AuthScreen> {
 
   void _executeAuth(String email, String password, AuthMode authMode,
       BuildContext context) async {
-    UserCredential authResult;
+    UserCredential _;
     try {
       setState(() {
         _isLoading = true;
       });
       if (authMode == AuthMode.login) {
-        authResult = await _authInstance.signInWithEmailAndPassword(
+        _ = await _authInstance.signInWithEmailAndPassword(
             email: email, password: password);
         setLoadingToFalse();
       } else {
-        authResult = await _authInstance.createUserWithEmailAndPassword(
+        _ = await _authInstance.createUserWithEmailAndPassword(
             email: email, password: password);
         setLoadingToFalse();
       }

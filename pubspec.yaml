@@ -81,32 +81,49 @@ flutter:
     - assets/images/google_logo.png
     - assets/images/flags/globe.svg
     - assets/images/flags/ae.svg
+    - assets/images/flags/at.svg
     - assets/images/flags/ar.svg
     - assets/images/flags/au.svg
     - assets/images/flags/be.svg
     - assets/images/flags/br.svg
     - assets/images/flags/ca.svg
+    - assets/images/flags/ch.svg
     - assets/images/flags/cn.svg
     - assets/images/flags/co.svg
+    - assets/images/flags/cz.svg
     - assets/images/flags/de.svg
     - assets/images/flags/eg.svg
     - assets/images/flags/es.svg
     - assets/images/flags/fr.svg
     - assets/images/flags/gb.svg
+    - assets/images/flags/gr.svg
     - assets/images/flags/hu.svg
+    - assets/images/flags/id.svg
+    - assets/images/flags/ie.svg
     - assets/images/flags/il.svg
     - assets/images/flags/in.svg
     - assets/images/flags/it.svg
     - assets/images/flags/jp.svg
+    - assets/images/flags/kr.svg
+    - assets/images/flags/ma.svg
     - assets/images/flags/mx.svg
+    - assets/images/flags/my.svg
+    - assets/images/flags/ng.svg
     - assets/images/flags/nl.svg
+    - assets/images/flags/nz.svg
+    - assets/images/flags/ph.svg
     - assets/images/flags/pk.svg
     - assets/images/flags/pl.svg
     - assets/images/flags/pt.svg
+    - assets/images/flags/ru.svg
     - assets/images/flags/sa.svg
+    - assets/images/flags/se.svg
     - assets/images/flags/sg.svg
     - assets/images/flags/th.svg
+    - assets/images/flags/tr.svg
+    - assets/images/flags/ua.svg
     - assets/images/flags/us.svg
+    - assets/images/flags/za.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

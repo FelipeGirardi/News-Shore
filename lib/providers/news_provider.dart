@@ -65,8 +65,9 @@ class NewsProvider with ChangeNotifier {
     return [..._bookmarkedNewsList];
   }
 
-  bool get isNewsAPILang {
-    return newsAPILangs.contains(currentLang);
+  bool get shouldFetchNewsAPI {
+    return newsAPILangs.contains(currentLang) ||
+        newsAPICountries.contains(currentCountry);
   }
 
   void clearNews() {
@@ -97,7 +98,7 @@ class NewsProvider with ChangeNotifier {
       currentCountry = prefs.getString('country') ?? '';
     }
     if (_newsList.length <= _totalNews) {
-      if (!isNewsAPILang) {
+      if (!shouldFetchNewsAPI) {
         for (var i = 0; i < 2; i++) {
           await fetchNewsPage(currentLang ?? 'en', currentCountry ?? 'all');
           _nextPage += 1;
@@ -156,14 +157,23 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<List<NewsData?>?> fetchSearchNews(String query) async {
-    if (_searchNewsList.length <= _searchTotalNews) {
-      for (var i = 0; i < 2; i++) {
-        await fetchSearchNewsPage(
-            currentLang ?? 'en', currentCountry ?? 'all', query);
-        _searchNextPage += 1;
+    if (_newsList.length <= _searchTotalNews) {
+      if (!shouldFetchNewsAPI) {
+        for (var i = 0; i < 2; i++) {
+          await fetchSearchNewsPage(
+              currentLang ?? 'en', currentCountry ?? 'all', query);
+          _nextPage += 1;
+        }
+        isLoadingNews = false;
+        notifyListeners();
+        return _searchNewsList;
+      } else {
+        await fetchSearchNewsAPIPage(currentCountry ?? 'br', query);
+        _nextPage += 2;
+        isLoadingNews = false;
+        notifyListeners();
+        return _searchNewsList;
       }
-      notifyListeners();
-      return _searchNewsList;
     } else {
       throw Exception('Failed to load news');
     }
@@ -184,6 +194,20 @@ class NewsProvider with ChangeNotifier {
       }
       _searchNewsList.addAll(initialNewsResponse.results!
           .map((i) => NewsData.fromJson(i))
+          .toList());
+    }
+  }
+
+  Future<void> fetchSearchNewsAPIPage(String country, String query) async {
+    final Uri url = Uri.parse(
+        'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPage&q=query');
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final decoded = jsonDecode(utf8.decode(response.bodyBytes));
+      final initialNewsResponse = NewsAPIResponse.fromJson(decoded);
+      _totalNews = initialNewsResponse.totalResults ?? 0;
+      _searchNewsList.addAll(initialNewsResponse.articles!
+          .map((i) => NewsAPIData.fromJson(i).toNewsData())
           .toList());
     }
   }
