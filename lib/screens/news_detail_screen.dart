@@ -33,12 +33,12 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
     final NewsData newsData = args.newsData;
     final bool isBookmarked = args.isBookmarked;
     final String heroTag = args.heroTag;
-    bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
-        .bookmarkedNewsList
-        .any((item) => item.id == newsData.id);
-    bool hasDescription = (newsData.description != null ||
-        newsData.content != null ||
-        newsData.fullDescription != null);
+    final provider = Provider.of<NewsProvider>(context, listen: false);
+    bool isFavorite =
+        provider.bookmarkedNewsList.any((item) => item.id == newsData.id);
+    // bool hasDescription = (newsData.fullDescription != null ||
+    //     newsData.description != null ||
+    //     newsData.content != null);
     return Scaffold(
       appBar: CustomAppBar(
         title: 'News Shore',
@@ -53,13 +53,9 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
               placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
               image: newsData.imageUrl != null
                   ? newsData.imageUrl!.isNotEmpty
-                      ? (newsData.imageUrl!
-                                  .substring(newsData.imageUrl!.length - 3) !=
-                              'mp4'
-                          ? NetworkImage(newsData.imageUrl!)
-                          : const AssetImage('assets/images/newsshore_logo.jpg')
-                              as ImageProvider)
+                      ? NetworkImage(newsData.imageUrl!)
                       : const AssetImage('assets/images/newsshore_logo.jpg')
+                          as ImageProvider
                   : const AssetImage('assets/images/newsshore_logo.jpg'),
               height: 200,
               width: MediaQuery.of(context).size.width,
@@ -158,7 +154,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       '',
                   style: const TextStyle(fontSize: 15, height: 1.75),
                 ),
-                hasDescription ? const SizedBox(height: 30) : Container(),
+                const SizedBox(height: 30),
                 Row(
                   children: [
                     const Spacer(),

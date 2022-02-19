@@ -80,7 +80,6 @@ class _TitleAndSourceWidgetMediumState
         .bookmarkedNewsList
         .any((item) => item.id == widget.newsData!.id);
     bool hasDescription = (widget.newsData?.description != null ||
-        widget.newsData?.content != null ||
         widget.newsData?.fullDescription != null);
     return Expanded(
       flex: 7,
@@ -103,7 +102,6 @@ class _TitleAndSourceWidgetMediumState
               const Spacer(),
               AutoSizeText(
                 widget.newsData?.description ??
-                    widget.newsData?.content ??
                     widget.newsData?.fullDescription ??
                     '',
                 presetFontSizes: const [12],
@@ -174,13 +172,9 @@ class ImageWidgetMedium extends StatelessWidget {
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData?.imageUrl != null
               ? newsData!.imageUrl!.isNotEmpty
-                  ? (newsData!.imageUrl!
-                              .substring(newsData!.imageUrl!.length - 3) !=
-                          'mp4'
-                      ? NetworkImage(newsData!.imageUrl!)
-                      : const AssetImage('assets/images/newsshore_logo.jpg')
-                          as ImageProvider)
+                  ? NetworkImage(newsData!.imageUrl!)
                   : const AssetImage('assets/images/newsshore_logo.jpg')
+                      as ImageProvider
               : const AssetImage('assets/images/newsshore_logo.jpg'),
           height: 120,
           fit: BoxFit.cover,

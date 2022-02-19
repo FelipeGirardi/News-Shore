@@ -22,7 +22,7 @@ class NewsCellWidgetLarge extends StatelessWidget {
       child: SizedBox(
         height: hasDescription
             ? MediaQuery.of(context).size.height / 2.3
-            : MediaQuery.of(context).size.height / 2.6,
+            : MediaQuery.of(context).size.height / 2.7,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -53,8 +53,8 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
         .bookmarkedNewsList
         .any((item) => item.id == widget.newsData!.id);
     bool hasDescription = (widget.newsData?.description != null ||
-        widget.newsData?.content != null ||
-        widget.newsData?.fullDescription != null);
+        widget.newsData?.fullDescription != null ||
+        widget.newsData?.description != null);
     return Card(
       color: Theme.of(context).colorScheme.primary,
       shape: const RoundedRectangleBorder(),
@@ -68,7 +68,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
           children: [
             AutoSizeText(widget.newsData?.title ?? '',
                 presetFontSizes:
-                    hasDescription ? const [24, 21, 18] : const [24, 22],
+                    hasDescription ? const [22, 20, 18] : const [22, 20],
                 maxLines: hasDescription ? 2 : 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -78,7 +78,6 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
             const Spacer(),
             AutoSizeText(
               widget.newsData?.description ??
-                  widget.newsData?.content ??
                   widget.newsData?.fullDescription ??
                   '',
               presetFontSizes: const [14],
@@ -149,13 +148,9 @@ class ImageWidgetLarge extends StatelessWidget {
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData?.imageUrl != null
               ? newsData!.imageUrl!.isNotEmpty
-                  ? (newsData!.imageUrl!
-                              .substring(newsData!.imageUrl!.length - 3) !=
-                          'mp4'
-                      ? NetworkImage(newsData!.imageUrl!)
-                      : const AssetImage('assets/images/newsshore_logo.jpg')
-                          as ImageProvider)
+                  ? NetworkImage(newsData!.imageUrl!)
                   : const AssetImage('assets/images/newsshore_logo.jpg')
+                      as ImageProvider
               : const AssetImage('assets/images/newsshore_logo.jpg'),
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,

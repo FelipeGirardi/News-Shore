@@ -28,6 +28,23 @@ class NewsAPIData {
   factory NewsAPIData.fromJson(Map<String, dynamic> json) {
     final publishedAtSplit = json['publishedAt'].split('T');
     final timestampSplit = publishedAtSplit[1].split('Z');
+    final String? contentString = json['content'] as String?;
+    final posEllipsis = contentString?.lastIndexOf('[') ?? 0;
+    final realcontentString = contentString == null
+        ? null
+        : contentString.isEmpty
+            ? null
+            : (posEllipsis != -1)
+                ? contentString.substring(0, posEllipsis)
+                : contentString;
+    final String? imgString = json['urlToImage'] as String?;
+    final realImgString = imgString == null
+        ? null
+        : (imgString.isNotEmpty &&
+                imgString.substring(0, 4) == 'http' &&
+                imgString.substring(imgString.length - 3) != 'mp4')
+            ? imgString
+            : null;
     return NewsAPIData(
       id: const Uuid().v4(),
       source: NewsAPISource.fromJson(json['source']),
@@ -35,13 +52,13 @@ class NewsAPIData {
       title: json['title'],
       description: json['description'],
       url: json['url'],
-      urlToImage: json['urlToImage'],
+      urlToImage: realImgString,
       publishedAt:
           DateFormat("dd-MM-yyyy").format(DateTime.parse(publishedAtSplit[0])) +
               ', ' +
               timestampSplit[0] +
               ' GMT',
-      content: json['content'],
+      content: realcontentString,
     );
   }
 

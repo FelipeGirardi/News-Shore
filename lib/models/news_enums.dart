@@ -198,7 +198,7 @@ extension NewsCountryExtension on NewsCountry {
       case NewsCountry.Indonesia:
         return 'Indonesia';
       case NewsCountry.Ireland:
-        return 'ie';
+        return 'Ireland';
       case NewsCountry.Israel:
         return 'Israel';
       case NewsCountry.Italy:
@@ -773,6 +773,7 @@ final List<String> newsAPILangs = [
   'cz',
   'gr',
   'id',
+  'it',
   'my',
   'kr',
   'pt',

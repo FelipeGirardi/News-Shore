@@ -32,6 +32,14 @@ class NewsData {
 
   factory NewsData.fromJson(Map<String, dynamic> json) {
     final pubDateSplit = json['pubDate'].split(' ');
+    final String? imgString = json['image_url'] as String?;
+    final realImgString = imgString == null
+        ? null
+        : (imgString.isNotEmpty &&
+                imgString.substring(0, 4) == 'http' &&
+                imgString.substring(imgString.length - 3) != 'mp4')
+            ? imgString
+            : null;
     return NewsData(
       id: const Uuid().v4(),
       title: json['title'],
@@ -47,7 +55,7 @@ class NewsData {
               pubDateSplit[1] +
               ' GMT',
       fullDescription: json['full_description'],
-      imageUrl: json['image_url'],
+      imageUrl: realImgString,
       sourceId: json['source_id'],
     );
   }

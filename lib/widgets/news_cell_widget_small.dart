@@ -127,13 +127,9 @@ class ImageWidgetSmall extends StatelessWidget {
           placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
           image: newsData!.imageUrl != null
               ? newsData!.imageUrl!.isNotEmpty
-                  ? (newsData!.imageUrl!
-                              .substring(newsData!.imageUrl!.length - 3) !=
-                          'mp4'
-                      ? NetworkImage(newsData!.imageUrl!)
-                      : const AssetImage('assets/images/newsshore_logo.jpg')
-                          as ImageProvider)
+                  ? NetworkImage(newsData!.imageUrl!)
                   : const AssetImage('assets/images/newsshore_logo.jpg')
+                      as ImageProvider
               : const AssetImage('assets/images/newsshore_logo.jpg'),
           width: 200,
           fit: BoxFit.cover,
