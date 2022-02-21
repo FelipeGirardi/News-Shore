@@ -9,10 +9,8 @@ import '/models/news_data.dart';
 import '/models/news_api_response.dart';
 import '/models/news_api_data.dart';
 import '/models/news_enums.dart';
+import '/helpers/api_keys.dart';
 import '/helpers/sql_helper.dart';
-
-String apiKeyNewsData = 'pub_3162ee115d2cfdf10b4bb42c76aca12b66fd';
-String apiKeyNewsApi = 'c4e583b9475d4ae387011a2cf2c9f951';
 
 class NewsProvider with ChangeNotifier {
   List<NewsData> _newsList = [];
