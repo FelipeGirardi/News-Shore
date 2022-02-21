@@ -615,7 +615,7 @@ int languageIndex(String code) {
       return 19;
     case 'my':
       return 20;
-    case 'in':
+    case 'id':
       return 21;
     default:
       return 0;

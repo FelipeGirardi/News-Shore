@@ -49,6 +49,7 @@ dependencies:
   sign_in_with_apple: ^3.3.0
   crypto: ^3.0.1
   video_player: ^2.2.18
+  google_mobile_ads: ^1.1.0
 
 dev_dependencies:
   flutter_test:

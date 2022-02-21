@@ -35,13 +35,13 @@ class NewsCellWidget extends StatelessWidget {
             arguments: newsDetailArguments,
           );
         },
-        child: cellType! % 3 == 0
+        child: cellType! % 4 == 0
             ? NewsCellWidgetLarge(
                 key: key,
                 ctx: ctx,
                 newsData: newsData,
               )
-            : (cellType! - 1) % 3 == 0
+            : (cellType! - 1) % 4 == 0
                 ? NewsCellWidgetMedium(
                     key: key,
                     ctx: ctx,

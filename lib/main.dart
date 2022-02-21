@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '/providers/news_provider.dart';
 import '/screens/screen_navigator.dart';
@@ -19,6 +20,10 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  Future<InitializationStatus> _initGoogleMobileAds() async {
+    return await MobileAds.instance.initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,38 +78,50 @@ class MyApp extends StatelessWidget {
                         snapshot.data?.setString('language', 'en');
                         snapshot.data?.setString('country', 'all');
                       }
-                      return MultiProvider(
-                          providers: [
-                            ChangeNotifierProvider<NewsProvider>(
-                                create: (ctx) => NewsProvider()),
-                            ChangeNotifierProvider(
-                              create: (ctx) =>
-                                  AuthProvider(FirebaseAuth.instance),
-                            ),
-                            StreamProvider(
-                              create: (BuildContext context) {
-                                return context
-                                    .read<AuthProvider>()
-                                    .authStateChanges;
-                              },
-                              initialData: null,
-                            )
-                          ],
-                          child: MaterialApp(
-                            title: 'News Shore',
-                            theme: lightThemeData,
-                            darkTheme: darkThemeData,
-                            home: const ScreenNavigator(),
-                            routes: {
-                              NewsDetailScreen.routeName: (ctx) =>
-                                  const NewsDetailScreen(),
-                              BookmarksScreen.routeName: (ctx) =>
-                                  const BookmarksScreen(),
-                            },
-                          ));
+                      return FutureBuilder<InitializationStatus>(
+                          future: _initGoogleMobileAds(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const LoadingWidget();
+                            } else {
+                              if (snapshot.hasData) {
+                                return MultiProvider(
+                                    providers: [
+                                      ChangeNotifierProvider<NewsProvider>(
+                                          create: (ctx) => NewsProvider()),
+                                      ChangeNotifierProvider(
+                                        create: (ctx) =>
+                                            AuthProvider(FirebaseAuth.instance),
+                                      ),
+                                      StreamProvider(
+                                        create: (BuildContext context) {
+                                          return context
+                                              .read<AuthProvider>()
+                                              .authStateChanges;
+                                        },
+                                        initialData: null,
+                                      )
+                                    ],
+                                    child: MaterialApp(
+                                      title: 'News Shore',
+                                      theme: lightThemeData,
+                                      darkTheme: darkThemeData,
+                                      home: const ScreenNavigator(),
+                                      routes: {
+                                        NewsDetailScreen.routeName: (ctx) =>
+                                            const NewsDetailScreen(),
+                                        BookmarksScreen.routeName: (ctx) =>
+                                            const BookmarksScreen(),
+                                      },
+                                    ));
+                              }
+                            }
+                            return const LoadingWidget();
+                          });
                     }
-                    return const LoadingWidget();
                 }
+                return Container();
               });
         });
   }
