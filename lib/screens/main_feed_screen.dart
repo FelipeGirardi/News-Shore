@@ -27,6 +27,13 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     return await Provider.of<NewsProvider>(context, listen: false).fetchNews();
   }
 
+  Future<void> _refreshNews() async {
+    final provider = Provider.of<NewsProvider>(context, listen: false);
+    provider.clearNews();
+    await provider.fetchNews();
+    setState(() {});
+  }
+
   @override
   void initState() {
     _newsProvider = _setNewsProvider();
@@ -92,70 +99,77 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                       newsProv.newsList.isEmpty ||
                       snapshot.hasError
                   ? const LoadingWidget()
-                  : ListView.builder(
-                      controller: scrollController,
-                      physics: _willFetchNewsPage
-                          ? const NeverScrollableScrollPhysics()
-                          : const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.only(bottom: 12),
-                      itemCount: 4 * newsProv.nextPage,
-                      itemBuilder: (ctx, cellType) => cellType % 4 == 0
-                          ? NewsCellWidget(
-                              key: UniqueKey(),
-                              ctx: ctx,
-                              cellType: cellType,
-                              index: 0,
-                              newsData: newsProv.newsList[10 * cellType ~/ 4])
-                          : (cellType - 1) % 4 == 0
-                              ? ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: 3,
-                                  itemBuilder: (ctx, i) => NewsCellWidget(
-                                      key: UniqueKey(),
-                                      ctx: ctx,
-                                      cellType: cellType,
-                                      index: i,
-                                      newsData: newsProv.newsList[
-                                          ((cellType ~/ 4) * 10) + i + 1]))
-                              : (cellType - 2) % 4 == 0
-                                  ? Column(
-                                      children: [
-                                        GridView.builder(
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 2,
-                                                    childAspectRatio: 8 / 9),
-                                            shrinkWrap: true,
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            itemCount: 6,
-                                            itemBuilder: (ctx, i) =>
-                                                NewsCellWidget(
-                                                    key: UniqueKey(),
-                                                    ctx: ctx,
-                                                    cellType: cellType,
-                                                    index: i,
-                                                    newsData: newsProv.newsList[
-                                                        ((cellType ~/ 4) * 10) +
-                                                            i +
-                                                            4])),
-                                        const SizedBox(height: 10),
-                                      ],
-                                    )
-                                  : _isAdLoaded
-                                      ? Column(
-                                          children: [
-                                            Container(
-                                              child: AdWidget(ad: _ad),
-                                              width: _ad.size.width.toDouble(),
-                                              height: 72.0,
-                                              alignment: Alignment.center,
-                                            ),
-                                            const SizedBox(height: 20),
-                                          ],
-                                        )
-                                      : Container(),
+                  : RefreshIndicator(
+                      onRefresh: _refreshNews,
+                      child: ListView.builder(
+                        controller: scrollController,
+                        physics: _willFetchNewsPage
+                            ? const NeverScrollableScrollPhysics()
+                            : const AlwaysScrollableScrollPhysics(),
+                        padding: const EdgeInsets.only(bottom: 12),
+                        itemCount: 4 * newsProv.nextPage,
+                        itemBuilder: (ctx, cellType) => cellType % 4 == 0
+                            ? NewsCellWidget(
+                                key: UniqueKey(),
+                                ctx: ctx,
+                                cellType: cellType,
+                                index: 0,
+                                newsData: newsProv.newsList[10 * cellType ~/ 4])
+                            : (cellType - 1) % 4 == 0
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: 3,
+                                    itemBuilder: (ctx, i) => NewsCellWidget(
+                                        key: UniqueKey(),
+                                        ctx: ctx,
+                                        cellType: cellType,
+                                        index: i,
+                                        newsData: newsProv.newsList[
+                                            ((cellType ~/ 4) * 10) + i + 1]))
+                                : (cellType - 2) % 4 == 0
+                                    ? Column(
+                                        children: [
+                                          GridView.builder(
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 2,
+                                                      childAspectRatio: 8 / 9),
+                                              shrinkWrap: true,
+                                              physics:
+                                                  const NeverScrollableScrollPhysics(),
+                                              itemCount: 6,
+                                              itemBuilder: (ctx, i) =>
+                                                  NewsCellWidget(
+                                                      key: UniqueKey(),
+                                                      ctx: ctx,
+                                                      cellType: cellType,
+                                                      index: i,
+                                                      newsData:
+                                                          newsProv.newsList[
+                                                              ((cellType ~/ 4) *
+                                                                      10) +
+                                                                  i +
+                                                                  4])),
+                                          const SizedBox(height: 10),
+                                        ],
+                                      )
+                                    : _isAdLoaded
+                                        ? Column(
+                                            children: [
+                                              Container(
+                                                child: AdWidget(ad: _ad),
+                                                width:
+                                                    _ad.size.width.toDouble(),
+                                                height: 72.0,
+                                                alignment: Alignment.center,
+                                              ),
+                                              const SizedBox(height: 20),
+                                            ],
+                                          )
+                                        : Container(),
+                      ),
                     )),
         ),
       ),
