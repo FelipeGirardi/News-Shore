@@ -90,7 +90,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           image: AssetImage(
                               'assets/images/newsshore_title_only.png'),
                           fit: BoxFit.fitWidth),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       StreamBuilder(
                           stream: _authInstance.authStateChanges(),
                           builder: (ctx, userSnapshot) {
@@ -107,10 +107,10 @@ class _AuthScreenState extends State<AuthScreen> {
                                   AuthForm(
                                       executeAuth: _executeAuth,
                                       isLoading: _isLoading),
-                                  const SizedBox(height: 40),
+                                  const SizedBox(height: 30),
                                   SizedBox(
                                     width: deviceSize.width * 0.75,
-                                    height: 44,
+                                    height: 40,
                                     child: FloatingActionButton.extended(
                                         onPressed: () {
                                           context

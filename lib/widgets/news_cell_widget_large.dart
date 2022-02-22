@@ -145,13 +145,14 @@ class ImageWidgetLarge extends StatelessWidget {
       child: Hero(
         tag: newsData!.id!,
         child: FadeInImage(
-          placeholder: const AssetImage('assets/images/newsshore_logo.jpg'),
+          placeholder:
+              const AssetImage('assets/images/newsshore_logo_long.png'),
           image: newsData?.imageUrl != null
               ? newsData!.imageUrl!.isNotEmpty
                   ? NetworkImage(newsData!.imageUrl!)
-                  : const AssetImage('assets/images/newsshore_logo.jpg')
+                  : const AssetImage('assets/images/newsshore_logo_long.png')
                       as ImageProvider
-              : const AssetImage('assets/images/newsshore_logo.jpg'),
+              : const AssetImage('assets/images/newsshore_logo_long.png'),
           width: MediaQuery.of(context).size.width,
           fit: BoxFit.cover,
         ),

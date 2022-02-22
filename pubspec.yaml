@@ -76,6 +76,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/newsshore_logo.jpg
+    - assets/images/newsshore_logo_long.png
     - assets/images/newsshore_title.jpg
     - assets/images/newsshore_title.png
     - assets/images/newsshore_title_only.png
