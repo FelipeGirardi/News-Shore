@@ -41,7 +41,6 @@ class LoggedUserScreen extends StatelessWidget {
                     return Center(
                       child: Column(
                         children: [
-                          const SizedBox(height: 20),
                           Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
