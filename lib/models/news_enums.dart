@@ -1,4 +1,6 @@
 // ignore_for_file: constant_identifier_names
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum NewsCategory {
   business,
@@ -14,6 +16,8 @@ extension StringExtension on String {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
 }
+
+// NEWS COUNTRY
 
 enum NewsCountry {
   All,
@@ -354,6 +358,97 @@ extension NewsCountryExtension on NewsCountry {
   }
 }
 
+String getLocalizedCountry(NewsCountry country, BuildContext context) {
+  switch (country) {
+    case NewsCountry.All:
+      return AppLocalizations.of(context)!.all;
+    case NewsCountry.Argentina:
+      return AppLocalizations.of(context)!.argentina;
+    case NewsCountry.Australia:
+      return AppLocalizations.of(context)!.australia;
+    case NewsCountry.Austria:
+      return AppLocalizations.of(context)!.austria;
+    case NewsCountry.Belgium:
+      return AppLocalizations.of(context)!.belgium;
+    case NewsCountry.Brazil:
+      return AppLocalizations.of(context)!.brazil;
+    case NewsCountry.Canada:
+      return AppLocalizations.of(context)!.canada;
+    case NewsCountry.China:
+      return AppLocalizations.of(context)!.china;
+    case NewsCountry.Colombia:
+      return AppLocalizations.of(context)!.colombia;
+    case NewsCountry.Czechia:
+      return AppLocalizations.of(context)!.czechia;
+    case NewsCountry.Egypt:
+      return AppLocalizations.of(context)!.egypt;
+    case NewsCountry.France:
+      return AppLocalizations.of(context)!.france;
+    case NewsCountry.Germany:
+      return AppLocalizations.of(context)!.germany;
+    case NewsCountry.Greece:
+      return AppLocalizations.of(context)!.greece;
+    case NewsCountry.Hungary:
+      return AppLocalizations.of(context)!.hungary;
+    case NewsCountry.India:
+      return AppLocalizations.of(context)!.india;
+    case NewsCountry.Indonesia:
+      return AppLocalizations.of(context)!.indonesia;
+    case NewsCountry.Ireland:
+      return AppLocalizations.of(context)!.ireland;
+    case NewsCountry.Israel:
+      return AppLocalizations.of(context)!.israel;
+    case NewsCountry.Italy:
+      return AppLocalizations.of(context)!.italy;
+    case NewsCountry.Japan:
+      return AppLocalizations.of(context)!.japan;
+    case NewsCountry.Malaysia:
+      return AppLocalizations.of(context)!.malaysia;
+    case NewsCountry.Mexico:
+      return AppLocalizations.of(context)!.mexico;
+    case NewsCountry.Morocco:
+      return AppLocalizations.of(context)!.morocco;
+    case NewsCountry.Netherlands:
+      return AppLocalizations.of(context)!.netherlands;
+    case NewsCountry.NewZealand:
+      return AppLocalizations.of(context)!.newZealand;
+    case NewsCountry.Nigeria:
+      return AppLocalizations.of(context)!.nigeria;
+    case NewsCountry.Pakistan:
+      return AppLocalizations.of(context)!.pakistan;
+    case NewsCountry.Philippines:
+      return AppLocalizations.of(context)!.philippines;
+    case NewsCountry.Poland:
+      return AppLocalizations.of(context)!.poland;
+    case NewsCountry.Portugal:
+      return AppLocalizations.of(context)!.portugal;
+    case NewsCountry.Russia:
+      return AppLocalizations.of(context)!.russia;
+    case NewsCountry.Spain:
+      return AppLocalizations.of(context)!.spain;
+    case NewsCountry.Sweden:
+      return AppLocalizations.of(context)!.sweden;
+    case NewsCountry.Switzerland:
+      return AppLocalizations.of(context)!.switzerland;
+    case NewsCountry.Thailand:
+      return AppLocalizations.of(context)!.thailand;
+    case NewsCountry.Turkey:
+      return AppLocalizations.of(context)!.turkey;
+    case NewsCountry.UAE:
+      return AppLocalizations.of(context)!.uae;
+    case NewsCountry.UK:
+      return AppLocalizations.of(context)!.uk;
+    case NewsCountry.Ukraine:
+      return AppLocalizations.of(context)!.ukraine;
+    case NewsCountry.USA:
+      return AppLocalizations.of(context)!.usa;
+    default:
+      return AppLocalizations.of(context)!.all;
+  }
+}
+
+// NEWS LANGUAGE
+
 enum NewsLanguage {
   English,
   Spanish,
@@ -622,151 +717,204 @@ int languageIndex(String code) {
   }
 }
 
-String getLangNameFromCode(String code) {
+String getLangNameFromCode(String code, BuildContext context) {
   switch (code) {
     case 'en':
-      return 'English';
+      return AppLocalizations.of(context)!.english;
     case 'es':
-      return 'Spanish';
+      return AppLocalizations.of(context)!.spanish;
     case 'de':
-      return 'German';
+      return AppLocalizations.of(context)!.german;
     case 'fr':
-      return 'Frech';
+      return AppLocalizations.of(context)!.french;
     case 'pt':
-      return 'Portuguese';
+      return AppLocalizations.of(context)!.portuguese;
     case 'it':
-      return 'Italian';
+      return AppLocalizations.of(context)!.italian;
     case 'nl':
-      return 'Dutch';
+      return AppLocalizations.of(context)!.dutch;
     case 'se':
-      return 'Swedish';
+      return AppLocalizations.of(context)!.swedish;
     case 'ru':
-      return 'Russian';
+      return AppLocalizations.of(context)!.russian;
     case 'pl':
-      return 'Polish';
+      return AppLocalizations.of(context)!.polish;
     case 'cz':
-      return 'Czech';
+      return AppLocalizations.of(context)!.czech;
     case 'ua':
-      return 'Ukrainian';
+      return AppLocalizations.of(context)!.ukrainian;
     case 'hu':
-      return 'Hungarian';
+      return AppLocalizations.of(context)!.hungarian;
     case 'gr':
-      return 'Greek';
+      return AppLocalizations.of(context)!.greek;
     case 'tr':
-      return 'Turkish';
+      return AppLocalizations.of(context)!.turkish;
     case 'ar':
-      return 'Arabic';
+      return AppLocalizations.of(context)!.arabic;
     case 'cn':
-      return 'Chinese';
+      return AppLocalizations.of(context)!.chinese;
     case 'jp':
-      return 'Japanese';
+      return AppLocalizations.of(context)!.japanese;
     case 'kr':
-      return 'Korean';
+      return AppLocalizations.of(context)!.korean;
     case 'th':
-      return 'Thai';
+      return AppLocalizations.of(context)!.thai;
     case 'my':
-      return 'Malay';
+      return AppLocalizations.of(context)!.malay;
     case 'id':
-      return 'Indonesian';
+      return AppLocalizations.of(context)!.indonesian;
     default:
-      return 'English';
+      return AppLocalizations.of(context)!.english;
   }
 }
 
-String getCountryNameFromCode(String code) {
+String getCountryNameFromCode(String code, BuildContext context) {
   switch (code) {
     case 'all':
-      return 'All';
+      return AppLocalizations.of(context)!.all;
     case 'ar':
-      return 'Argentina';
+      return AppLocalizations.of(context)!.argentina;
     case 'au':
-      return 'Australia';
+      return AppLocalizations.of(context)!.australia;
     case 'at':
-      return 'Austria';
+      return AppLocalizations.of(context)!.austria;
     case 'be':
-      return 'Belgium';
+      return AppLocalizations.of(context)!.belgium;
     case 'br':
-      return 'Brazil';
+      return AppLocalizations.of(context)!.brazil;
     case 'ca':
-      return 'Canada';
+      return AppLocalizations.of(context)!.canada;
     case 'cn':
-      return 'China';
+      return AppLocalizations.of(context)!.china;
     case 'co':
-      return 'Colombia';
+      return AppLocalizations.of(context)!.colombia;
     case 'cz':
-      return 'Czechia';
+      return AppLocalizations.of(context)!.czechia;
     case 'eg':
-      return 'Egypt';
+      return AppLocalizations.of(context)!.egypt;
     case 'fr':
-      return 'France';
+      return AppLocalizations.of(context)!.france;
     case 'de':
-      return 'Germany';
+      return AppLocalizations.of(context)!.germany;
     case 'gr':
-      return 'Greece';
+      return AppLocalizations.of(context)!.greece;
     case 'hu':
-      return 'Hungary';
+      return AppLocalizations.of(context)!.hungary;
     case 'in':
-      return 'India';
+      return AppLocalizations.of(context)!.india;
     case 'id':
-      return 'Indonesia';
+      return AppLocalizations.of(context)!.indonesia;
     case 'ie':
-      return 'Ireland';
+      return AppLocalizations.of(context)!.ireland;
     case 'il':
-      return 'Israel';
+      return AppLocalizations.of(context)!.israel;
     case 'it':
-      return 'Italy';
+      return AppLocalizations.of(context)!.italy;
     case 'jp':
-      return 'Japan';
+      return AppLocalizations.of(context)!.japan;
     case 'my':
-      return 'Malaysia';
+      return AppLocalizations.of(context)!.malaysia;
     case 'mx':
-      return 'Mexico';
+      return AppLocalizations.of(context)!.mexico;
     case 'ma':
-      return 'Morocco';
+      return AppLocalizations.of(context)!.morocco;
     case 'nl':
-      return 'Netherlands';
+      return AppLocalizations.of(context)!.netherlands;
     case 'nz':
-      return 'New Zealand';
+      return AppLocalizations.of(context)!.newZealand;
     case 'ng':
-      return 'Nigeria';
+      return AppLocalizations.of(context)!.nigeria;
     case 'pk':
-      return 'Pakistan';
+      return AppLocalizations.of(context)!.pakistan;
     case 'pl':
-      return 'Poland';
+      return AppLocalizations.of(context)!.poland;
     case 'pt':
-      return 'Portugal';
+      return AppLocalizations.of(context)!.portugal;
     case 'ru':
-      return 'Russia';
+      return AppLocalizations.of(context)!.russia;
     case 'sa':
-      return 'Saudi Arabia';
+      return AppLocalizations.of(context)!.saudiArabia;
     case 'sg':
-      return 'Singapore';
+      return AppLocalizations.of(context)!.singapore;
     case 'za':
-      return 'South Africa';
+      return AppLocalizations.of(context)!.southAfrica;
     case 'kr':
-      return 'South Korea';
+      return AppLocalizations.of(context)!.southKorea;
     case 'es':
-      return 'Spain';
+      return AppLocalizations.of(context)!.spain;
     case 'se':
-      return 'Sweden';
+      return AppLocalizations.of(context)!.sweden;
     case 'ch':
-      return 'Switzerland';
+      return AppLocalizations.of(context)!.switzerland;
     case 'th':
-      return 'Thailand';
+      return AppLocalizations.of(context)!.thailand;
     case 'tr':
-      return 'Turkey';
+      return AppLocalizations.of(context)!.turkey;
     case 'ae':
-      return 'UAE';
+      return AppLocalizations.of(context)!.uae;
     case 'uk':
-      return 'United Kingdom';
+      return AppLocalizations.of(context)!.uk;
     case 'ua':
-      return 'Ukraine';
+      return AppLocalizations.of(context)!.ukraine;
     case 'us':
-      return 'United States';
+      return AppLocalizations.of(context)!.usa;
     default:
-      return 'All';
+      return AppLocalizations.of(context)!.all;
   }
 }
+
+String getLocalizedLanguage(NewsLanguage lang, BuildContext context) {
+  switch (lang) {
+    case NewsLanguage.Arabic:
+      return AppLocalizations.of(context)!.arabic;
+    case NewsLanguage.Chinese:
+      return AppLocalizations.of(context)!.chinese;
+    case NewsLanguage.Czech:
+      return AppLocalizations.of(context)!.czech;
+    case NewsLanguage.Dutch:
+      return AppLocalizations.of(context)!.dutch;
+    case NewsLanguage.English:
+      return AppLocalizations.of(context)!.english;
+    case NewsLanguage.French:
+      return AppLocalizations.of(context)!.french;
+    case NewsLanguage.German:
+      return AppLocalizations.of(context)!.german;
+    case NewsLanguage.Greek:
+      return AppLocalizations.of(context)!.greek;
+    case NewsLanguage.Hungarian:
+      return AppLocalizations.of(context)!.hungarian;
+    case NewsLanguage.Indonesian:
+      return AppLocalizations.of(context)!.indonesian;
+    case NewsLanguage.Italian:
+      return AppLocalizations.of(context)!.italian;
+    case NewsLanguage.Japanese:
+      return AppLocalizations.of(context)!.japanese;
+    case NewsLanguage.Korean:
+      return AppLocalizations.of(context)!.korean;
+    case NewsLanguage.Malay:
+      return AppLocalizations.of(context)!.malay;
+    case NewsLanguage.Polish:
+      return AppLocalizations.of(context)!.polish;
+    case NewsLanguage.Portuguese:
+      return AppLocalizations.of(context)!.portuguese;
+    case NewsLanguage.Russian:
+      return AppLocalizations.of(context)!.russian;
+    case NewsLanguage.Spanish:
+      return AppLocalizations.of(context)!.spanish;
+    case NewsLanguage.Swedish:
+      return AppLocalizations.of(context)!.swedish;
+    case NewsLanguage.Thai:
+      return AppLocalizations.of(context)!.thai;
+    case NewsLanguage.Turkish:
+      return AppLocalizations.of(context)!.turkish;
+    case NewsLanguage.Ukrainian:
+      return AppLocalizations.of(context)!.ukrainian;
+    default:
+      return AppLocalizations.of(context)!.english;
+  }
+}
+
+// Languages from NewsAPI
 
 final List<String> newsAPILangs = [
   'cn',

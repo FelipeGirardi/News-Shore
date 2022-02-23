@@ -1,5 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/widgets/loading_widget.dart';
 
@@ -65,7 +67,7 @@ class _AuthFormState extends State<AuthForm>
               height: _authMode == AuthMode.signup
                   ? deviceSize.height * 0.42
                   : deviceSize.height * 0.37,
-              width: deviceSize.width * 0.75,
+              width: deviceSize.width * 0.8,
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -78,7 +80,7 @@ class _AuthFormState extends State<AuthForm>
                       enableSuggestions: false,
                       validator: (value) {
                         if (value!.isEmpty || !value.contains('@')) {
-                          return 'Invalid e-mail address.';
+                          return AppLocalizations.of(context)!.invalidEmail;
                         }
                         return null;
                       },
@@ -86,21 +88,23 @@ class _AuthFormState extends State<AuthForm>
                         _email = value!;
                       },
                       keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(labelText: 'E-mail'),
+                      decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.email),
                     ),
                     TextFormField(
                       key: const ValueKey('password'),
                       controller: _passwordController,
                       validator: (value) {
                         if (value!.isEmpty || value.length < 4) {
-                          return 'Password must be at least 4 characters long.';
+                          return AppLocalizations.of(context)!.invalidPassword;
                         }
                         return null;
                       },
                       onSaved: (value) {
                         _password = value!;
                       },
-                      decoration: const InputDecoration(labelText: 'Password'),
+                      decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.password),
                       obscureText: true,
                     ),
                     AnimatedContainer(
@@ -114,13 +118,15 @@ class _AuthFormState extends State<AuthForm>
                           child: TextFormField(
                               key: const ValueKey('confirmPassword'),
                               enabled: _authMode == AuthMode.signup,
-                              decoration: const InputDecoration(
-                                  labelText: 'Confirm Password'),
+                              decoration: InputDecoration(
+                                  labelText: AppLocalizations.of(context)!
+                                      .confirmPassword),
                               obscureText: true,
                               validator: _authMode == AuthMode.signup
                                   ? (value) {
                                       if (value != _passwordController.text) {
-                                        return 'Passwords do not match.';
+                                        return AppLocalizations.of(context)!
+                                            .invalidConfirmPassword;
                                       }
                                       return null;
                                     }
@@ -130,35 +136,36 @@ class _AuthFormState extends State<AuthForm>
                     widget.isLoading
                         ? const LoadingWidget()
                         : SizedBox(
-                            width: deviceSize.width * 0.4,
+                            width: deviceSize.width * 0.5,
+                            height: 40,
                             child: ElevatedButton(
                                 onPressed: _submitAuth,
-                                child: Text(
+                                child: AutoSizeText(
                                   _authMode == AuthMode.signup
-                                      ? 'Sign up'
-                                      : 'Login',
+                                      ? AppLocalizations.of(context)!.signup
+                                      : AppLocalizations.of(context)!.login,
+                                  presetFontSizes: const [16],
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
+                                      fontWeight: FontWeight.bold),
                                 )),
                           ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 20),
                     RichText(
                         text: TextSpan(
                       text: _authMode == AuthMode.signup
-                          ? 'Already a user?  '
-                          : 'Don\'t have an account?  ',
+                          ? AppLocalizations.of(context)!.alreadyUser
+                          : AppLocalizations.of(context)!.noAccount,
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontFamily: 'Objectivity',
                           color: Theme.of(context).colorScheme.onSurface),
                       children: [
                         TextSpan(
                             text: _authMode == AuthMode.signup
-                                ? 'Login'
-                                : 'Sign up',
+                                ? AppLocalizations.of(context)!.login
+                                : AppLocalizations.of(context)!.signup,
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Objectivity',
                                 color: Theme.of(context).colorScheme.primary),

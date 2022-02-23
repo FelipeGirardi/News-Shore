@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/providers/news_provider.dart';
 import '/screens/screen_navigator.dart';
@@ -107,6 +108,10 @@ class MyApp extends StatelessWidget {
                                       title: 'News Shore',
                                       theme: lightThemeData,
                                       darkTheme: darkThemeData,
+                                      localizationsDelegates: AppLocalizations
+                                          .localizationsDelegates,
+                                      supportedLocales:
+                                          AppLocalizations.supportedLocales,
                                       home: const ScreenNavigator(),
                                       routes: {
                                         NewsDetailScreen.routeName: (ctx) =>

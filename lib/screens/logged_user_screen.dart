@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/providers/news_provider.dart';
 import '/widgets/loading_widget.dart';
@@ -23,7 +24,7 @@ class LoggedUserScreen extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser;
     return FutureBuilder<SharedPreferences>(
         future: SharedPreferences.getInstance(),
-        builder: (BuildContext context,
+        builder: (BuildContext contx,
                 AsyncSnapshot<SharedPreferences> snapshot) =>
             Consumer<NewsProvider>(builder: (ctx, provider, child) {
               switch (snapshot.connectionState) {
@@ -34,12 +35,13 @@ class LoggedUserScreen extends StatelessWidget {
                   if (!snapshot.hasError && snapshot.data != null) {
                     final SharedPreferences prefs = snapshot.data!;
                     final lang =
-                        getLangNameFromCode(prefs.getString('language')!);
-                    final country =
-                        getCountryNameFromCode(prefs.getString('country')!);
+                        getLangNameFromCode(prefs.getString('language')!, ctx);
+                    final country = getCountryNameFromCode(
+                        prefs.getString('country')!, ctx);
                     return Center(
                       child: Column(
                         children: [
+                          const SizedBox(height: 20),
                           Card(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
@@ -67,7 +69,9 @@ class LoggedUserScreen extends StatelessWidget {
                                               AutoSizeText(
                                                 user?.displayName ??
                                                     user?.email ??
-                                                    'E-mail',
+                                                    AppLocalizations.of(
+                                                            context)!
+                                                        .email,
                                                 textScaleFactor: 1.5,
                                                 style: const TextStyle(
                                                     fontWeight:
@@ -87,7 +91,8 @@ class LoggedUserScreen extends StatelessWidget {
                                               const SizedBox(
                                                 width: 5,
                                               ),
-                                              Text('Total bookmarked news: ' +
+                                              Text(AppLocalizations.of(context)!
+                                                      .totalBookmarks +
                                                   provider
                                                       .bookmarkedNewsList.length
                                                       .toString()),
@@ -98,21 +103,30 @@ class LoggedUserScreen extends StatelessWidget {
                                                 vertical: 10),
                                             child: Divider(thickness: 2),
                                           ),
-                                          Text('Current news language: $lang'),
+                                          Text(AppLocalizations.of(context)!
+                                                  .currentLanguage +
+                                              lang),
                                           const SizedBox(height: 30),
-                                          Text(
-                                              'Current news country: $country'),
+                                          Text(AppLocalizations.of(context)!
+                                                  .currentCountry +
+                                              country),
                                           const SizedBox(height: 50),
-                                          ElevatedButton(
-                                              onPressed: _logout,
-                                              child: const Text(
-                                                'Log out',
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.red)),
+                                          SizedBox(
+                                            width: deviceSize.width * 0.5,
+                                            height: 40,
+                                            child: ElevatedButton(
+                                                onPressed: _logout,
+                                                child: AutoSizeText(
+                                                  AppLocalizations.of(context)!
+                                                      .logout,
+                                                  presetFontSizes: const [16],
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: Colors.red)),
+                                          ),
                                         ],
                                       ),
                                     ),

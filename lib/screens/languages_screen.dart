@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/providers/news_provider.dart';
 import '/models/news_enums.dart';
@@ -125,13 +126,13 @@ class LanguageHeader extends StatelessWidget {
 }
 
 class LanguagesListWidget extends StatelessWidget {
-  const LanguagesListWidget({
-    Key? key,
-    required ScrollController firstController,
-    required this.languagesList,
-    required this.prefs,
-    required this.provider,
-  })  : _firstController = firstController,
+  const LanguagesListWidget(
+      {Key? key,
+      required ScrollController firstController,
+      required this.languagesList,
+      required this.prefs,
+      required this.provider})
+      : _firstController = firstController,
         super(key: key);
 
   final ScrollController _firstController;
@@ -149,16 +150,20 @@ class LanguagesListWidget extends StatelessWidget {
           itemCount: languagesList.length,
           itemBuilder: (BuildContext context, int index) {
             final lang = languagesList[index];
+            final langString = getLocalizedLanguage(lang, context);
             return Column(
               children: [
                 ListTile(
                     horizontalTitleGap: 5,
                     contentPadding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
-                    leading: SvgPicture.asset(
-                      lang.languageIcon,
-                      width: 25,
-                      height: 25,
+                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    leading: Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: SvgPicture.asset(
+                        lang.languageIcon,
+                        width: 25,
+                        height: 25,
+                      ),
                     ),
                     trailing: lang.languageCode == provider.currentLang
                         ? Icon(
@@ -166,7 +171,7 @@ class LanguagesListWidget extends StatelessWidget {
                             color: Theme.of(context).colorScheme.background,
                           )
                         : null,
-                    title: Text(languagesList[index].name),
+                    title: Text(langString),
                     tileColor: lang.languageCode == provider.currentLang
                         ? Theme.of(context).colorScheme.primary
                         : null,
@@ -197,14 +202,14 @@ class LanguagesListWidget extends StatelessWidget {
 }
 
 class CountriesListWidget extends StatelessWidget {
-  const CountriesListWidget({
-    Key? key,
-    required ScrollController secondController,
-    required this.languagesList,
-    required this.langIndex,
-    required this.prefs,
-    required this.provider,
-  })  : _secondController = secondController,
+  const CountriesListWidget(
+      {Key? key,
+      required ScrollController secondController,
+      required this.languagesList,
+      required this.langIndex,
+      required this.prefs,
+      required this.provider})
+      : _secondController = secondController,
         super(key: key);
 
   final ScrollController _secondController;
@@ -224,18 +229,22 @@ class CountriesListWidget extends StatelessWidget {
             itemCount: languagesList[langIndex].countryLanguage.length,
             itemBuilder: (BuildContext context, int index) {
               final country = languagesList[langIndex].countryLanguage[index];
+              final countryString = getLocalizedCountry(country, context);
               return Column(
                 children: [
                   ListTile(
                       horizontalTitleGap: 5,
                       contentPadding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 16),
-                      leading: SvgPicture.asset(
-                        country.countryIcon,
-                        width: 25,
-                        height: 25,
+                          vertical: 5, horizontal: 10),
+                      leading: Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: SvgPicture.asset(
+                          country.countryIcon,
+                          width: 25,
+                          height: 25,
+                        ),
                       ),
-                      title: Text(country.fullCountryName),
+                      title: Text(countryString),
                       tileColor: country.countryCode == provider.currentCountry
                           ? Theme.of(context).colorScheme.primary
                           : null,

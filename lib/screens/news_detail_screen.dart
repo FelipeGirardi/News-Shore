@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/providers/news_provider.dart';
 import '/widgets/custom_app_bar.dart';
@@ -165,9 +166,9 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             primary: Theme.of(context).colorScheme.primary,
                             minimumSize: const Size(100, 50)),
                         onPressed: () => _launchNewsUrl(newsData.link ?? ''),
-                        child: const Text(
-                          'See full news',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.fullNews,
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         )),
                     const Spacer()

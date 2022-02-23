@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'dart:io' show Platform;
 
 import '/widgets/auth_form.dart';
@@ -44,7 +45,7 @@ class _AuthScreenState extends State<AuthScreen> {
         setLoadingToFalse();
       }
     } on PlatformException catch (err) {
-      var message = 'An error occurred, please check your credentials.';
+      var message = AppLocalizations.of(context)!.authError;
       if (err.message != null) {
         message = err.message!;
       }
@@ -108,6 +109,30 @@ class _AuthScreenState extends State<AuthScreen> {
                                       executeAuth: _executeAuth,
                                       isLoading: _isLoading),
                                   const SizedBox(height: 30),
+                                  Platform.isIOS
+                                      ? Column(
+                                          children: [
+                                            SizedBox(
+                                                width: deviceSize.width * 0.75,
+                                                child: SignInWithAppleButton(
+                                                  text: AppLocalizations.of(
+                                                          context)!
+                                                      .appleSignIn,
+                                                  style:
+                                                      SignInWithAppleButtonStyle
+                                                          .black,
+                                                  iconAlignment:
+                                                      IconAlignment.center,
+                                                  onPressed: () {
+                                                    context
+                                                        .read<AuthProvider>()
+                                                        .signInWithApple();
+                                                  },
+                                                )),
+                                            const SizedBox(height: 20),
+                                          ],
+                                        )
+                                      : Container(),
                                   SizedBox(
                                     width: deviceSize.width * 0.75,
                                     height: 40,
@@ -121,15 +146,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                             'assets/images/google_logo.png',
                                             height: 20,
                                             width: 20),
-                                        label: const Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Text(
-                                            'Sign in with Google',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontFamily: 'Roboto',
-                                            ),
+                                        label: Text(
+                                          AppLocalizations.of(context)!
+                                              .googleSignIn,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: 'Roboto',
                                           ),
                                         ),
                                         backgroundColor: Colors.white,
@@ -138,21 +160,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(8)))),
                                   ),
-                                  const SizedBox(height: 20),
-                                  Platform.isIOS
-                                      ? SizedBox(
-                                          width: deviceSize.width * 0.75,
-                                          child: SignInWithAppleButton(
-                                            style: SignInWithAppleButtonStyle
-                                                .black,
-                                            iconAlignment: IconAlignment.center,
-                                            onPressed: () {
-                                              context
-                                                  .read<AuthProvider>()
-                                                  .signInWithApple();
-                                            },
-                                          ))
-                                      : Container(),
                                 ],
                               ),
                             );

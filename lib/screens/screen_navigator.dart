@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/widgets/custom_app_bar.dart';
 import '/widgets/app_drawer.dart';
@@ -49,23 +50,22 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Theme.of(context).colorScheme.secondary,
-        //unselectedItemColor: Theme.of(context).colorScheme.background,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'News',
+            icon: const Icon(Icons.home),
+            label: AppLocalizations.of(context)!.news,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            label: 'Bookmarks',
+            icon: const Icon(Icons.bookmark),
+            label: AppLocalizations.of(context)!.bookmarks,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.language),
-            label: 'Languages',
+            icon: const Icon(Icons.language),
+            label: AppLocalizations.of(context)!.languages,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Account',
+            icon: const Icon(Icons.person),
+            label: AppLocalizations.of(context)!.account,
           ),
         ],
         currentIndex: _selectedOption,
@@ -80,11 +80,11 @@ class _ScreenNavigatorState extends State<ScreenNavigator> {
       case 0:
         return 'News Shore';
       case 1:
-        return 'Bookmarks';
+        return AppLocalizations.of(context)!.bookmarks;
       case 2:
-        return 'Languages';
+        return AppLocalizations.of(context)!.languages;
       case 3:
-        return 'Account';
+        return AppLocalizations.of(context)!.account;
       default:
         return 'News Shore';
     }

@@ -1,0 +1,506 @@
+{
+    "news": "News",
+    "@news": {
+      "description": "News string on bottom tab"
+    },
+
+    "bookmarks": "Bookmarks",
+    "@bookmarks": {
+      "description": "Bookmarks string on bottom tab"
+    },
+
+    "languages": "Languages",
+    "@languages": {
+      "description": "Languages string on bottom tab"
+    },
+
+    "account": "Account",
+    "@account": {
+      "description": "Account string on bottom tab"
+    },
+
+    "filter": "Filter news by:",
+    "@filter": {
+      "description": "Filter string on drawer"
+    },
+
+    "business": "Business",
+    "@business": {
+      "description": "Business filter in drawer"
+    },
+
+    "entertainment": "Entertainment",
+    "@entertainment": {
+      "description": "Entertainment filter in drawer"
+    },
+
+    "health": "Health",
+    "@health": {
+      "description": "Health filter in drawer"
+    },
+
+    "science": "Science",
+    "@science": {
+      "description": "Science filter in drawer"
+    },
+
+    "sports": "Sports",
+    "@sports": {
+      "description": "Sports filter in drawer"
+    },
+
+    "technology": "technology",
+    "@technology": {
+      "description": "Technology filter in drawer"
+    },
+
+    "fullNews": "See full news",
+    "@fullNews": {
+      "description": "See full news button"
+    },
+
+    "couldNotLoad": "Could not load news.",
+    "@couldNotLoad": {
+      "description": "Show when news cannot be loaded"
+    },
+
+    "noBookmarks": "No bookmarked news.",
+    "@noBookmarks": {
+      "description": "Show when there are no bookmarks"
+    },
+
+    "howToBookmark": "Bookmark news by pressing ",
+    "@howToBookmark": {
+      "description": "How to bookmark news"
+    },
+
+    "language": "Language",
+    "@language": {
+      "description": "Language string on languages screen"
+    },
+
+    "country": "Country",
+    "@country": {
+      "description": "Country string on language screen"
+    },
+    
+    "english": "English",
+    "@english": {
+      "description": "English language"
+    },
+    
+    "spanish": "Spanish",
+    "@spanish": {
+      "description": "Spanish language"
+    },
+
+    "german": "German",
+    "@german": {
+      "description": "German language"
+    },
+
+    "french": "French",
+    "@french": {
+      "description": "french language"
+    },
+
+    "portuguese": "Portuguese",
+    "@portuguese": {
+      "description": "Portuguese language"
+    },
+
+    "italian": "Italian",
+    "@italian": {
+      "description": "Italian language"
+    },
+
+    "dutch": "Dutch",
+    "@dutch": {
+      "description": "Dutch language"
+    },
+
+    "swedish": "Swedish",
+    "@swedish": {
+      "description": "Swedish language"
+    },
+
+    "russian": "Russian",
+    "@russian": {
+      "description": "Russian language"
+    },
+
+    "polish": "Polish",
+    "@polish": {
+      "description": "Polish language"
+    },
+
+    "czech": "Czech",
+    "@czech": {
+      "description": "Czech language"
+    },
+
+    "ukrainian": "Ukrainian",
+    "@ukrainian": {
+      "description": "Ukrainian language"
+    },
+
+    "hungarian": "Hungarian",
+    "@hungarian": {
+      "description": "Hungarian language"
+    },
+
+    "greek": "Greek",
+    "@greek": {
+      "description": "Greek language"
+    },
+
+    "turkish": "Turkish",
+    "@turkish": {
+      "description": "Turkish language"
+    },
+
+    "arabic": "Arabic",
+    "@arabic": {
+      "description": "Arabic language"
+    },
+
+    "chinese": "Chinese",
+    "@chinese": {
+      "description": "Chinese language"
+    },
+
+    "japanese": "Japanese",
+    "@japanese": {
+      "description": "Japanese language"
+    },
+
+    "korean": "Korean",
+    "@korean": {
+      "description": "Korean language"
+    },
+
+    "thai": "Thai",
+    "@thai": {
+      "description": "Thai language"
+    },
+
+    "malay": "Malay",
+    "@malay": {
+      "description": "Malay language"
+    },
+
+    "indonesian": "Indonesian",
+    "@indonesian": {
+      "description": "Indonesian language"
+    },
+
+    "all": "All",
+    "@all": {
+      "description": "Country: all"
+    },
+
+    "argentina": "Argentina",
+    "@argentina": {
+      "description": "Country: Argentina"
+    },
+
+    "australia": "Australia",
+    "@australia": {
+      "description": "Country: Australia"
+    },
+
+    "austria": "Austria",
+    "@austria": {
+      "description": "Country: austria"
+    },
+
+    "belgium": "Belgium",
+    "@belgium": {
+      "description": "Country: Belgium"
+    },
+
+    "brazil": "Brazil",
+    "@brazil": {
+      "description": "Country: Brazil"
+    },
+
+    "canada": "Canada",
+    "@canada": {
+      "description": "Country: Canada"
+    },
+
+    "china": "China",
+    "@china": {
+      "description": "Country: China"
+    },
+
+    "colombia": "Colombia",
+    "@colombia": {
+      "description": "Country: Colombia"
+    },
+
+    "czechia": "Czechia",
+    "@czechia": {
+      "description": "Country: Czechia"
+    },
+
+    "egypt": "Egypt",
+    "@egypt": {
+      "description": "Country: Egypt"
+    },
+
+    "france": "France",
+    "@france": {
+      "description": "Country: France"
+    },
+
+    "germany": "Germany",
+    "@germany": {
+      "description": "Country: Germany"
+    },
+
+    "greece": "Greece",
+    "@greece": {
+      "description": "Country: Greece"
+    },
+
+    "hungary": "Hungary",
+    "@hungary": {
+      "description": "Country: Hungary"
+    },
+
+    "india": "India",
+    "@india": {
+      "description": "Country: India"
+    },
+
+    "indonesia": "Indonesia",
+    "@indonesia": {
+      "description": "Country: Indonesia"
+    },
+    
+    "ireland": "Ireland",
+    "@ireland": {
+      "description": "Country: Ireland"
+    },
+
+    "israel": "Israel",
+    "@israel": {
+      "description": "Country: Israel"
+    },
+
+    "italy": "Italy",
+    "@italy": {
+      "description": "Country: Italy"
+    },
+
+    "japan": "Japan",
+    "@japan": {
+      "description": "Country: Japan"
+    },
+
+    "malaysia": "Malaysia",
+    "@malaysia": {
+      "description": "Country: Malaysia"
+    },
+
+    "mexico": "Mexico",
+    "@mexico": {
+      "description": "Country: Mexico"
+    },
+
+    "morocco": "Morocco",
+    "@morocco": {
+      "description": "Country: Morocco"
+    },
+
+    "netherlands": "Netherlands",
+    "@netherlands": {
+      "description": "Country: Netherlands"
+    },
+
+    "newZealand": "New Zealand",
+    "@newZealand": {
+      "description": "Country: New Zealand"
+    },
+
+    "nigeria": "Nigeria",
+    "@nigeria": {
+      "description": "Country: Nigeria"
+    },
+
+    "pakistan": "Pakistan",
+    "@pakistan": {
+      "description": "Country: Pakistan"
+    },
+
+    "philippines": "Philippines",
+    "@philippines": {
+      "description": "Country: Philippines"
+    },
+
+    "poland": "Poland",
+    "@poland": {
+      "description": "Country: Poland"
+    },
+
+    "portugal": "Portugal",
+    "@portugal": {
+      "description": "Country: Portugal"
+    },
+
+    "russia": "Russia",
+    "@russia": {
+      "description": "Country: Russia"
+    },
+
+    "saudiArabia": "Saudi Arabia",
+    "@saudiArabia": {
+      "description": "Country: Saudi Arabia"
+    },
+
+    "singapore": "Singapore",
+    "@singapore": {
+      "description": "Country: Singapore"
+    },
+
+    "southAfrica": "South Africa",
+    "@southAfrica": {
+      "description": "Country: South Africa"
+    },
+
+    "southKorea": "South Korea",
+    "@southKorea": {
+      "description": "Country: South Korea"
+    },
+
+    "spain": "Spain",
+    "@spain": {
+      "description": "Country: Spain"
+    },
+
+    "sweden": "Sweden",
+    "@sweden": {
+      "description": "Country: Sweden"
+    },
+
+    "switzerland": "Switzerland",
+    "@switzerland": {
+      "description": "Country: Switzerland"
+    },
+
+    "thailand": "Thailand",
+    "@thailand": {
+      "description": "Country: Thailand"
+    },
+
+    "turkey": "Turkey",
+    "@turkey": {
+      "description": "Country: Turkey"
+    },
+
+    "uae": "United Arab Emirates",
+    "@uae": {
+      "description": "Country: United Arab Emirates"
+    },
+
+    "uk": "United Kingdom",
+    "@uk": {
+      "description": "Country: United Kingdom"
+    },
+
+    "ukraine": "Ukraine",
+    "@ukraine": {
+      "description": "Country: Ukraine"
+    },
+
+    "usa": "United States",
+    "@usa": {
+      "description": "Country: United States"
+    },
+
+    "authError": "An error occurred, please check your data.",
+    "@authError": {
+      "description": "Show if auth information is incorrect"
+    },
+
+    "email": "E-Mail",
+    "@email": {
+      "description": "E-Mail form"
+    },
+
+    "invalidEmail": "Invalid e-mail address.",
+    "@invalidEmail": {
+      "description": "Invalid e-Mail message"
+    },
+
+    "password": "Password",
+    "@password": {
+      "description": "Password form"
+    },
+
+    "invalidPassword": "Password must be at least 4 characters long.",
+    "@invalidPassword": {
+      "description": "Invalid password message"
+    },
+
+    "confirmPassword": "Confirm password",
+    "@confirmPassword": {
+      "description": "Confirm password form"
+    },
+
+    "invalidConfirmPassword": "Passwords do not match.",
+    "@invalidConfirmPassword": {
+      "description": "Invalid confirm password message"
+    },
+
+    "signup": "Sign up",
+    "@signup": {
+      "description": "Sign up label"
+    },
+
+    "login": "Log in",
+    "@login": {
+      "description": "Login label"
+    },
+
+    "alreadyUser": "Already have an account? ",
+    "@alreadyUser": {
+      "description": "Show in sign up form so user can login"
+    },
+
+    "noAccount": "Don't have an account? ",
+    "@noAccount": {
+      "description": "Show in login form so user can sign up"
+    },
+
+    "appleSignIn": "Sign in with Apple",
+    "@appleSignIn": {
+      "description": "Sign in with Apple"
+    },
+
+    "googleSignIn": "Sign in with Google",
+    "@googleSignIn": {
+      "description": "Sign in with Google"
+    },
+
+    "totalBookmarks": "Total bookmarked news: ",
+    "@totalBookmarks": {
+      "description": "Number of bookmarked news string"
+    },
+
+    "currentLanguage": "Current news language: ",
+    "@currentLanguage": {
+      "description": "Current news language string"
+    },
+
+    "currentCountry": "Current news country: ",
+    "@currentCountry": {
+      "description": "Current news country string"
+    },
+
+    "logout": "Log out",
+    "@logout": {
+      "description": "Logout label"
+    }
+}

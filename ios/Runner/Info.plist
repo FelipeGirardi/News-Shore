@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>es</string>
+		<string>de</string>
+		<string>pt</string>
+		<string>it</string>
+		<string>fr</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -45,8 +54,8 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-  		<string>https</string>
-  		<string>http</string>
+		<string>https</string>
+		<string>http</string>
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
@@ -61,8 +70,8 @@
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-  		<key>NSAllowsArbitraryLoads</key>
-  		<true/>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
 	</dict>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-3940256099942544~1458002511</string>

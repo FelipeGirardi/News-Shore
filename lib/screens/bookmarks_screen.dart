@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/providers/news_provider.dart';
 import '/widgets/news_cell_widget.dart';
@@ -38,9 +40,9 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
                 : snapshot.hasError
                     ? Container(
                         alignment: Alignment.center,
-                        child: const Text(
-                          'News could not be loaded.',
-                          style: TextStyle(fontSize: 28),
+                        child: Text(
+                          AppLocalizations.of(context)!.couldNotLoad,
+                          style: const TextStyle(fontSize: 28),
                         ),
                       )
                     : newsProv.bookmarkedNewsList.isEmpty
@@ -71,30 +73,35 @@ class NoBookmarksWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        //const Spacer(),
-        const Text(
-          'No bookmarked news.',
-          style: TextStyle(fontSize: 18),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text(
-              'Bookmark news by pressing ',
-              style: TextStyle(fontSize: 18),
-            ),
-            Icon(
-              Icons.bookmark_border,
-              size: 24,
-            ),
-          ],
-        ),
-        //const Spacer(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AutoSizeText(
+            AppLocalizations.of(context)!.noBookmarks,
+            presetFontSizes: const [18, 16, 14],
+            maxLines: 2,
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: AutoSizeText(
+                  AppLocalizations.of(context)!.howToBookmark,
+                  presetFontSizes: const [18, 16, 14],
+                  maxLines: 1,
+                ),
+              ),
+              const Icon(
+                Icons.bookmark_border,
+                size: 24,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
