@@ -38,101 +38,91 @@ class LoggedUserScreen extends StatelessWidget {
                         getLangNameFromCode(prefs.getString('language')!, ctx);
                     final country = getCountryNameFromCode(
                         prefs.getString('country')!, ctx);
-                    return Center(
-                      child: Column(
-                        children: [
-                          Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                              elevation: 8.0,
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 30),
-                                  child: SizedBox(
-                                    width: deviceSize.width * 0.75,
-                                    child: Align(
-                                      child: Column(
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(
-                                                Icons.account_circle,
-                                                size: 36,
-                                              ),
-                                              const SizedBox(
-                                                height: 10,
-                                              ),
-                                              AutoSizeText(
-                                                user?.displayName ??
-                                                    user?.email ??
-                                                    AppLocalizations.of(
-                                                            context)!
-                                                        .email,
-                                                textScaleFactor: 1.5,
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 50),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              const Icon(
-                                                Icons.bookmark_border,
-                                                size: 24,
-                                              ),
-                                              const SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(AppLocalizations.of(context)!
-                                                      .totalBookmarks +
-                                                  provider
-                                                      .bookmarkedNewsList.length
-                                                      .toString()),
-                                            ],
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                vertical: 10),
-                                            child: Divider(thickness: 2),
-                                          ),
-                                          Text(AppLocalizations.of(context)!
-                                                  .currentLanguage +
-                                              lang),
-                                          const SizedBox(height: 30),
-                                          Text(AppLocalizations.of(context)!
-                                                  .currentCountry +
-                                              country),
-                                          const SizedBox(height: 50),
-                                          SizedBox(
-                                            width: deviceSize.width * 0.5,
-                                            height: 40,
-                                            child: ElevatedButton(
-                                                onPressed: _logout,
-                                                child: AutoSizeText(
-                                                  AppLocalizations.of(context)!
-                                                      .logout,
-                                                  presetFontSizes: const [16],
-                                                  style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                                style: ElevatedButton.styleFrom(
-                                                    primary: Colors.red)),
-                                          ),
-                                        ],
-                                      ),
+                    return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        elevation: 8.0,
+                        child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 30),
+                            child: SizedBox(
+                              width: deviceSize.width * 0.75,
+                              child: Align(
+                                child: Column(
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.account_circle,
+                                          size: 36,
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        AutoSizeText(
+                                          user?.displayName ??
+                                              user?.email ??
+                                              AppLocalizations.of(context)!
+                                                  .email,
+                                          textScaleFactor: 1.5,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
                                     ),
-                                  ))),
-                        ],
-                      ),
-                    );
+                                    const SizedBox(height: 50),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.bookmark_border,
+                                          size: 24,
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(AppLocalizations.of(context)!
+                                                .totalBookmarks +
+                                            provider.bookmarkedNewsList.length
+                                                .toString()),
+                                      ],
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 10),
+                                      child: Divider(thickness: 2),
+                                    ),
+                                    Text(AppLocalizations.of(context)!
+                                            .currentLanguage +
+                                        lang),
+                                    const SizedBox(height: 30),
+                                    Text(AppLocalizations.of(context)!
+                                            .currentCountry +
+                                        country),
+                                    const SizedBox(height: 50),
+                                    SizedBox(
+                                      width: deviceSize.width * 0.5,
+                                      height: 40,
+                                      child: ElevatedButton(
+                                          onPressed: _logout,
+                                          child: AutoSizeText(
+                                            AppLocalizations.of(context)!
+                                                .logout,
+                                            presetFontSizes: const [16],
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Colors.red)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )));
                   }
               }
               return const LoadingWidget();
