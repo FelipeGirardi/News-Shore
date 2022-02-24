@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/providers/news_provider.dart';
 import '/models/news_enums.dart';
@@ -92,7 +93,7 @@ class LanguageHeader extends StatelessWidget {
                 Expanded(
                   child: ListTile(
                       title: Center(
-                    child: Text('Language',
+                    child: Text(AppLocalizations.of(context)!.language,
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
@@ -106,7 +107,7 @@ class LanguageHeader extends StatelessWidget {
                 Expanded(
                   child: ListTile(
                       title: Center(
-                    child: Text('Country',
+                    child: Text(AppLocalizations.of(context)!.country,
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,

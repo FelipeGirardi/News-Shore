@@ -493,6 +493,7 @@ String getCountryFromLocale(String locale) {
     case 'CZ':
     case 'EG':
     case 'FR':
+    case 'DE':
     case 'GR':
     case 'HU':
     case 'IN':

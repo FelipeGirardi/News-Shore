@@ -92,19 +92,19 @@ class NewsProvider with ChangeNotifier {
   Future<void> fetchNews() async {
     final prefs = await SharedPreferences.getInstance();
     if (currentLang == null || currentCountry == null) {
-      currentLang = prefs.getString('language') ?? '';
-      currentCountry = prefs.getString('country') ?? '';
+      currentLang = prefs.getString('language') ?? 'en';
+      currentCountry = prefs.getString('country') ?? 'us';
     }
     if (_newsList.length <= _totalNews) {
       if (!shouldFetchNewsAPI) {
         for (var i = 0; i < 2; i++) {
-          await fetchNewsPage(currentLang ?? 'en', currentCountry ?? 'all');
+          await fetchNewsPage(currentLang!, currentCountry!);
           _nextPage += 1;
         }
         isLoadingNews = false;
         notifyListeners();
       } else {
-        await fetchNewsAPIPage(currentCountry ?? 'br');
+        await fetchNewsAPIPage(currentCountry!);
         _nextPage += 2;
         isLoadingNews = false;
         notifyListeners();

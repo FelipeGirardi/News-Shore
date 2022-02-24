@@ -54,6 +54,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/dev_assets/newsshore_logo.png"
+  adaptive_icon_background: "#B6EDE8"
+  adaptive_icon_foreground: "assets/dev_assets/newsshore_logo_adaptive.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -75,9 +83,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/newsshore_logo.jpg
+    - assets/dev_assets/newsshore_logo.png
+    - assets/dev_assets/newsshore_logo_adaptive.png
     - assets/images/newsshore_logo_long.png
-    - assets/images/newsshore_title.jpg
     - assets/images/newsshore_title.png
     - assets/images/newsshore_title_only.png
     - assets/images/google_logo.png

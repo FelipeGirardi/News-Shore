@@ -162,7 +162,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                   children: [
                     const Spacer(),
                     SizedBox(
-                      height: 40,
+                      height: 50,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               primary: Theme.of(context).colorScheme.primary,
