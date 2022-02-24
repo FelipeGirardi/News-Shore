@@ -447,6 +447,103 @@ String getLocalizedCountry(NewsCountry country, BuildContext context) {
   }
 }
 
+String getCountryFromLocale(String locale) {
+  final langCode = locale.split('_').first;
+  final countryCode = locale.substring(locale.length - 2);
+  final Map<String, String> firstCountryPerLang = {
+    'en': 'all',
+    'es': 'all',
+    'de': 'all',
+    'fr': 'all',
+    'pt': 'br',
+    'it': 'it',
+    'nl': 'nl',
+    'sv': 'se',
+    'ru': 'ru',
+    'pl': 'pl',
+    'cs': 'cz',
+    'uk': 'ua',
+    'el': 'gr',
+    'tr': 'tr',
+    'ar': 'all',
+    'zh': 'cn',
+    'ja': 'jp',
+    'ko': 'kr',
+    'th': 'th',
+    'ms': 'my',
+    'in': 'id',
+  };
+
+  if (locale.length < 4) {
+    if (firstCountryPerLang.containsKey(langCode)) {
+      return firstCountryPerLang[langCode] ?? 'all';
+    } else {
+      return 'all';
+    }
+  }
+
+  switch (countryCode) {
+    case 'AR':
+    case 'AU':
+    case 'AT':
+    case 'BR':
+    case 'CA':
+    case 'CN':
+    case 'CO':
+    case 'CZ':
+    case 'EG':
+    case 'FR':
+    case 'GR':
+    case 'HU':
+    case 'IN':
+    case 'ID':
+    case 'IE':
+    case 'IT':
+    case 'JP':
+    case 'MY':
+    case 'MX':
+    case 'MA':
+    case 'NL':
+    case 'NZ':
+    case 'NG':
+    case 'PK':
+    case 'PH':
+    case 'PL':
+    case 'PT':
+    case 'RU':
+    case 'SA':
+    case 'SG':
+    case 'ZA':
+    case 'KR':
+    case 'ES':
+    case 'SE':
+    case 'TH':
+    case 'TR':
+    case 'AE':
+    case 'UA':
+    case 'US':
+      return countryCode.toLowerCase();
+    case 'BE':
+      if (langCode == 'fr' || langCode == 'nl') {
+        return countryCode.toLowerCase();
+      } else {
+        return 'all';
+      }
+    case 'CH':
+      if (langCode == 'de') {
+        return countryCode.toLowerCase();
+      } else if (langCode == 'it') {
+        return 'it';
+      } else {
+        return 'all';
+      }
+    case 'GB':
+      return 'uk';
+    default:
+      return 'all';
+  }
+}
+
 // NEWS LANGUAGE
 
 enum NewsLanguage {
@@ -911,6 +1008,45 @@ String getLocalizedLanguage(NewsLanguage lang, BuildContext context) {
       return AppLocalizations.of(context)!.ukrainian;
     default:
       return AppLocalizations.of(context)!.english;
+  }
+}
+
+String getLanguageFromLocale(String locale) {
+  final langCode = locale.split('_').first;
+  switch (langCode) {
+    case 'en':
+    case 'es':
+    case 'de':
+    case 'fr':
+    case 'pt':
+    case 'it':
+    case 'nl':
+    case 'ru':
+    case 'pl':
+    case 'tr':
+    case 'ar':
+    case 'th':
+      return langCode;
+    case 'sv':
+      return 'se';
+    case 'cs':
+      return 'cz';
+    case 'uk':
+      return 'ua';
+    case 'el':
+      return 'gr';
+    case 'zh':
+      return 'cn';
+    case 'ja':
+      return 'jp';
+    case 'ko':
+      return 'kr';
+    case 'ms':
+      return 'my';
+    case 'in':
+      return 'id';
+    default:
+      return 'en';
   }
 }
 

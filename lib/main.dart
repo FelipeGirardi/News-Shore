@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'dart:io';
 
 import '/providers/news_provider.dart';
 import '/screens/screen_navigator.dart';
@@ -13,6 +14,7 @@ import '/screens/news_detail_screen.dart';
 import '/screens/bookmarks_screen.dart';
 import '/widgets/loading_widget.dart';
 import '/providers/auth_provider.dart';
+import '/models/news_enums.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,9 +77,12 @@ class MyApp extends StatelessWidget {
                   default:
                     if (!snapshot.hasError) {
                       if (snapshot.data?.getBool('firstOpen') == null) {
+                        final String systemLocale = Platform.localeName;
                         snapshot.data?.setBool('firstOpen', true);
-                        snapshot.data?.setString('language', 'en');
-                        snapshot.data?.setString('country', 'all');
+                        snapshot.data?.setString(
+                            'language', getLanguageFromLocale(systemLocale));
+                        snapshot.data?.setString(
+                            'country', getCountryFromLocale(systemLocale));
                       }
                       return FutureBuilder<InitializationStatus>(
                           future: _initGoogleMobileAds(),

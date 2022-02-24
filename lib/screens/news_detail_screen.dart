@@ -161,16 +161,19 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                 Row(
                   children: [
                     const Spacer(),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).colorScheme.primary,
-                            minimumSize: const Size(100, 50)),
-                        onPressed: () => _launchNewsUrl(newsData.link ?? ''),
-                        child: Text(
-                          AppLocalizations.of(context)!.fullNews,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        )),
+                    SizedBox(
+                      height: 40,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).colorScheme.primary,
+                              minimumSize: const Size(100, 50)),
+                          onPressed: () => _launchNewsUrl(newsData.link ?? ''),
+                          child: Text(
+                            AppLocalizations.of(context)!.fullNews,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18),
+                          )),
+                    ),
                     const Spacer()
                   ],
                 ),
