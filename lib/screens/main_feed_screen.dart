@@ -20,7 +20,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   bool _isLoadingPage = false;
   bool _willFetchNewsPage = false;
 
-  late BannerAd _ad;
+  late BannerAd _bannerAd;
   bool _isAdLoaded = false;
 
   Future<void> _setNewsProvider() async {
@@ -39,7 +39,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
     _newsProvider = _setNewsProvider();
     scrollController.addListener(pagination);
 
-    _ad = BannerAd(
+    _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
       size: AdSize.banner,
       request: const AdRequest(),
@@ -55,7 +55,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
         },
       ),
     );
-    _ad.load();
+    _bannerAd.load();
 
     super.initState();
   }
@@ -64,7 +64,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
   void dispose() {
     super.dispose();
     scrollController.dispose();
-    _ad.dispose();
+    _bannerAd.dispose();
   }
 
   void pagination() async {
@@ -158,12 +158,16 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                                     : _isAdLoaded
                                         ? Column(
                                             children: [
-                                              Container(
-                                                child: AdWidget(ad: _ad),
-                                                width:
-                                                    _ad.size.width.toDouble(),
-                                                height: 72.0,
-                                                alignment: Alignment.center,
+                                              StatefulBuilder(
+                                                builder: (context, setState) =>
+                                                    Container(
+                                                  child:
+                                                      AdWidget(ad: _bannerAd),
+                                                  width: _bannerAd.size.width
+                                                      .toDouble(),
+                                                  height: 72.0,
+                                                  alignment: Alignment.center,
+                                                ),
                                               ),
                                               const SizedBox(height: 20),
                                             ],

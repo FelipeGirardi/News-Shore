@@ -108,7 +108,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   AuthForm(
                                       executeAuth: _executeAuth,
                                       isLoading: _isLoading),
-                                  const SizedBox(height: 30),
+                                  const SizedBox(height: 20),
                                   Platform.isIOS
                                       ? Column(
                                           children: [

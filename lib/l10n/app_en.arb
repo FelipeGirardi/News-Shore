@@ -502,5 +502,30 @@
     "logout": "Log out",
     "@logout": {
       "description": "Logout label"
+    },
+
+    "covid": "Covid",
+    "@covid": {
+      "description": "Search term: Covid"
+    },
+
+    "europe": "Europe",
+    "@europe": {
+      "description": "Search term: Europe"
+    },
+
+    "america": "America",
+    "@america": {
+      "description": "Search term: America"
+    },
+
+    "asia": "Asia",
+    "@asia": {
+      "description": "Search term: Asia"
+    },
+
+    "africa": "Africa",
+    "@africa": {
+      "description": "Search term: Africa"
     }
 }

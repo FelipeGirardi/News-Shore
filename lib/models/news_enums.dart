@@ -463,6 +463,7 @@ String getCountryFromLocale(String locale) {
     'pl': 'pl',
     'cs': 'cz',
     'uk': 'ua',
+    'hu': 'hu',
     'el': 'gr',
     'tr': 'tr',
     'ar': 'all',
@@ -484,51 +485,160 @@ String getCountryFromLocale(String locale) {
 
   switch (countryCode) {
     case 'AR':
-    case 'AU':
-    case 'AT':
-    case 'BR':
-    case 'CA':
-    case 'CN':
     case 'CO':
-    case 'CZ':
-    case 'EG':
-    case 'FR':
-    case 'DE':
-    case 'GR':
-    case 'HU':
-    case 'IN':
-    case 'ID':
-    case 'IE':
-    case 'IT':
-    case 'JP':
-    case 'MY':
     case 'MX':
-    case 'MA':
-    case 'NL':
+    case 'ES':
+      if (langCode == 'es') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'AU':
+    case 'CA':
+    case 'IN':
+    case 'IE':
     case 'NZ':
     case 'NG':
     case 'PK':
     case 'PH':
-    case 'PL':
-    case 'PT':
-    case 'RU':
-    case 'SA':
     case 'SG':
     case 'ZA':
-    case 'KR':
-    case 'ES':
-    case 'SE':
-    case 'TH':
-    case 'TR':
-    case 'AE':
-    case 'UA':
     case 'US':
-      return countryCode.toLowerCase();
+      if (langCode == 'en') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'AT':
+    case 'DE':
+      if (langCode == 'de') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'BR':
+    case 'PT':
+      if (langCode == 'pt') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'CN':
+      if (langCode == 'zh') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'CZ':
+      if (langCode == 'cs') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'EG':
+    case 'SA':
+    case 'AE':
+      if (langCode == 'ar') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'FR':
+    case 'MA':
+      if (langCode == 'fr') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'GR':
+      if (langCode == 'el') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'HU':
+      if (langCode == 'hu') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'ID':
+      if (langCode == 'in') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'IT':
+      if (langCode == 'it') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'JP':
+      if (langCode == 'ja') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'MY':
+      if (langCode == 'ms') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'NL':
+      if (langCode == 'nl') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'PL':
+      if (langCode == 'pl') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'RU':
+      if (langCode == 'ru') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'KR':
+      if (langCode == 'ko') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'SE':
+      if (langCode == 'sv') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'TH':
+      if (langCode == 'th') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'TR':
+      if (langCode == 'tr') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
+    case 'UA':
+      if (langCode == 'uk') {
+        return countryCode.toLowerCase();
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
     case 'BE':
       if (langCode == 'fr' || langCode == 'nl') {
         return countryCode.toLowerCase();
       } else {
-        return 'all';
+        return firstCountryPerLang[langCode] ?? 'all';
       }
     case 'CH':
       if (langCode == 'de') {
@@ -536,10 +646,14 @@ String getCountryFromLocale(String locale) {
       } else if (langCode == 'it') {
         return 'it';
       } else {
-        return 'all';
+        return firstCountryPerLang[langCode] ?? 'all';
       }
     case 'GB':
-      return 'uk';
+      if (langCode == 'en') {
+        return 'uk';
+      } else {
+        return firstCountryPerLang[langCode] ?? 'all';
+      }
     default:
       return 'all';
   }

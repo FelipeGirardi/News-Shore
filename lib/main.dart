@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
     return FutureBuilder(
         future: _initialization,
         builder: (context, appSnapshot) {

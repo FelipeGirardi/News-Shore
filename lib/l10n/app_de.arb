@@ -99,5 +99,10 @@
     "totalBookmarks": "Anzahl gekennzeichneter Nachrichten: ",
     "currentLanguage": "Aktuelle Nachrichtensprache: ",
     "currentCountry": "Aktuelles Nachrichtenland: ",
-    "logout": "Ausloggen"
+    "logout": "Ausloggen",
+    "covid": "Covid",
+    "europe": "Europa",
+    "america": "Amerika",
+    "asia": "Asien",
+    "africa": "Afrika"
 }

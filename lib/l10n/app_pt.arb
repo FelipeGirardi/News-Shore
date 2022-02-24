@@ -99,5 +99,10 @@
     "totalBookmarks": "Total de notícias favoritadas: ",
     "currentLanguage": "Língua atual das notícias: ",
     "currentCountry": "País atual das notícias: ",
-    "logout": "Sair"
+    "logout": "Sair",
+    "covid": "Covid",
+    "europe": "Europa",
+    "america": "América",
+    "asia": "Ásia",
+    "africa": "África"
 }

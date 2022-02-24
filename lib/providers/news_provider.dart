@@ -155,19 +155,22 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<List<NewsData?>?> fetchSearchNews(String query) async {
-    if (_newsList.length <= _searchTotalNews) {
+    if (_searchNewsList.length <= _searchTotalNews) {
       if (!shouldFetchNewsAPI) {
         for (var i = 0; i < 2; i++) {
+          print('CURRENT LANG: $currentLang');
+          print('CURRENT COUNTRY: $currentCountry');
           await fetchSearchNewsPage(
               currentLang ?? 'en', currentCountry ?? 'all', query);
-          _nextPage += 1;
+          _searchNextPage += 1;
         }
+        print(_searchNextPage);
         isLoadingNews = false;
         notifyListeners();
         return _searchNewsList;
       } else {
         await fetchSearchNewsAPIPage(currentCountry ?? 'br', query);
-        _nextPage += 2;
+        _searchNextPage += 2;
         isLoadingNews = false;
         notifyListeners();
         return _searchNewsList;
@@ -180,10 +183,12 @@ class NewsProvider with ChangeNotifier {
   Future<void> fetchSearchNewsPage(
       String language, String country, String query) async {
     final String urlString = country == 'all'
-        ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$_searchNextPage&qInTitle=$query'
-        : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$_searchNextPage&qInTitle=$query';
+        ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$searchNextPage&qInTitle=$query'
+        : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$searchNextPage&qInTitle=$query';
     final response = await http.get(Uri.parse(urlString));
+    print('URL: $urlString');
     if (response.statusCode == 200) {
+      print('Status code 200');
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
       final initialNewsResponse = NewsResponse.fromJson(decoded);
       _searchTotalNews = initialNewsResponse.totalResults ?? 0;
@@ -193,17 +198,18 @@ class NewsProvider with ChangeNotifier {
       _searchNewsList.addAll(initialNewsResponse.results!
           .map((i) => NewsData.fromJson(i))
           .toList());
+      print(_searchNewsList);
     }
   }
 
   Future<void> fetchSearchNewsAPIPage(String country, String query) async {
     final Uri url = Uri.parse(
-        'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPage&q=query');
+        'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$searchNextPage&q=query');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
       final initialNewsResponse = NewsAPIResponse.fromJson(decoded);
-      _totalNews = initialNewsResponse.totalResults ?? 0;
+      _searchTotalNews = initialNewsResponse.totalResults ?? 0;
       _searchNewsList.addAll(initialNewsResponse.articles!
           .map((i) => NewsAPIData.fromJson(i).toNewsData())
           .toList());

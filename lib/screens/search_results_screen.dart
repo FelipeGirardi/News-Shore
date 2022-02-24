@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/models/news_data.dart';
 import '/providers/news_provider.dart';
@@ -73,9 +74,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                 } else if (snapshot.hasError) {
                   return Container(
                     alignment: Alignment.center,
-                    child: const Text(
-                      'News could not be loaded.',
-                      style: TextStyle(fontSize: 28),
+                    child: Text(
+                      AppLocalizations.of(context)!.couldNotLoad,
+                      style: const TextStyle(fontSize: 28),
                     ),
                   );
                 } else {

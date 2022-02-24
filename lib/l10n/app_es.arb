@@ -99,5 +99,10 @@
     "totalBookmarks": "Número de notícias favoritas: ",
     "currentLanguage": "Lenguaje actual de noticias: ",
     "currentCountry": "País actual de noticias: ",
-    "logout": "Salir"
+    "logout": "Salir",
+    "covid": "Covid",
+    "europe": "Europa",
+    "america": "América",
+    "asia": "Asia",
+    "africa": "África"
 }

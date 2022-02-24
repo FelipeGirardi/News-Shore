@@ -99,5 +99,10 @@
     "totalBookmarks": "Numero di notizie segnate: ",
     "currentLanguage": "Lingua attuale delle notizie: ",
     "currentCountry": "Paese attuale delle notizie: ",
-    "logout": "Uscire"
+    "logout": "Uscire",
+    "covid": "Covid",
+    "europe": "Europa",
+    "america": "America",
+    "asia": "Asia",
+    "africa": "Africa"
 }

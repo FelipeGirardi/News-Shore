@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '/providers/news_provider.dart';
 import '/screens/search_results_screen.dart';
 
 class NewsSearch extends SearchDelegate<String> {
-  final news = ['Covid', 'Vaccine', 'Europe', 'USA', 'Asia'];
-  final recentNews = ['Covid', 'Vaccine', 'Europe', 'USA', 'Asia'];
-
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -43,6 +41,20 @@ class NewsSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    final news = [
+      AppLocalizations.of(context)!.covid,
+      AppLocalizations.of(context)!.europe,
+      AppLocalizations.of(context)!.america,
+      AppLocalizations.of(context)!.asia,
+      AppLocalizations.of(context)!.africa
+    ];
+    final recentNews = [
+      AppLocalizations.of(context)!.covid,
+      AppLocalizations.of(context)!.europe,
+      AppLocalizations.of(context)!.america,
+      AppLocalizations.of(context)!.asia,
+      AppLocalizations.of(context)!.africa
+    ];
     final suggestions = query.isEmpty
         ? recentNews
         : news.where((news) {
