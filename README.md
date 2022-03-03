@@ -1,2 +1,2 @@
 # NewsShore
-A customizable, multi-language news app in Flutter/Dart
+A multi-language world news app in Flutter/Dart
