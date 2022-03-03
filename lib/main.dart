@@ -85,6 +85,13 @@ class MyApp extends StatelessWidget {
                                           .localizationsDelegates,
                                       supportedLocales:
                                           AppLocalizations.supportedLocales,
+                                      builder: (context, child) {
+                                        return MediaQuery(
+                                          child: child!,
+                                          data: MediaQuery.of(context)
+                                              .copyWith(textScaleFactor: 1.0),
+                                        );
+                                      },
                                       home: const ScreenNavigator(),
                                       routes: {
                                         NewsDetailScreen.routeName: (ctx) =>

@@ -61,14 +61,14 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
       elevation: 0,
       margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+        padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             AutoSizeText(widget.newsData?.title ?? '',
                 presetFontSizes:
-                    hasDescription ? const [22, 20, 18] : const [22, 20],
+                    hasDescription ? const [20, 18] : const [22, 20],
                 maxLines: hasDescription ? 2 : 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -80,7 +80,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
               widget.newsData?.description ??
                   widget.newsData?.fullDescription ??
                   '',
-              presetFontSizes: const [14],
+              presetFontSizes: const [13],
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
@@ -97,7 +97,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
                 ),
                 const SizedBox(width: 10),
                 AutoSizeText(widget.newsData?.sourceId ?? '',
-                    presetFontSizes: const [14],
+                    presetFontSizes: const [13],
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.background)),

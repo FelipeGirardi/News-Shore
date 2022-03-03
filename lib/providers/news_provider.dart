@@ -101,14 +101,19 @@ class NewsProvider with ChangeNotifier {
           await fetchNewsPage(currentLang!, currentCountry!);
           _nextPage += 1;
         }
-        isLoadingNews = false;
-        notifyListeners();
       } else {
         await fetchNewsAPIPage(currentCountry!);
         _nextPage += 2;
-        isLoadingNews = false;
-        notifyListeners();
       }
+      if (newsList.length % 10 != 0) {
+        print('Did enter if');
+        _isLastPage = true;
+        _nextPage -= (newsList.length % 20 != 0) ? 1 : 0;
+        _newsList =
+            _newsList.sublist(0, newsList.length - (newsList.length % 10));
+      }
+      isLoadingNews = false;
+      notifyListeners();
     } else {
       throw Exception('Failed to load news');
     }
@@ -158,13 +163,10 @@ class NewsProvider with ChangeNotifier {
     if (_searchNewsList.length <= _searchTotalNews) {
       if (!shouldFetchNewsAPI) {
         for (var i = 0; i < 2; i++) {
-          print('CURRENT LANG: $currentLang');
-          print('CURRENT COUNTRY: $currentCountry');
           await fetchSearchNewsPage(
               currentLang ?? 'en', currentCountry ?? 'all', query);
           _searchNextPage += 1;
         }
-        print(_searchNextPage);
         isLoadingNews = false;
         notifyListeners();
         return _searchNewsList;
@@ -186,9 +188,7 @@ class NewsProvider with ChangeNotifier {
         ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$searchNextPage&qInTitle=$query'
         : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$searchNextPage&qInTitle=$query';
     final response = await http.get(Uri.parse(urlString));
-    print('URL: $urlString');
     if (response.statusCode == 200) {
-      print('Status code 200');
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
       final initialNewsResponse = NewsResponse.fromJson(decoded);
       _searchTotalNews = initialNewsResponse.totalResults ?? 0;
@@ -198,7 +198,6 @@ class NewsProvider with ChangeNotifier {
       _searchNewsList.addAll(initialNewsResponse.results!
           .map((i) => NewsData.fromJson(i))
           .toList());
-      print(_searchNewsList);
     }
   }
 
