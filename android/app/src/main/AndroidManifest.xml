@@ -23,7 +23,7 @@
     </intent>
     </queries>
    <application
-        android:label="newsshore"
+        android:label="News Shore"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

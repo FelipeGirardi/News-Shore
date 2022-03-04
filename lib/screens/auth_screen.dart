@@ -91,7 +91,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           image: AssetImage(
                               'assets/images/newsshore_title_only.png'),
                           fit: BoxFit.fitWidth),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 15),
                       StreamBuilder(
                           stream: _authInstance.authStateChanges(),
                           builder: (ctx, userSnapshot) {

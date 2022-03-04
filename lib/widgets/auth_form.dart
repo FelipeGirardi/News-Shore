@@ -29,6 +29,7 @@ class _AuthFormState extends State<AuthForm>
   String _email = '';
   String _password = '';
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
 
@@ -116,6 +117,7 @@ class _AuthFormState extends State<AuthForm>
                       child: FadeTransition(
                           opacity: _opacityAnimation,
                           child: TextFormField(
+                              controller: _confirmPasswordController,
                               key: const ValueKey('confirmPassword'),
                               enabled: _authMode == AuthMode.signup,
                               decoration: InputDecoration(
@@ -172,6 +174,9 @@ class _AuthFormState extends State<AuthForm>
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 setState(() {
+                                  if (_authMode == AuthMode.signup) {
+                                    _confirmPasswordController.clear();
+                                  }
                                   _authMode = _authMode == AuthMode.signup
                                       ? AuthMode.login
                                       : AuthMode.signup;

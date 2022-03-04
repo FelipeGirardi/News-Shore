@@ -45,7 +45,7 @@ class LoggedUserScreen extends StatelessWidget {
                         elevation: 8.0,
                         child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 30),
+                                horizontal: 10, vertical: 30),
                             child: SizedBox(
                               width: deviceSize.width * 0.75,
                               child: Align(
@@ -63,11 +63,11 @@ class LoggedUserScreen extends StatelessWidget {
                                           height: 10,
                                         ),
                                         AutoSizeText(
-                                          user?.displayName ??
-                                              user?.email ??
+                                          user?.email ??
                                               AppLocalizations.of(context)!
                                                   .email,
-                                          textScaleFactor: 1.5,
+                                          maxLines: 2,
+                                          presetFontSizes: [18, 16, 14],
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -85,10 +85,17 @@ class LoggedUserScreen extends StatelessWidget {
                                         const SizedBox(
                                           width: 5,
                                         ),
-                                        Text(AppLocalizations.of(context)!
-                                                .totalBookmarks +
-                                            provider.bookmarkedNewsList.length
-                                                .toString()),
+                                        Flexible(
+                                          child: AutoSizeText(
+                                            AppLocalizations.of(context)!
+                                                    .totalBookmarks +
+                                                provider
+                                                    .bookmarkedNewsList.length
+                                                    .toString(),
+                                            maxLines: 1,
+                                            presetFontSizes: [14, 13, 12],
+                                          ),
+                                        ),
                                       ],
                                     ),
                                     const Padding(
@@ -96,13 +103,21 @@ class LoggedUserScreen extends StatelessWidget {
                                           EdgeInsets.symmetric(vertical: 10),
                                       child: Divider(thickness: 2),
                                     ),
-                                    Text(AppLocalizations.of(context)!
-                                            .currentLanguage +
-                                        lang),
+                                    AutoSizeText(
+                                      AppLocalizations.of(context)!
+                                              .currentLanguage +
+                                          lang,
+                                      maxLines: 2,
+                                      presetFontSizes: [14, 13, 12],
+                                    ),
                                     const SizedBox(height: 30),
-                                    Text(AppLocalizations.of(context)!
-                                            .currentCountry +
-                                        country),
+                                    AutoSizeText(
+                                      AppLocalizations.of(context)!
+                                              .currentCountry +
+                                          country,
+                                      maxLines: 2,
+                                      presetFontSizes: [14, 13, 12],
+                                    ),
                                     const SizedBox(height: 50),
                                     SizedBox(
                                       width: deviceSize.width * 0.5,
