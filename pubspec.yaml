@@ -50,6 +50,7 @@ dependencies:
   crypto: ^3.0.1
   video_player: ^2.2.18
   google_mobile_ads: ^1.1.0
+  cached_network_image: ^3.2.0
 
 dev_dependencies:
   flutter_test:
