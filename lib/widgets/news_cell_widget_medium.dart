@@ -171,12 +171,10 @@ class ImageWidgetMedium extends StatelessWidget {
         child: FadeInImage(
           placeholder:
               const AssetImage('assets/images/newsshore_logo_long.png'),
-          image: newsData?.imageUrl != null
-              ? newsData!.imageUrl!.isNotEmpty
+          image: (newsData!.showImage!
                   ? NetworkImage(newsData!.imageUrl!)
-                  : const AssetImage('assets/images/newsshore_logo_long.png')
-                      as ImageProvider
-              : const AssetImage('assets/images/newsshore_logo_long.png'),
+                  : const AssetImage('assets/images/newsshore_logo_long.png'))
+              as ImageProvider,
           height: 120,
           fit: BoxFit.cover,
         ),

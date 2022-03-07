@@ -37,9 +37,6 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
     final provider = Provider.of<NewsProvider>(context, listen: false);
     bool isFavorite =
         provider.bookmarkedNewsList.any((item) => item.id == newsData.id);
-    // bool hasDescription = (newsData.fullDescription != null ||
-    //     newsData.description != null ||
-    //     newsData.content != null);
     return Scaffold(
       appBar: CustomAppBar(
         title: 'News Shore',
@@ -53,13 +50,11 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
             child: FadeInImage(
               placeholder:
                   const AssetImage('assets/images/newsshore_logo_long.png'),
-              image: newsData.imageUrl != null
-                  ? newsData.imageUrl!.isNotEmpty
+              image: (newsData.showImage!
                       ? NetworkImage(newsData.imageUrl!)
                       : const AssetImage(
-                              'assets/images/newsshore_logo_long.png')
-                          as ImageProvider
-                  : const AssetImage('assets/images/newsshore_logo_long.png'),
+                          'assets/images/newsshore_logo_long.png'))
+                  as ImageProvider,
               height: 200,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,

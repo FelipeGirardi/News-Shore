@@ -61,18 +61,17 @@ class _AuthFormState extends State<AuthForm>
           ),
           elevation: 8.0,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 5),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeIn,
               height: _authMode == AuthMode.signup
-                  ? deviceSize.height * 0.42
-                  : deviceSize.height * 0.37,
+                  ? deviceSize.height * 0.435
+                  : deviceSize.height * 0.385,
               width: deviceSize.width * 0.8,
               child: Form(
                 key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                child: ListView(
                   children: [
                     TextFormField(
                       key: const ValueKey('email'),
@@ -90,7 +89,9 @@ class _AuthFormState extends State<AuthForm>
                       },
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
-                          labelText: AppLocalizations.of(context)!.email),
+                        labelText: AppLocalizations.of(context)!.email,
+                      ),
+                      style: TextStyle(fontSize: 14),
                     ),
                     TextFormField(
                       key: const ValueKey('password'),
@@ -107,34 +108,36 @@ class _AuthFormState extends State<AuthForm>
                       decoration: InputDecoration(
                           labelText: AppLocalizations.of(context)!.password),
                       obscureText: true,
+                      style: TextStyle(fontSize: 14),
                     ),
                     AnimatedContainer(
-                      constraints: BoxConstraints(
-                          minHeight: _authMode == AuthMode.signup ? 60 : 0,
-                          maxHeight: _authMode == AuthMode.signup ? 120 : 0),
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.easeIn,
                       child: FadeTransition(
                           opacity: _opacityAnimation,
-                          child: TextFormField(
-                              controller: _confirmPasswordController,
-                              key: const ValueKey('confirmPassword'),
-                              enabled: _authMode == AuthMode.signup,
-                              decoration: InputDecoration(
-                                  labelText: AppLocalizations.of(context)!
-                                      .confirmPassword),
-                              obscureText: true,
-                              validator: _authMode == AuthMode.signup
-                                  ? (value) {
-                                      if (value != _passwordController.text) {
-                                        return AppLocalizations.of(context)!
-                                            .invalidConfirmPassword;
-                                      }
-                                      return null;
-                                    }
-                                  : null)),
+                          child: _authMode == AuthMode.signup
+                              ? TextFormField(
+                                  controller: _confirmPasswordController,
+                                  key: const ValueKey('confirmPassword'),
+                                  enabled: _authMode == AuthMode.signup,
+                                  decoration: InputDecoration(
+                                      labelText: AppLocalizations.of(context)!
+                                          .confirmPassword),
+                                  obscureText: true,
+                                  style: TextStyle(fontSize: 14),
+                                  validator: _authMode == AuthMode.signup
+                                      ? (value) {
+                                          if (value !=
+                                              _passwordController.text) {
+                                            return AppLocalizations.of(context)!
+                                                .invalidConfirmPassword;
+                                          }
+                                          return null;
+                                        }
+                                      : null)
+                              : Container()),
                     ),
-                    const Spacer(),
+                    const SizedBox(height: 30),
                     widget.isLoading
                         ? const LoadingWidget()
                         : SizedBox(
@@ -151,40 +154,42 @@ class _AuthFormState extends State<AuthForm>
                                       fontWeight: FontWeight.bold),
                                 )),
                           ),
-                    const SizedBox(height: 20),
-                    RichText(
-                        text: TextSpan(
-                      text: _authMode == AuthMode.signup
-                          ? AppLocalizations.of(context)!.alreadyUser
-                          : AppLocalizations.of(context)!.noAccount,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontFamily: 'Objectivity',
-                          color: Theme.of(context).colorScheme.onSurface),
-                      children: [
-                        TextSpan(
-                            text: _authMode == AuthMode.signup
-                                ? AppLocalizations.of(context)!.login
-                                : AppLocalizations.of(context)!.signup,
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Objectivity',
-                                color: Theme.of(context).colorScheme.primary),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                setState(() {
-                                  if (_authMode == AuthMode.signup) {
-                                    _confirmPasswordController.clear();
-                                  }
-                                  _authMode = _authMode == AuthMode.signup
-                                      ? AuthMode.login
-                                      : AuthMode.signup;
-                                });
-                              }),
-                      ],
-                    )),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
+                    Center(
+                      child: RichText(
+                          text: TextSpan(
+                        text: _authMode == AuthMode.signup
+                            ? AppLocalizations.of(context)!.alreadyUser
+                            : AppLocalizations.of(context)!.noAccount,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: 'Objectivity',
+                            color: Theme.of(context).colorScheme.onSurface),
+                        children: [
+                          TextSpan(
+                              text: _authMode == AuthMode.signup
+                                  ? AppLocalizations.of(context)!.login
+                                  : AppLocalizations.of(context)!.signup,
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Objectivity',
+                                  color: Theme.of(context).colorScheme.primary),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  setState(() {
+                                    if (_authMode == AuthMode.signup) {
+                                      _confirmPasswordController.clear();
+                                    }
+                                    _authMode = _authMode == AuthMode.signup
+                                        ? AuthMode.login
+                                        : AuthMode.signup;
+                                  });
+                                }),
+                        ],
+                      )),
+                    ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),

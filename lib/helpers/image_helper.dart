@@ -12,7 +12,7 @@ class ImageHelper {
     return completer.future;
   }
 
-  static Future<ImageProvider> getImage(String? imageUrl) async {
+  static Future<bool> shouldShowImage(String? imageUrl) async {
     if (imageUrl != null && imageUrl.isNotEmpty) {
       Image image = Image.network(imageUrl);
       ImageInfo info = await getImageInfo(image);
@@ -22,9 +22,11 @@ class ImageHelper {
           '\nHEIGHT:' +
           info.image.height.toString() +
           '\n----------');
-      return NetworkImage(imageUrl);
-    } else {
-      return const AssetImage('assets/images/newsshore_logo_long.png');
+      if (info.image.width <= 100 || info.image.height <= 100) {
+        return false;
+      }
+      return true;
     }
+    return false;
   }
 }

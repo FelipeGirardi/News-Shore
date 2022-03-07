@@ -76,6 +76,7 @@ class NewsAPIData {
       fullDescription: null,
       imageUrl: urlToImage,
       sourceId: source?.name ?? source?.id ?? '',
+      showImage: false,
     );
   }
 

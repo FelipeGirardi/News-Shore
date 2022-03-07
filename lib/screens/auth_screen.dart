@@ -91,7 +91,6 @@ class _AuthScreenState extends State<AuthScreen> {
                           image: AssetImage(
                               'assets/images/newsshore_title_only.png'),
                           fit: BoxFit.fitWidth),
-                      const SizedBox(height: 15),
                       StreamBuilder(
                           stream: _authInstance.authStateChanges(),
                           builder: (ctx, userSnapshot) {
@@ -108,12 +107,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                   AuthForm(
                                       executeAuth: _executeAuth,
                                       isLoading: _isLoading),
-                                  const SizedBox(height: 20),
+                                  const SizedBox(height: 15),
                                   Platform.isIOS
                                       ? Column(
                                           children: [
                                             SizedBox(
-                                                width: deviceSize.width * 0.75,
+                                                width: deviceSize.width * 0.8,
                                                 child: SignInWithAppleButton(
                                                   text: AppLocalizations.of(
                                                           context)!
@@ -129,12 +128,12 @@ class _AuthScreenState extends State<AuthScreen> {
                                                         .signInWithApple();
                                                   },
                                                 )),
-                                            const SizedBox(height: 20),
+                                            const SizedBox(height: 15),
                                           ],
                                         )
                                       : Container(),
                                   SizedBox(
-                                    width: deviceSize.width * 0.75,
+                                    width: deviceSize.width * 0.8,
                                     height: 40,
                                     child: FloatingActionButton.extended(
                                         onPressed: () {

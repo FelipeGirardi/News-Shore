@@ -4,7 +4,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 import '/providers/news_provider.dart';
 import '/models/news_data.dart';
-import '/helpers/image_helper.dart';
 
 class NewsCellWidgetLarge extends StatelessWidget {
   final BuildContext? ctx;
@@ -132,7 +131,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
   }
 }
 
-class ImageWidgetLarge extends StatefulWidget {
+class ImageWidgetLarge extends StatelessWidget {
   const ImageWidgetLarge({
     Key? key,
     required this.newsData,
@@ -141,36 +140,20 @@ class ImageWidgetLarge extends StatefulWidget {
   final NewsData? newsData;
 
   @override
-  State<ImageWidgetLarge> createState() => _ImageWidgetLargeState();
-}
-
-class _ImageWidgetLargeState extends State<ImageWidgetLarge> {
-  late final Future<ImageProvider>? imageFuture;
-  @override
-  void initState() {
-    super.initState();
-    imageFuture = ImageHelper.getImage(widget.newsData!.imageUrl);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return ClipRRect(
       child: Hero(
-        tag: widget.newsData!.id!,
-        child: FutureBuilder<ImageProvider>(
-            future: imageFuture,
-            builder:
-                (BuildContext context, AsyncSnapshot<ImageProvider> snapshot) {
-              return FadeInImage(
-                placeholder:
-                    const AssetImage('assets/images/newsshore_logo_long.png'),
-                image: snapshot.hasData
-                    ? snapshot.data!
-                    : const AssetImage('assets/images/google_logo.png'),
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
-              );
-            }),
+        tag: newsData!.id!,
+        child: FadeInImage(
+          placeholder:
+              const AssetImage('assets/images/newsshore_logo_long.png'),
+          image: (newsData!.showImage!
+                  ? NetworkImage(newsData!.imageUrl!)
+                  : const AssetImage('assets/images/newsshore_logo_long.png'))
+              as ImageProvider,
+          width: MediaQuery.of(context).size.width,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

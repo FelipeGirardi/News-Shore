@@ -11,6 +11,7 @@ import '/models/news_api_data.dart';
 import '/models/news_enums.dart';
 import '/helpers/api_keys.dart';
 import '/helpers/sql_helper.dart';
+import '/helpers/image_helper.dart';
 
 class NewsProvider with ChangeNotifier {
   List<NewsData> _newsList = [];
@@ -137,9 +138,13 @@ class NewsProvider with ChangeNotifier {
       if (initialNewsResponse.nextPage == null) {
         _isLastPage = true;
       }
-      _newsList.addAll(initialNewsResponse.results!
-          .map((i) => NewsData.fromJson(i))
-          .toList());
+
+      var newsFuture = initialNewsResponse.results!.map((i) async {
+        NewsData nData = NewsData.fromJson(i);
+        nData.showImage = await ImageHelper.shouldShowImage(nData.imageUrl);
+        return nData;
+      }).toList();
+      _newsList.addAll(await Future.wait(newsFuture));
     }
   }
 
@@ -153,9 +158,13 @@ class NewsProvider with ChangeNotifier {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
       final initialNewsResponse = NewsAPIResponse.fromJson(decoded);
       _totalNews = initialNewsResponse.totalResults ?? 0;
-      _newsList.addAll(initialNewsResponse.articles!
-          .map((i) => NewsAPIData.fromJson(i).toNewsData())
-          .toList());
+
+      var newsFuture = initialNewsResponse.articles!.map((i) async {
+        NewsData nData = NewsAPIData.fromJson(i).toNewsData();
+        nData.showImage = await ImageHelper.shouldShowImage(nData.imageUrl);
+        return nData;
+      }).toList();
+      _newsList.addAll(await Future.wait(newsFuture));
     }
   }
 
@@ -195,9 +204,12 @@ class NewsProvider with ChangeNotifier {
       if (initialNewsResponse.nextPage == null) {
         _isLastSearchPage = true;
       }
-      _searchNewsList.addAll(initialNewsResponse.results!
-          .map((i) => NewsData.fromJson(i))
-          .toList());
+      var newsFuture = initialNewsResponse.results!.map((i) async {
+        NewsData nData = NewsData.fromJson(i);
+        nData.showImage = await ImageHelper.shouldShowImage(nData.imageUrl);
+        return nData;
+      }).toList();
+      _searchNewsList.addAll(await Future.wait(newsFuture));
     }
   }
 
