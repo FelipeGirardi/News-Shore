@@ -43,7 +43,7 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-3940256099942544~1458002511</string>
+	<string>ca-app-pub-3670266448317627~9486794001</string>
 	<key>GADIsAdManagerApp</key>
 	<true/>
 	<key>LSApplicationQueriesSchemes</key>

@@ -223,6 +223,7 @@ class _NewsVideoWidgetState extends State<NewsVideoWidget> {
                 ? const Icon(
                     Icons.play_arrow,
                     size: 72,
+                    color: Colors.white,
                   )
                 : Container(),
           ]),

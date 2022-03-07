@@ -36,6 +36,8 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
 
   @override
   void initState() {
+    super.initState();
+
     _newsProvider = _setNewsProvider();
     scrollController.addListener(pagination);
 
@@ -56,8 +58,6 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
       ),
     );
     _bannerAd.load();
-
-    super.initState();
   }
 
   @override

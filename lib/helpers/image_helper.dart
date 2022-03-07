@@ -16,13 +16,7 @@ class ImageHelper {
     if (imageUrl != null && imageUrl.isNotEmpty) {
       Image image = Image.network(imageUrl);
       ImageInfo info = await getImageInfo(image);
-      print(imageUrl +
-          '\nWIDTH:' +
-          info.image.width.toString() +
-          '\nHEIGHT:' +
-          info.image.height.toString() +
-          '\n----------');
-      if (info.image.width <= 100 || info.image.height <= 100) {
+      if (info.image.width <= 150 || info.image.height <= 150) {
         return false;
       }
       return true;

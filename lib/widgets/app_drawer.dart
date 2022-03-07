@@ -72,7 +72,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 _setCategoryState(category.name, newValue!);
               },
               activeColor: Theme.of(context).colorScheme.primary,
-              checkColor: Colors.white,
+              checkColor: Theme.of(context).colorScheme.onPrimary,
             );
           }).toList(),
         ],

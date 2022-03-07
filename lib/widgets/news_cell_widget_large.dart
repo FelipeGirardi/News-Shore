@@ -14,6 +14,7 @@ class NewsCellWidgetLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     bool hasDescription = (newsData?.description != null ||
         newsData?.content != null ||
         newsData?.fullDescription != null);
@@ -21,8 +22,12 @@ class NewsCellWidgetLarge extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: SizedBox(
         height: hasDescription
-            ? MediaQuery.of(context).size.height / 2.3
-            : MediaQuery.of(context).size.height / 2.7,
+            ? screenHeight < 800
+                ? screenHeight / 2.15
+                : screenHeight / 2.5
+            : screenHeight < 800
+                ? screenHeight / 2.4
+                : screenHeight / 2.8,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -49,6 +54,7 @@ class TitleAndSourceWidgetLarge extends StatefulWidget {
 class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
         .bookmarkedNewsList
         .any((item) => item.id == widget.newsData!.id);
@@ -61,7 +67,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
       elevation: 0,
       margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+        padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -80,7 +86,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
               widget.newsData?.description ??
                   widget.newsData?.fullDescription ??
                   '',
-              presetFontSizes: const [13],
+              presetFontSizes: screenHeight < 800 ? const [13] : const [15],
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(

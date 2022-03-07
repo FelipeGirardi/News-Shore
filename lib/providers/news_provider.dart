@@ -107,7 +107,6 @@ class NewsProvider with ChangeNotifier {
         _nextPage += 2;
       }
       if (newsList.length % 10 != 0) {
-        print('Did enter if');
         _isLastPage = true;
         _nextPage -= (newsList.length % 20 != 0) ? 1 : 0;
         _newsList =
