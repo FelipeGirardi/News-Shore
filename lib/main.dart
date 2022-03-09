@@ -79,6 +79,7 @@ class MyApp extends StatelessWidget {
                                     ],
                                     child: MaterialApp(
                                       title: 'News Shore',
+                                      debugShowCheckedModeBanner: false,
                                       theme: lightThemeData,
                                       darkTheme: darkThemeData,
                                       localizationsDelegates: AppLocalizations

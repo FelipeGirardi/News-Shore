@@ -75,7 +75,7 @@ class NewsData {
       'full_description': fullDescription ?? '',
       'image_url': imageUrl ?? '',
       'source_id': sourceId ?? '',
-      'show_image': showImage ?? false,
+      'show_image': (showImage ?? false) == true ? 1 : 0,
     };
   }
 
@@ -93,6 +93,6 @@ class NewsData {
         fullDescription: dataMap['full_description'],
         imageUrl: dataMap['image_url'],
         sourceId: dataMap['source_id'],
-        showImage: dataMap['show_image']);
+        showImage: dataMap['show_image'] == 1 ? true : false);
   }
 }

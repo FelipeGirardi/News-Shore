@@ -67,7 +67,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
       elevation: 0,
       margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 7, 10, 7),
+        padding: const EdgeInsets.fromLTRB(10, 7, 10, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
