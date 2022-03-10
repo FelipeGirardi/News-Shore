@@ -14,26 +14,33 @@ class NewsCellWidgetLarge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool isMobile = shortestSide < 600;
     double screenHeight = MediaQuery.of(context).size.height;
     bool hasDescription = (newsData?.description != null ||
         newsData?.content != null ||
         newsData?.fullDescription != null);
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: SizedBox(
-        height: hasDescription
-            ? screenHeight < 800
-                ? screenHeight / 2.15
-                : screenHeight / 2.5
-            : screenHeight < 800
-                ? screenHeight / 2.4
-                : screenHeight / 2.8,
+        height: isMobile
+            ? (hasDescription
+                ? screenHeight < 800
+                    ? screenHeight / 2.15
+                    : screenHeight / 2.5
+                : screenHeight < 800
+                    ? screenHeight / 2.4
+                    : screenHeight / 2.8)
+            : screenHeight / 2.6,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Expanded(child: ImageWidgetLarge(newsData: newsData)),
-              Expanded(child: TitleAndSourceWidgetLarge(newsData: newsData)),
+              Expanded(
+                  child: TitleAndSourceWidgetLarge(
+                      newsData: newsData, isMobile: isMobile)),
             ]),
       ),
     );
@@ -41,10 +48,12 @@ class NewsCellWidgetLarge extends StatelessWidget {
 }
 
 class TitleAndSourceWidgetLarge extends StatefulWidget {
-  const TitleAndSourceWidgetLarge({Key? key, required this.newsData})
+  const TitleAndSourceWidgetLarge(
+      {Key? key, required this.newsData, required this.isMobile})
       : super(key: key);
 
   final NewsData? newsData;
+  final bool isMobile;
 
   @override
   State<TitleAndSourceWidgetLarge> createState() =>
@@ -61,6 +70,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
     bool hasDescription = (widget.newsData?.description != null ||
         widget.newsData?.fullDescription != null ||
         widget.newsData?.description != null);
+
     return Card(
       color: Theme.of(context).colorScheme.primary,
       shape: const RoundedRectangleBorder(),
@@ -73,24 +83,28 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             AutoSizeText(widget.newsData?.title ?? '',
-                presetFontSizes:
-                    hasDescription ? const [20, 18] : const [22, 20],
+                presetFontSizes: widget.isMobile
+                    ? (hasDescription ? const [20, 18] : const [22, 20])
+                    : const [27],
                 maxLines: hasDescription ? 2 : 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    height: 1.3,
+                    height: widget.isMobile ? 1.1 : 1.3,
                     color: Theme.of(context).colorScheme.background)),
             const Spacer(),
             AutoSizeText(
               widget.newsData?.description ??
                   widget.newsData?.fullDescription ??
                   '',
-              presetFontSizes: screenHeight < 800 ? const [13] : const [15],
+              presetFontSizes: widget.isMobile
+                  ? (screenHeight < 800 ? const [13] : const [15])
+                  : const [20],
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  height: 1.5, color: Theme.of(context).colorScheme.background),
+                  height: widget.isMobile ? 1.5 : 1.3,
+                  color: Theme.of(context).colorScheme.background),
             ),
             const Spacer(),
             const Spacer(),
@@ -98,12 +112,12 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
               children: [
                 Icon(
                   Icons.library_books,
-                  size: 14,
+                  size: widget.isMobile ? 14 : 20,
                   color: Theme.of(context).colorScheme.background,
                 ),
                 const SizedBox(width: 10),
                 AutoSizeText(widget.newsData?.sourceId ?? '',
-                    presetFontSizes: const [13],
+                    presetFontSizes: widget.isMobile ? const [13] : const [20],
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.background)),
@@ -111,7 +125,7 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
                 InkWell(
                   child: Icon(
                     isFavorite ? Icons.bookmark : Icons.bookmark_border,
-                    size: 24,
+                    size: widget.isMobile ? 24 : 36,
                     color: isFavorite
                         ? Colors.yellow
                         : Theme.of(context).colorScheme.background,

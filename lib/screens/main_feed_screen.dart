@@ -43,7 +43,7 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
 
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      size: AdSize.banner,
+      size: AdSize.fullBanner,
       request: const AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (_) {
@@ -88,6 +88,9 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool isMobile = shortestSide < 600;
+
     return Column(mainAxisSize: MainAxisSize.min, children: [
       Expanded(
         child: FutureBuilder(
@@ -133,8 +136,9 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                                         children: [
                                           GridView.builder(
                                               gridDelegate:
-                                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 2,
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount:
+                                                          isMobile ? 2 : 3,
                                                       childAspectRatio: 8 / 9),
                                               shrinkWrap: true,
                                               physics:

@@ -53,7 +53,10 @@ class _AuthFormState extends State<AuthForm>
 
   @override
   Widget build(BuildContext context) {
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool isMobile = shortestSide < 600;
     final deviceSize = MediaQuery.of(context).size;
+
     return Center(
       child: Card(
           shape: RoundedRectangleBorder(
@@ -137,7 +140,7 @@ class _AuthFormState extends State<AuthForm>
                                       : null)
                               : Container()),
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: isMobile ? 30 : 50),
                     widget.isLoading
                         ? const LoadingWidget()
                         : SizedBox(

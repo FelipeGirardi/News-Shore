@@ -37,6 +37,9 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
     final provider = Provider.of<NewsProvider>(context, listen: false);
     bool isFavorite =
         provider.bookmarkedNewsList.any((item) => item.id == newsData.id);
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool isMobile = shortestSide < 600;
+
     return Scaffold(
       appBar: CustomAppBar(
         title: 'News Shore',
@@ -55,7 +58,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       : const AssetImage(
                           'assets/images/newsshore_logo_long.png'))
                   as ImageProvider,
-              height: 200,
+              height: isMobile ? 200 : 300,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.cover,
             ),
@@ -71,21 +74,23 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                         child: AutoSizeText(
                           newsData.keywords!.take(5).join(', '),
                           maxLines: 1,
-                          presetFontSizes: const [13],
+                          presetFontSizes: isMobile ? const [13] : const [19],
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.w600,
-                              fontSize: 13,
+                              fontSize: isMobile ? 13 : 19,
                               height: 1.5),
                         )),
                     const SizedBox(height: 10),
                   ]),
                 Text(
                   newsData.title ?? '',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 22, height: 1.3),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: isMobile ? 22 : 36,
+                      height: 1.3),
                 ),
-                const SizedBox(height: 15),
+                SizedBox(height: isMobile ? 15 : 30),
                 Row(
                   children: [
                     Column(
@@ -93,25 +98,25 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       children: [
                         Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.library_books,
-                              size: 13,
+                              size: isMobile ? 13 : 19,
                             ),
                             const SizedBox(width: 10),
                             Text(newsData.sourceId ?? '',
-                                style: const TextStyle(fontSize: 13)),
+                                style: TextStyle(fontSize: isMobile ? 13 : 19)),
                           ],
                         ),
                         const SizedBox(height: 15),
                         Row(children: [
-                          const Icon(
+                          Icon(
                             Icons.access_time,
-                            size: 13,
+                            size: isMobile ? 13 : 19,
                           ),
                           const SizedBox(width: 10),
                           Text(newsData.pubDate ?? '',
                               textAlign: TextAlign.left,
-                              style: const TextStyle(fontSize: 13))
+                              style: TextStyle(fontSize: isMobile ? 13 : 19))
                         ]),
                       ],
                     ),
@@ -121,7 +126,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       child: InkWell(
                         child: Icon(
                           isFavorite ? Icons.bookmark : Icons.bookmark_border,
-                          size: 28,
+                          size: isMobile ? 28 : 36,
                           color: isFavorite ? Colors.yellow : null,
                         ),
                         onTap: () {
@@ -139,10 +144,11 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: isMobile ? 20 : 35),
                 newsData.videoUrl != null
                     ? NewsVideoWidget(
                         videoUrl: newsData.videoUrl!,
+                        isMobile: isMobile,
                       )
                     : Container(),
                 Text(
@@ -150,14 +156,14 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       newsData.content ??
                       newsData.description ??
                       '',
-                  style: const TextStyle(fontSize: 15, height: 1.75),
+                  style: TextStyle(fontSize: isMobile ? 15 : 21, height: 1.75),
                 ),
                 const SizedBox(height: 30),
                 Row(
                   children: [
                     const Spacer(),
                     SizedBox(
-                      height: 50,
+                      height: isMobile ? 50 : 75,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                               primary: Theme.of(context).colorScheme.primary,
@@ -165,8 +171,9 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                           onPressed: () => _launchNewsUrl(newsData.link ?? ''),
                           child: Text(
                             AppLocalizations.of(context)!.fullNews,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: isMobile ? 18 : 24),
                           )),
                     ),
                     const Spacer()
@@ -181,8 +188,11 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
 }
 
 class NewsVideoWidget extends StatefulWidget {
+  const NewsVideoWidget(
+      {Key? key, required this.videoUrl, required this.isMobile})
+      : super(key: key);
   final String videoUrl;
-  const NewsVideoWidget({Key? key, required this.videoUrl}) : super(key: key);
+  final bool isMobile;
 
   @override
   _NewsVideoWidgetState createState() => _NewsVideoWidgetState();
@@ -213,7 +223,7 @@ class _NewsVideoWidgetState extends State<NewsVideoWidget> {
         InkWell(
           child: Stack(alignment: Alignment.center, children: [
             SizedBox(
-              height: 200,
+              height: widget.isMobile ? 200 : 300,
               child: AspectRatio(
                 aspectRatio: _controller.value.aspectRatio,
                 child: VideoPlayer(_controller),

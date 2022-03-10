@@ -62,6 +62,8 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size;
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool isMobile = shortestSide < 600;
     return _isLoading
         ? const LoadingWidget()
         : Stack(children: [
@@ -81,7 +83,9 @@ class _AuthScreenState extends State<AuthScreen> {
             SingleChildScrollView(
               child: Container(
                 constraints: BoxConstraints(
-                  minHeight: deviceSize.height * 0.8,
+                  minHeight: isMobile
+                      ? deviceSize.height * 0.8
+                      : deviceSize.height * 0.7,
                 ),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -107,7 +111,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                   AuthForm(
                                       executeAuth: _executeAuth,
                                       isLoading: _isLoading),
-                                  const SizedBox(height: 15),
+                                  SizedBox(height: isMobile ? 15 : 30),
                                   Platform.isIOS
                                       ? Column(
                                           children: [

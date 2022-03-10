@@ -23,6 +23,9 @@ class NewsCellWidgetMedium extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool isMobile = shortestSide < 600;
+
     return Align(
       alignment: Alignment.center,
       child: Padding(
@@ -33,14 +36,16 @@ class NewsCellWidgetMedium extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TitleAndSourceWidgetMedium(newsData: newsData),
+                TitleAndSourceWidgetMedium(
+                    newsData: newsData, isMobile: isMobile),
                 const SizedBox(
                   width: 5,
                 ),
                 ImageWidgetMedium(
                     newsData: newsData,
                     isBookmarked: isBookmarked,
-                    bookmarkHeroTag: bookmarkHeroTag)
+                    bookmarkHeroTag: bookmarkHeroTag,
+                    isMobile: isMobile)
               ],
             ),
             const SizedBox(height: 10),
@@ -62,10 +67,12 @@ class NewsCellWidgetMedium extends StatelessWidget {
 }
 
 class TitleAndSourceWidgetMedium extends StatefulWidget {
-  const TitleAndSourceWidgetMedium({Key? key, required this.newsData})
+  const TitleAndSourceWidgetMedium(
+      {Key? key, required this.newsData, required this.isMobile})
       : super(key: key);
 
   final NewsData? newsData;
+  final bool isMobile;
 
   @override
   State<TitleAndSourceWidgetMedium> createState() =>
@@ -76,6 +83,8 @@ class _TitleAndSourceWidgetMediumState
     extends State<TitleAndSourceWidgetMedium> {
   @override
   Widget build(BuildContext context) {
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool isMobile = shortestSide < 600;
     bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
         .bookmarkedNewsList
         .any((item) => item.id == widget.newsData!.id);
@@ -84,7 +93,7 @@ class _TitleAndSourceWidgetMediumState
     return Expanded(
       flex: 7,
       child: SizedBox(
-        height: 125,
+        height: isMobile ? 125 : 200,
         child: Padding(
           padding: const EdgeInsets.only(right: 5),
           child: Column(
@@ -92,7 +101,9 @@ class _TitleAndSourceWidgetMediumState
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               AutoSizeText(widget.newsData?.title ?? '',
-                  presetFontSizes: hasDescription ? const [15] : const [18],
+                  presetFontSizes: isMobile
+                      ? (hasDescription ? const [15] : const [18])
+                      : const [24],
                   maxLines: hasDescription ? 2 : 3,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
@@ -104,7 +115,7 @@ class _TitleAndSourceWidgetMediumState
                 widget.newsData?.description ??
                     widget.newsData?.fullDescription ??
                     '',
-                presetFontSizes: const [12],
+                presetFontSizes: isMobile ? const [12] : const [18],
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(height: 1.5),
@@ -113,21 +124,21 @@ class _TitleAndSourceWidgetMediumState
               const Spacer(),
               Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.library_books,
-                    size: 12,
+                    size: isMobile ? 12 : 16,
                   ),
                   const SizedBox(width: 10),
                   AutoSizeText(
                     widget.newsData?.sourceId ?? '',
-                    presetFontSizes: const [12],
+                    presetFontSizes: isMobile ? const [12] : const [16],
                     overflow: TextOverflow.ellipsis,
                   ),
                   const Spacer(),
                   InkWell(
                     child: Icon(
                       isFavorite ? Icons.bookmark : Icons.bookmark_border,
-                      size: 24,
+                      size: isMobile ? 24 : 36,
                       color: isFavorite ? Colors.yellow : null,
                     ),
                     onTap: () {
@@ -155,12 +166,14 @@ class ImageWidgetMedium extends StatelessWidget {
       {Key? key,
       required this.newsData,
       this.isBookmarked,
-      this.bookmarkHeroTag})
+      this.bookmarkHeroTag,
+      required this.isMobile})
       : super(key: key);
 
   final NewsData? newsData;
   final bool? isBookmarked;
   final String? bookmarkHeroTag;
+  final bool isMobile;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +188,7 @@ class ImageWidgetMedium extends StatelessWidget {
                   ? NetworkImage(newsData!.imageUrl!)
                   : const AssetImage('assets/images/newsshore_logo_long.png'))
               as ImageProvider,
-          height: 120,
+          height: isMobile ? 120 : 195,
           fit: BoxFit.cover,
         ),
       ),

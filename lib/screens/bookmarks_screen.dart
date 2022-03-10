@@ -73,6 +73,8 @@ class NoBookmarksWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var shortestSide = MediaQuery.of(context).size.shortestSide;
+    final bool isMobile = shortestSide < 600;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -80,7 +82,7 @@ class NoBookmarksWidget extends StatelessWidget {
         children: [
           AutoSizeText(
             AppLocalizations.of(context)!.noBookmarks,
-            presetFontSizes: const [18, 16, 14],
+            presetFontSizes: isMobile ? const [18, 16, 14] : const [30],
             maxLines: 2,
           ),
           const SizedBox(height: 20),
@@ -90,13 +92,13 @@ class NoBookmarksWidget extends StatelessWidget {
               Flexible(
                 child: AutoSizeText(
                   AppLocalizations.of(context)!.howToBookmark,
-                  presetFontSizes: const [18, 16, 14],
+                  presetFontSizes: isMobile ? const [18, 16, 14] : const [30],
                   maxLines: 1,
                 ),
               ),
-              const Icon(
+              Icon(
                 Icons.bookmark_border,
-                size: 24,
+                size: isMobile ? 24 : 36,
               ),
             ],
           ),
