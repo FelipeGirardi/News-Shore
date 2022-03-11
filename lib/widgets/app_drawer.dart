@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/news_enums.dart';
 import '/providers/news_provider.dart';
@@ -33,6 +34,14 @@ class _AppDrawerState extends State<AppDrawer> {
     }
   }
 
+  void _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw "Could not launch $url";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     NewsProvider newsProvider =
@@ -61,7 +70,9 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
             ),
           ),
-          const Divider(),
+          const Divider(
+            thickness: 2,
+          ),
           ...NewsCategory.values.map((NewsCategory category) {
             final categoryString = _getLocalizedCategory(category);
             return CheckboxListTile(
@@ -75,6 +86,102 @@ class _AppDrawerState extends State<AppDrawer> {
               checkColor: Theme.of(context).colorScheme.onPrimary,
             );
           }).toList(),
+          const Divider(
+            thickness: 2,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(height: 15),
+              Text(
+                AppLocalizations.of(context)!.appBy,
+                maxLines: 2,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              const SizedBox(height: 25),
+              Row(
+                children: [
+                  const Spacer(),
+                  Text(
+                    'Felipe Girardi - ',
+                    maxLines: 2,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                  InkWell(
+                    child: Text(
+                      'GitHub',
+                      maxLines: 2,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Colors.blue),
+                    ),
+                    onTap: () => _launchUrl('https://github.com/FelipeGirardi'),
+                  ),
+                  const Spacer(),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Text(
+                'felipegirardifg@gmail.com',
+                maxLines: 2,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              const SizedBox(height: 15),
+              const Divider(
+                thickness: 2,
+              ),
+              const SizedBox(height: 15),
+              Text(
+                AppLocalizations.of(context)!.newsBy,
+                maxLines: 2,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              const SizedBox(height: 25),
+              InkWell(
+                child: Text(
+                  'newsdata.io',
+                  maxLines: 2,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.blue),
+                ),
+                onTap: () => _launchUrl('https://newsdata.io'),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                'contact@newsdata.io',
+                maxLines: 2,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              const SizedBox(height: 25),
+              InkWell(
+                child: Text(
+                  'newsapi.org',
+                  maxLines: 2,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: Colors.blue),
+                ),
+                onTap: () => _launchUrl('https://newsapi.org'),
+              ),
+              const SizedBox(height: 15),
+              Text(
+                'contact@newsdata.io',
+                maxLines: 2,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              ),
+              const SizedBox(height: 50),
+            ],
+          ),
         ],
       ),
     );

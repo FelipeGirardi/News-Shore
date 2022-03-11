@@ -46,5 +46,5 @@ app.*.map.json
 /android/app/release
 
 # Others
-/lib/helpers/api_keys.dart
+/lib/helpers/api_data.dart
 /ios/Runner/GoogleService-Info.plist

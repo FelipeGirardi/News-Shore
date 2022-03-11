@@ -527,5 +527,15 @@
     "africa": "Africa",
     "@africa": {
       "description": "Search term: Africa"
+    },
+
+    "appBy": "App by:",
+    "@appBy": {
+      "description": "App author"
+    },
+
+    "newsBy": "News by:",
+    "@newsBy": {
+      "description": "News publishers"
     }
 }

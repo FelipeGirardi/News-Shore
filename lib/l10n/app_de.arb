@@ -104,5 +104,7 @@
     "europe": "Europa",
     "america": "Amerika",
     "asia": "Asien",
-    "africa": "Afrika"
+    "africa": "Afrika",
+    "appBy": "App von:",
+    "newsBy": "Nachrichten von:"
 }

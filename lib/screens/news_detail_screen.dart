@@ -19,7 +19,7 @@ class NewsDetailScreen extends StatefulWidget {
 }
 
 class _NewsDetailScreenState extends State<NewsDetailScreen> {
-  _launchNewsUrl(String url) async {
+  void _launchNewsUrl(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
     } else {

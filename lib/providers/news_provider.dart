@@ -9,7 +9,7 @@ import '/models/news_data.dart';
 import '/models/news_api_response.dart';
 import '/models/news_api_data.dart';
 import '/models/news_enums.dart';
-import '/helpers/api_keys.dart';
+import '/helpers/api_data.dart';
 import '/helpers/sql_helper.dart';
 import '/helpers/image_helper.dart';
 
@@ -120,6 +120,7 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<void> fetchNewsPage(String language, String country) async {
+    final String apiKeyNewsData = APIData.apiKeyNewsData;
     final Uri url = Uri.parse(country == 'all'
         ? (_isFilterSelected
             ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$nextPage&category=' +
@@ -129,6 +130,7 @@ class NewsProvider with ChangeNotifier {
             ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=' +
                 selectedFilter
             : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=top'));
+    print(url);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
@@ -148,6 +150,7 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<void> fetchNewsAPIPage(String country) async {
+    final String apiKeyNewsApi = APIData.apiKeyNewsApi;
     final Uri url = Uri.parse(_isFilterSelected
         ? 'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPage&category=' +
             selectedFilter
@@ -192,6 +195,7 @@ class NewsProvider with ChangeNotifier {
 
   Future<void> fetchSearchNewsPage(
       String language, String country, String query) async {
+    final String apiKeyNewsData = APIData.apiKeyNewsData;
     final String urlString = country == 'all'
         ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$searchNextPage&qInTitle=$query'
         : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$searchNextPage&qInTitle=$query';
@@ -213,6 +217,7 @@ class NewsProvider with ChangeNotifier {
   }
 
   Future<void> fetchSearchNewsAPIPage(String country, String query) async {
+    final String apiKeyNewsApi = APIData.apiKeyNewsApi;
     final Uri url = Uri.parse(
         'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$searchNextPage&q=query');
     final response = await http.get(url);
