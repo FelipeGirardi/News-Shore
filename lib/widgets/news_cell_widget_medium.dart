@@ -103,7 +103,7 @@ class _TitleAndSourceWidgetMediumState
               AutoSizeText(widget.newsData?.title ?? '',
                   presetFontSizes: isMobile
                       ? (hasDescription ? const [15] : const [18])
-                      : const [24],
+                      : (hasDescription ? const [24] : const [28]),
                   maxLines: hasDescription ? 2 : 3,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

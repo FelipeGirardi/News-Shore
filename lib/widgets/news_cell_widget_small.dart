@@ -72,6 +72,7 @@ class _TitleAndSourceWidgetSmallState extends State<TitleAndSourceWidgetSmall> {
     bool isFavorite = Provider.of<NewsProvider>(context, listen: false)
         .bookmarkedNewsList
         .any((item) => item.id == widget.newsData!.id);
+    double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.fromLTRB(7, 5, 7, 7),
       child: Column(
@@ -79,24 +80,34 @@ class _TitleAndSourceWidgetSmallState extends State<TitleAndSourceWidgetSmall> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           AutoSizeText(widget.newsData?.title ?? '',
-              presetFontSizes: widget.isMobile ? const [13] : const [19],
+              presetFontSizes: widget.isMobile
+                  ? const [13]
+                  : (screenHeight < 1000
+                      ? const [15]
+                      : screenHeight > 1300
+                          ? const [24]
+                          : const [21]),
               maxLines: widget.isMobile ? 4 : 3,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontWeight: FontWeight.bold, height: 1.4)),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  height: widget.isMobile ? 1.4 : 1.2)),
           const Spacer(),
           const Spacer(),
           Row(
             children: [
               Icon(
                 Icons.library_books,
-                size: widget.isMobile ? 11 : 17,
+                size: widget.isMobile ? 11 : (screenHeight < 2000 ? 13 : 17),
               ),
               const SizedBox(width: 10),
               Container(
                 constraints: const BoxConstraints(maxWidth: 100),
                 child: AutoSizeText(
                   widget.newsData?.sourceId ?? '',
-                  presetFontSizes: widget.isMobile ? const [11] : const [17],
+                  presetFontSizes: widget.isMobile
+                      ? const [11]
+                      : (screenHeight < 2000 ? const [13] : const [17]),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -104,7 +115,7 @@ class _TitleAndSourceWidgetSmallState extends State<TitleAndSourceWidgetSmall> {
               InkWell(
                 child: Icon(
                   isFavorite ? Icons.bookmark : Icons.bookmark_border,
-                  size: widget.isMobile ? 24 : 36,
+                  size: widget.isMobile ? 24 : (screenHeight < 2000 ? 28 : 36),
                   color: isFavorite ? Colors.yellow : null,
                 ),
                 onTap: () {

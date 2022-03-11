@@ -21,18 +21,26 @@ class NewsCellWidgetLarge extends StatelessWidget {
         newsData?.content != null ||
         newsData?.fullDescription != null);
 
+    double getCellHeight() {
+      return isMobile
+          ? (hasDescription
+              ? screenHeight < 800
+                  ? screenHeight / 2.15
+                  : screenHeight / 2.5
+              : screenHeight < 800
+                  ? screenHeight / 2.4
+                  : screenHeight / 2.8)
+          : (hasDescription
+              ? screenHeight < 1000
+                  ? screenHeight / 2.15
+                  : screenHeight / 2.6
+              : screenHeight / 2.8);
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: SizedBox(
-        height: isMobile
-            ? (hasDescription
-                ? screenHeight < 800
-                    ? screenHeight / 2.15
-                    : screenHeight / 2.5
-                : screenHeight < 800
-                    ? screenHeight / 2.4
-                    : screenHeight / 2.8)
-            : screenHeight / 2.6,
+        height: getCellHeight(),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -85,12 +93,14 @@ class _TitleAndSourceWidgetLargeState extends State<TitleAndSourceWidgetLarge> {
             AutoSizeText(widget.newsData?.title ?? '',
                 presetFontSizes: widget.isMobile
                     ? (hasDescription ? const [20, 18] : const [22, 20])
-                    : const [27],
+                    : screenHeight > 1300
+                        ? const [32]
+                        : (hasDescription ? const [27] : const [32]),
                 maxLines: hasDescription ? 2 : 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    height: widget.isMobile ? 1.1 : 1.3,
+                    height: widget.isMobile ? 1.0 : 1.3,
                     color: Theme.of(context).colorScheme.background)),
             const Spacer(),
             AutoSizeText(
