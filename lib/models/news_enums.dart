@@ -51,7 +51,6 @@ enum NewsCountry {
   Philippines,
   Poland,
   Portugal,
-  Russia,
   SaudiArabia,
   Singapore,
   SouthAfrica,
@@ -132,8 +131,6 @@ extension NewsCountryExtension on NewsCountry {
         return 'pl';
       case NewsCountry.Portugal:
         return 'pt';
-      case NewsCountry.Russia:
-        return 'ru';
       case NewsCountry.SaudiArabia:
         return 'sa';
       case NewsCountry.Singapore:
@@ -229,8 +226,6 @@ extension NewsCountryExtension on NewsCountry {
         return 'Poland';
       case NewsCountry.Portugal:
         return 'Portugal';
-      case NewsCountry.Russia:
-        return 'Russia';
       case NewsCountry.SaudiArabia:
         return 'Saudi Arabia';
       case NewsCountry.Singapore:
@@ -310,8 +305,6 @@ extension NewsCountryExtension on NewsCountry {
         return 'assets/images/flags/pk.svg';
       case NewsCountry.Philippines:
         return 'assets/images/flags/ph.svg';
-      case NewsCountry.Russia:
-        return 'assets/images/flags/ru.svg';
       case NewsCountry.Singapore:
         return 'assets/images/flags/sg.svg';
       case NewsCountry.SouthAfrica:
@@ -422,8 +415,6 @@ String getLocalizedCountry(NewsCountry country, BuildContext context) {
       return AppLocalizations.of(context)!.poland;
     case NewsCountry.Portugal:
       return AppLocalizations.of(context)!.portugal;
-    case NewsCountry.Russia:
-      return AppLocalizations.of(context)!.russia;
     case NewsCountry.Spain:
       return AppLocalizations.of(context)!.spain;
     case NewsCountry.Sweden:
@@ -459,7 +450,6 @@ String getCountryFromLocale(String locale) {
     'it': 'it',
     'nl': 'nl',
     'sv': 'se',
-    'ru': 'ru',
     'pl': 'pl',
     'cs': 'cz',
     'uk': 'ua',
@@ -598,12 +588,6 @@ String getCountryFromLocale(String locale) {
       } else {
         return firstCountryPerLang[langCode] ?? 'all';
       }
-    case 'RU':
-      if (langCode == 'ru') {
-        return countryCode.toLowerCase();
-      } else {
-        return firstCountryPerLang[langCode] ?? 'all';
-      }
     case 'KR':
       if (langCode == 'ko') {
         return countryCode.toLowerCase();
@@ -670,7 +654,6 @@ enum NewsLanguage {
   Italian,
   Dutch,
   Swedish,
-  Russian,
   Polish,
   Czech,
   Ukrainian,
@@ -705,8 +688,6 @@ extension NewsLanguageExtension on NewsLanguage {
         return 'nl';
       case NewsLanguage.Swedish:
         return 'se';
-      case NewsLanguage.Russian:
-        return 'ru';
       case NewsLanguage.Polish:
         return 'pl';
       case NewsLanguage.Czech:
@@ -756,8 +737,6 @@ extension NewsLanguageExtension on NewsLanguage {
         return 'assets/images/flags/nl.svg';
       case NewsLanguage.Swedish:
         return 'assets/images/flags/se.svg';
-      case NewsLanguage.Russian:
-        return 'assets/images/flags/ru.svg';
       case NewsLanguage.Polish:
         return 'assets/images/flags/pl.svg';
       case NewsLanguage.Czech:
@@ -839,8 +818,6 @@ extension NewsLanguageExtension on NewsLanguage {
         return [NewsCountry.Netherlands, NewsCountry.Belgium];
       case NewsLanguage.Swedish:
         return [NewsCountry.Sweden];
-      case NewsLanguage.Russian:
-        return [NewsCountry.Russia];
       case NewsLanguage.Polish:
         return [NewsCountry.Poland];
       case NewsLanguage.Czech:
@@ -896,34 +873,32 @@ int languageIndex(String code) {
       return 6;
     case 'se':
       return 7;
-    case 'ru':
-      return 8;
     case 'pl':
-      return 9;
+      return 8;
     case 'cz':
-      return 10;
+      return 9;
     case 'ua':
-      return 11;
+      return 10;
     case 'hu':
-      return 12;
+      return 11;
     case 'gr':
-      return 13;
+      return 12;
     case 'tr':
-      return 14;
+      return 13;
     case 'ar':
-      return 15;
+      return 14;
     case 'cn':
-      return 16;
+      return 15;
     case 'jp':
-      return 17;
+      return 16;
     case 'kr':
-      return 18;
+      return 17;
     case 'th':
-      return 19;
+      return 18;
     case 'my':
-      return 20;
+      return 19;
     case 'id':
-      return 21;
+      return 20;
     default:
       return 0;
   }
@@ -947,8 +922,6 @@ String getLangNameFromCode(String code, BuildContext context) {
       return AppLocalizations.of(context)!.dutch;
     case 'se':
       return AppLocalizations.of(context)!.swedish;
-    case 'ru':
-      return AppLocalizations.of(context)!.russian;
     case 'pl':
       return AppLocalizations.of(context)!.polish;
     case 'cz':
@@ -1042,8 +1015,6 @@ String getCountryNameFromCode(String code, BuildContext context) {
       return AppLocalizations.of(context)!.poland;
     case 'pt':
       return AppLocalizations.of(context)!.portugal;
-    case 'ru':
-      return AppLocalizations.of(context)!.russia;
     case 'sa':
       return AppLocalizations.of(context)!.saudiArabia;
     case 'sg':
@@ -1109,8 +1080,6 @@ String getLocalizedLanguage(NewsLanguage lang, BuildContext context) {
       return AppLocalizations.of(context)!.polish;
     case NewsLanguage.Portuguese:
       return AppLocalizations.of(context)!.portuguese;
-    case NewsLanguage.Russian:
-      return AppLocalizations.of(context)!.russian;
     case NewsLanguage.Spanish:
       return AppLocalizations.of(context)!.spanish;
     case NewsLanguage.Swedish:
@@ -1136,7 +1105,6 @@ String getLanguageFromLocale(String locale) {
     case 'pt':
     case 'it':
     case 'nl':
-    case 'ru':
     case 'pl':
     case 'tr':
     case 'ar':
@@ -1177,7 +1145,6 @@ final List<String> newsAPILangs = [
   'nl',
   'kr',
   'pt',
-  'ru',
   'se',
   'tr',
   'ua'

@@ -124,11 +124,6 @@
       "description": "Swedish language"
     },
 
-    "russian": "Russian",
-    "@russian": {
-      "description": "Russian language"
-    },
-
     "polish": "Polish",
     "@polish": {
       "description": "Polish language"
@@ -347,11 +342,6 @@
     "portugal": "Portugal",
     "@portugal": {
       "description": "Country: Portugal"
-    },
-
-    "russia": "Russia",
-    "@russia": {
-      "description": "Country: Russia"
     },
 
     "saudiArabia": "Saudi Arabia",
