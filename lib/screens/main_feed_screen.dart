@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '/providers/news_provider.dart';
@@ -101,7 +102,20 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                       newsProv.isLoadingNews ||
                       newsProv.newsList.isEmpty ||
                       snapshot.hasError
-                  ? const LoadingWidget()
+                  ? FutureBuilder(
+                      future: Future.delayed(Duration(milliseconds: 10000)),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done)
+                          return Center(
+                            child: Text(
+                              AppLocalizations.of(context)!.couldNotLoad,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(fontSize: 24),
+                            ),
+                          );
+                        else
+                          return LoadingWidget();
+                      })
                   : RefreshIndicator(
                       onRefresh: _refreshNews,
                       child: ListView.builder(

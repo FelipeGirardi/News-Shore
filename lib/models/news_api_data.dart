@@ -43,7 +43,9 @@ class NewsAPIData {
         : (imgString.isNotEmpty &&
                 imgString.substring(0, 4) == 'http' &&
                 imgString.substring(imgString.length - 3) != 'mp4')
-            ? imgString
+            ? (imgString.contains('?')
+                ? imgString.substring(0, imgString.indexOf('?'))
+                : imgString)
             : null;
     return NewsAPIData(
       id: const Uuid().v4(),
