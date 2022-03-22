@@ -39,11 +39,10 @@ class NewsData {
         : (imgString.isNotEmpty &&
                 imgString.substring(0, 4) == 'http' &&
                 imgString.substring(imgString.length - 3) != 'mp4')
-            ? (imgString.contains('?')
-                ? imgString.substring(0, imgString.indexOf('?'))
+            ? (imgString.endsWith('&')
+                ? imgString.substring(0, imgString.length - 1)
                 : imgString)
             : null;
-    print(realImgString);
     return NewsData(
         id: const Uuid().v4(),
         title: json['title'],

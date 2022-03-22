@@ -28,7 +28,6 @@ class NewsCellWidget extends StatelessWidget {
         isBookmarked ?? false ? index!.toString() : null;
     final NewsDetailArguments newsDetailArguments = NewsDetailArguments(
         newsData!, isBookmarked ?? false, bookmarkHeroTag ?? '');
-    print(newsData!.imageUrl);
     return InkWell(
         onTap: () {
           Navigator.of(context).pushNamed(
