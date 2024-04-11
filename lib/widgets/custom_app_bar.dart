@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '/helpers/news_search.dart';
 
-class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   final Size preferredSize;
   final String title;

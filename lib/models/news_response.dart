@@ -2,7 +2,7 @@ class NewsResponse {
   final String? status;
   final int? totalResults;
   final List<dynamic>? results;
-  final int? nextPage;
+  final String? nextPage;
 
   const NewsResponse({
     this.status,

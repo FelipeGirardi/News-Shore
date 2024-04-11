@@ -132,7 +132,7 @@ class LoggedUserScreen extends StatelessWidget {
                                                 fontWeight: FontWeight.bold),
                                           ),
                                           style: ElevatedButton.styleFrom(
-                                              primary: Colors.red)),
+                                              backgroundColor: Colors.red)),
                                     ),
                                   ],
                                 ),

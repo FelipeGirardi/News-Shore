@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthProvider with ChangeNotifier {
+class AuthenticationProvider with ChangeNotifier {
   final FirebaseAuth _firebaseAuth;
 
-  AuthProvider(this._firebaseAuth);
+  AuthenticationProvider(this._firebaseAuth);
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
@@ -59,6 +59,7 @@ class AuthProvider with ChangeNotifier {
 
       final firebaseUser = authResult.user;
       await firebaseUser?.updateDisplayName(displayName);
+      // ignore: deprecated_member_use
       await firebaseUser?.updateEmail(userEmail);
 
       return firebaseUser;

@@ -16,7 +16,9 @@ import '/helpers/image_helper.dart';
 class NewsProvider with ChangeNotifier {
   List<NewsData> _newsList = [];
   int _totalNews = 0;
-  int _nextPage = 0;
+  String _nextPage = '';
+  int _nextPageCounter = 0;
+  int _nextPageNewsAPICounter = 0;
   bool _isLastPage = false;
 
   String selectedFilter = '';
@@ -25,7 +27,8 @@ class NewsProvider with ChangeNotifier {
 
   List<NewsData> _searchNewsList = [];
   int _searchTotalNews = 0;
-  int _searchNextPage = 0;
+  String _searchNextPage = '';
+  int _searchnextPageNewsAPICounter = 0;
   bool _isLastSearchPage = false;
 
   List<NewsData> _bookmarkedNewsList = [];
@@ -40,8 +43,16 @@ class NewsProvider with ChangeNotifier {
     return _totalNews;
   }
 
-  int get nextPage {
+  String get nextPage {
     return _nextPage;
+  }
+
+  int get nextPageCounter {
+    return _nextPageCounter;
+  }
+
+  int get nextPageNewsAPICounter {
+    return _nextPageNewsAPICounter;
   }
 
   bool get isLastPage {
@@ -52,8 +63,12 @@ class NewsProvider with ChangeNotifier {
     return [..._searchNewsList];
   }
 
-  int get searchNextPage {
+  String get searchNextPage {
     return _searchNextPage;
+  }
+
+  int get searchnextPageNewsAPICounter {
+    return _searchnextPageNewsAPICounter;
   }
 
   bool get isLastSearchPage {
@@ -72,7 +87,9 @@ class NewsProvider with ChangeNotifier {
   void clearNews() {
     _newsList.clear();
     _totalNews = 0;
-    _nextPage = 0;
+    _nextPage = '';
+    _nextPageCounter = 0;
+    _nextPageNewsAPICounter = 0;
   }
 
   Future<void> didCloseFiltersDrawer() async {
@@ -80,7 +97,9 @@ class NewsProvider with ChangeNotifier {
         (selectedFilter.isEmpty && _isFilterSelected)) {
       _newsList.clear();
       _totalNews = 0;
-      _nextPage = 0;
+      _nextPage = '';
+      _nextPageCounter = 0;
+      _nextPageNewsAPICounter = 0;
       selectedFilter.isEmpty
           ? _isFilterSelected = false
           : _isFilterSelected = true;
@@ -100,15 +119,17 @@ class NewsProvider with ChangeNotifier {
       if (!shouldFetchNewsAPI) {
         for (var i = 0; i < 2; i++) {
           await fetchNewsPage(currentLang!, currentCountry!);
-          _nextPage += 1;
+          _nextPageCounter += 1;
         }
       } else {
         await fetchNewsAPIPage(currentCountry!);
-        _nextPage += 2;
+        _nextPageNewsAPICounter += 2;
       }
       if (newsList.length % 10 != 0) {
         _isLastPage = true;
-        _nextPage -= (newsList.length % 20 != 0) ? 1 : 0;
+        if (shouldFetchNewsAPI) {
+          _nextPageNewsAPICounter -= (newsList.length % 20 != 0) ? 1 : 0;
+        }
         _newsList =
             _newsList.sublist(0, newsList.length - (newsList.length % 10));
       }
@@ -152,9 +173,9 @@ class NewsProvider with ChangeNotifier {
   Future<void> fetchNewsAPIPage(String country) async {
     final String apiKeyNewsApi = APIData.apiKeyNewsApi;
     final Uri url = Uri.parse(_isFilterSelected
-        ? 'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPage&category=' +
+        ? 'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPageNewsAPICounter&category=' +
             selectedFilter
-        : 'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPage');
+        : 'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPageNewsAPICounter');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
@@ -176,14 +197,14 @@ class NewsProvider with ChangeNotifier {
         for (var i = 0; i < 2; i++) {
           await fetchSearchNewsPage(
               currentLang ?? 'en', currentCountry ?? 'all', query);
-          _searchNextPage += 1;
+          // _searchNextPage += 1;
         }
         isLoadingNews = false;
         notifyListeners();
         return _searchNewsList;
       } else {
         await fetchSearchNewsAPIPage(currentCountry ?? 'br', query);
-        _searchNextPage += 2;
+        _searchnextPageNewsAPICounter += 2;
         isLoadingNews = false;
         notifyListeners();
         return _searchNewsList;
@@ -219,7 +240,7 @@ class NewsProvider with ChangeNotifier {
   Future<void> fetchSearchNewsAPIPage(String country, String query) async {
     final String apiKeyNewsApi = APIData.apiKeyNewsApi;
     final Uri url = Uri.parse(
-        'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$searchNextPage&q=query');
+        'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$searchnextPageNewsAPICounter&q=query');
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
@@ -234,7 +255,8 @@ class NewsProvider with ChangeNotifier {
   void clearSearchNewsList() {
     _searchNewsList.clear();
     _searchTotalNews = 0;
-    _searchNextPage = 0;
+    _searchNextPage = '';
+    _searchnextPageNewsAPICounter = 0;
   }
 
   Future<void> addBookmark(NewsData newsData) async {

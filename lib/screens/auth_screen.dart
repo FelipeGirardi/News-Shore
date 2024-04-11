@@ -51,7 +51,7 @@ class _AuthScreenState extends State<AuthScreen> {
       }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(message),
-        backgroundColor: Theme.of(context).errorColor,
+        backgroundColor: Theme.of(context).colorScheme.error,
       ));
       setLoadingToFalse();
     } catch (err) {
@@ -128,7 +128,8 @@ class _AuthScreenState extends State<AuthScreen> {
                                                       IconAlignment.center,
                                                   onPressed: () {
                                                     context
-                                                        .read<AuthProvider>()
+                                                        .read<
+                                                            AuthenticationProvider>()
                                                         .signInWithApple();
                                                   },
                                                 )),
@@ -142,7 +143,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                     child: FloatingActionButton.extended(
                                         onPressed: () {
                                           context
-                                              .read<AuthProvider>()
+                                              .read<AuthenticationProvider>()
                                               .googleSignUp(context);
                                         },
                                         icon: Image.asset(

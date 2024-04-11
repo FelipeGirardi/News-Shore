@@ -65,13 +65,13 @@ class MyApp extends StatelessWidget {
                                       ChangeNotifierProvider<NewsProvider>(
                                           create: (ctx) => NewsProvider()),
                                       ChangeNotifierProvider(
-                                        create: (ctx) =>
-                                            AuthProvider(FirebaseAuth.instance),
+                                        create: (ctx) => AuthenticationProvider(
+                                            FirebaseAuth.instance),
                                       ),
                                       StreamProvider(
                                         create: (BuildContext context) {
                                           return context
-                                              .read<AuthProvider>()
+                                              .read<AuthenticationProvider>()
                                               .authStateChanges;
                                         },
                                         initialData: null,

@@ -166,7 +166,8 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       height: isMobile ? 50 : 75,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              primary: Theme.of(context).colorScheme.primary,
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.primary,
                               minimumSize: const Size(100, 50)),
                           onPressed: () => _launchNewsUrl(newsData.link ?? ''),
                           child: Text(
