@@ -345,6 +345,8 @@ extension NewsCountryExtension on NewsCountry {
         return 'assets/images/flags/jp.svg';
       case NewsCountry.Thailand:
         return 'assets/images/flags/th.svg';
+      case NewsCountry.Turkey:
+        return 'assets/images/flags/tr.svg';
       default:
         return 'assets/images/flags/gb.svg';
     }
@@ -415,6 +417,14 @@ String getLocalizedCountry(NewsCountry country, BuildContext context) {
       return AppLocalizations.of(context)!.poland;
     case NewsCountry.Portugal:
       return AppLocalizations.of(context)!.portugal;
+    case NewsCountry.SaudiArabia:
+      return AppLocalizations.of(context)!.saudiArabia;
+    case NewsCountry.Singapore:
+      return AppLocalizations.of(context)!.singapore;
+    case NewsCountry.SouthAfrica:
+      return AppLocalizations.of(context)!.southAfrica;
+    case NewsCountry.SouthKorea:
+      return AppLocalizations.of(context)!.southKorea;
     case NewsCountry.Spain:
       return AppLocalizations.of(context)!.spain;
     case NewsCountry.Sweden:

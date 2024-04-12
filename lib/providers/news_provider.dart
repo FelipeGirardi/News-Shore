@@ -142,21 +142,33 @@ class NewsProvider with ChangeNotifier {
 
   Future<void> fetchNewsPage(String language, String country) async {
     final String apiKeyNewsData = APIData.apiKeyNewsData;
-    final Uri url = Uri.parse(country == 'all'
+    String uriString = country == 'all'
         ? (_isFilterSelected
-            ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$nextPage&category=' +
-                selectedFilter
-            : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$nextPage&category=top')
+            ? (nextPage.isEmpty
+                ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&category=' +
+                    selectedFilter
+                : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=${nextPage}&category=' +
+                    selectedFilter)
+            : (nextPage.isEmpty
+                ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&category=top'
+                : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=${nextPage}&category=top'))
         : (_isFilterSelected
-            ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=' +
-                selectedFilter
-            : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$nextPage&category=top'));
+            ? (nextPage.isEmpty
+                ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&category=' +
+                    selectedFilter
+                : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=${nextPage}&category=' +
+                    selectedFilter)
+            : (nextPage.isEmpty
+                ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&category=top'
+                : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=${nextPage}&category=top'));
+    final Uri url = Uri.parse(uriString);
     print(url);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
       final initialNewsResponse = NewsResponse.fromJson(decoded);
       _totalNews = initialNewsResponse.totalResults ?? 0;
+      _nextPage = initialNewsResponse.nextPage ?? '';
       if (initialNewsResponse.nextPage == null) {
         _isLastPage = true;
       }
@@ -176,6 +188,7 @@ class NewsProvider with ChangeNotifier {
         ? 'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPageNewsAPICounter&category=' +
             selectedFilter
         : 'https://newsapi.org/v2/top-headlines?apiKey=$apiKeyNewsApi&country=$country&page=$nextPageNewsAPICounter');
+    print(url);
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
@@ -218,13 +231,14 @@ class NewsProvider with ChangeNotifier {
       String language, String country, String query) async {
     final String apiKeyNewsData = APIData.apiKeyNewsData;
     final String urlString = country == 'all'
-        ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$searchNextPage&qInTitle=$query'
-        : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$searchNextPage&qInTitle=$query';
+        ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=${searchNextPage}&qInTitle=$query'
+        : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=${searchNextPage}&qInTitle=$query';
     final response = await http.get(Uri.parse(urlString));
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
       final initialNewsResponse = NewsResponse.fromJson(decoded);
       _searchTotalNews = initialNewsResponse.totalResults ?? 0;
+      _searchNextPage = initialNewsResponse.nextPage ?? '';
       if (initialNewsResponse.nextPage == null) {
         _isLastSearchPage = true;
       }

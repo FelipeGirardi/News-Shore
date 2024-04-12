@@ -124,7 +124,9 @@ class _MainFeedScreenState extends State<MainFeedScreen> {
                             ? const NeverScrollableScrollPhysics()
                             : const AlwaysScrollableScrollPhysics(),
                         padding: const EdgeInsets.only(bottom: 12),
-                        itemCount: 4 * newsProv.nextPageCounter,
+                        itemCount: newsProv.shouldFetchNewsAPI
+                            ? 4 * newsProv.nextPageNewsAPICounter
+                            : 4 * newsProv.nextPageCounter,
                         itemBuilder: (ctx, cellType) => cellType % 4 == 0
                             ? NewsCellWidget(
                                 key: UniqueKey(),

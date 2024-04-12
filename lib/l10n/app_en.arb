@@ -59,9 +59,9 @@
       "description": "See full news button"
     },
 
-    "couldNotLoad": "Could not load news.",
+    "couldNotLoad": "Loading news...",
     "@couldNotLoad": {
-      "description": "Show when news cannot be loaded"
+      "description": "Show when news take a while to load."
     },
 
     "noBookmarks": "No bookmarked news.",

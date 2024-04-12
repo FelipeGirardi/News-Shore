@@ -20,8 +20,8 @@ class NewsDetailScreen extends StatefulWidget {
 
 class _NewsDetailScreenState extends State<NewsDetailScreen> {
   void _launchNewsUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw "Could not launch $url";
     }
@@ -174,7 +174,8 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                             AppLocalizations.of(context)!.fullNews,
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: isMobile ? 18 : 24),
+                                fontSize: isMobile ? 18 : 24,
+                                color: Theme.of(context).colorScheme.secondary),
                           )),
                     ),
                     const Spacer()
@@ -205,7 +206,7 @@ class _NewsVideoWidgetState extends State<NewsVideoWidget> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.videoUrl)
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
       ..initialize().then((_) {
         setState(() {});
       });

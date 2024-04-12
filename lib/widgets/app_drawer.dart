@@ -35,8 +35,8 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   void _launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri(host: url))) {
+      await launchUrl(Uri(host: url));
     } else {
       throw "Could not launch $url";
     }
