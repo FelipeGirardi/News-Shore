@@ -152,10 +152,7 @@ class _NewsDetailScreenState extends State<NewsDetailScreen> {
                       )
                     : Container(),
                 Text(
-                  newsData.fullDescription ??
-                      newsData.content ??
-                      newsData.description ??
-                      '',
+                  newsData.fullDescription ?? newsData.description ?? '',
                   style: TextStyle(fontSize: isMobile ? 15 : 21, height: 1.75),
                 ),
                 const SizedBox(height: 30),

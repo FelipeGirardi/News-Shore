@@ -231,8 +231,12 @@ class NewsProvider with ChangeNotifier {
       String language, String country, String query) async {
     final String apiKeyNewsData = APIData.apiKeyNewsData;
     final String urlString = country == 'all'
-        ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=${searchNextPage}&qInTitle=$query'
-        : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=${searchNextPage}&qInTitle=$query';
+        ? searchNextPage.isEmpty
+            ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&qInTitle=$query'
+            : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&page=$searchNextPage&qInTitle=$query'
+        : searchNextPage.isEmpty
+            ? 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&qInTitle=$query'
+            : 'https://newsdata.io/api/1/news?apikey=$apiKeyNewsData&language=$language&country=$country&page=$searchNextPage&qInTitle=$query';
     final response = await http.get(Uri.parse(urlString));
     if (response.statusCode == 200) {
       final decoded = jsonDecode(utf8.decode(response.bodyBytes));
