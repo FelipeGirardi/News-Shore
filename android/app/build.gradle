@@ -50,7 +50,7 @@ android {
         applicationId "com.newsshore.newsshore"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode flutterVersionCode.toInteger()
+        versionCode 15
         versionName flutterVersionName
         multiDexEnabled true
     }
